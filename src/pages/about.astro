@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Circuit from '../components/Circuit.astro';
 import { SITE_TITLE, WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL } from '../consts';
 ---
 
@@ -17,14 +18,15 @@ import { SITE_TITLE, WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL } from '../consts
 		<Header />
 		<main>
 			<section class="top">
-				<div class="wrap">
-					<h1>About FixCore</h1>
+				<Circuit />
+				<div class="wrap top-in">
+					<h1>About FixCore Tech</h1>
 				</div>
 			</section>
 			<section class="body">
 				<div class="wrap copy">
 					<p>
-						FixCore is a tech repair business in Trinidad &amp; Tobago. We fix the phones, laptops and
+						FixCore Tech is a local tech repair business in Trinidad &amp; Tobago. We fix the phones, laptops and
 						other devices you rely on every day, so you don't have to replace them.
 					</p>
 					<p>
@@ -45,13 +47,15 @@ import { SITE_TITLE, WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL } from '../consts
 
 <style>
 	.top {
-		background-color: var(--blue);
-		background-image:
-			linear-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1px),
-			linear-gradient(90deg, rgb(255 255 255 / 0.08) 1px, transparent 1px);
-		background-size: 56px 56px;
+		position: relative;
+		overflow: hidden;
+		background: radial-gradient(120% 120% at 85% 0%, var(--navy-2) 0%, var(--navy) 60%);
+		--circuit-node: var(--navy);
 		color: #fff;
 		padding-block: clamp(3rem, 8vw, 6rem);
+	}
+	.top-in {
+		position: relative;
 	}
 	h1 {
 		font-size: clamp(2.75rem, 8vw, 6rem);

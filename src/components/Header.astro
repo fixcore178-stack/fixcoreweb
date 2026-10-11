@@ -6,7 +6,13 @@ const path = Astro.url.pathname;
 
 <header>
 	<div class="wrap bar">
-		<a class="brand" href="/">{SITE_TITLE}</a>
+		<a class="brand" href="/" aria-label={`${SITE_TITLE} home`}>
+			<img src="/logo-mark.png" width="44" height="45" alt="" />
+			<span class="word">
+				<span class="name">FixCore</span>
+				<span class="sub">TECH</span>
+			</span>
+		</a>
 		<nav aria-label="Main">
 			<a class="opt" href="/#repairs">Repairs</a>
 			<a class="opt" href="/#faq">FAQ</a>
@@ -27,19 +33,41 @@ const path = Astro.url.pathname;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		min-height: 4.25rem;
+		min-height: 4.5rem;
 	}
 	.brand {
+		display: flex;
+		align-items: center;
+		gap: 0.65rem;
+		text-decoration: none;
+		color: var(--navy);
+	}
+	.brand img {
+		display: block;
+		width: 2.75rem;
+		height: auto;
+	}
+	.word {
+		display: flex;
+		flex-direction: column;
+		line-height: 1;
+	}
+	.name {
 		font-family: var(--display);
 		font-weight: 800;
-		font-size: 1.6rem;
-		line-height: 1;
-		letter-spacing: -0.05em;
-		color: var(--ink);
-		text-decoration: none;
+		font-size: 1.55rem;
+		letter-spacing: -0.04em;
+	}
+	.sub {
+		margin-top: 0.3rem;
+		font-family: var(--display);
+		font-weight: 600;
+		font-size: 0.7rem;
+		letter-spacing: 0.5em;
+		color: var(--blue);
 	}
 	.brand:hover {
-		color: var(--blue);
+		color: var(--navy);
 	}
 	nav {
 		display: flex;
@@ -70,6 +98,12 @@ const path = Astro.url.pathname;
 		}
 		nav {
 			gap: 1rem;
+		}
+		.brand img {
+			width: 2.25rem;
+		}
+		.name {
+			font-size: 1.3rem;
 		}
 	}
 </style>

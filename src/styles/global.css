@@ -1,17 +1,21 @@
 /*
-  FixCore design tokens.
-  Bold and techy, but light: white pages, one electric blue, near-black ink.
+  FixCore Tech design tokens, taken from the logo:
+  navy frame, shield blue, and the pale blue of the monitor screen.
   WhatsApp green is used only for WhatsApp actions so it reads as "message us".
 */
 
 :root {
-	--blue: #1f4fff;
-	--blue-deep: #1236c9;
-	--ink: #0a0f1f;
+	--navy: #061a35;
+	--navy-2: #0b2a55;
+	--blue: #1a6ecf;
+	--blue-deep: #1558a8;
+	--blue-glow: #5ba6ff;
+	--sky: #cfe4fa;
+	--ink: #061a35;
 	--paper: #ffffff;
-	--mist: #eef2fb;
-	--line: #d5dcee;
-	--muted: #4a566f;
+	--mist: #eef5fd;
+	--line: #cfdcec;
+	--muted: #44566f;
 	--wa: #25d366;
 	--wa-hover: #3be07b;
 
