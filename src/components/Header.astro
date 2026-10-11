@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, WHATSAPP_URL } from '../consts';
 
 const path = Astro.url.pathname;
 ---
@@ -8,14 +8,20 @@ const path = Astro.url.pathname;
 	<div class="wrap bar">
 		<a class="brand" href="/">{SITE_TITLE}</a>
 		<nav aria-label="Main">
-			<a href="/" aria-current={path === '/' ? 'page' : undefined}>Home</a>
+			<a class="opt" href="/#repairs">Repairs</a>
+			<a class="opt" href="/#faq">FAQ</a>
 			<a href="/about" aria-current={path.startsWith('/about') ? 'page' : undefined}>About</a>
+			<a class="btn btn-wa cta" href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp us</a>
 		</nav>
 	</div>
 </header>
 <style>
 	header {
-		border-bottom: 1px solid var(--border);
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		background: var(--paper);
+		border-bottom: 1px solid var(--line);
 	}
 	.bar {
 		display: flex;
@@ -26,32 +32,44 @@ const path = Astro.url.pathname;
 	.brand {
 		font-family: var(--display);
 		font-weight: 800;
-		font-size: 1.5rem;
+		font-size: 1.6rem;
 		line-height: 1;
-		letter-spacing: -0.04em;
+		letter-spacing: -0.05em;
+		color: var(--ink);
 		text-decoration: none;
 	}
 	.brand:hover {
-		color: var(--text);
+		color: var(--blue);
 	}
 	nav {
 		display: flex;
+		align-items: center;
 		gap: 1.5rem;
-		font-size: 0.95rem;
 		font-weight: 500;
 	}
-	nav a {
-		padding-block: 0.7rem;
-		color: var(--muted);
+	nav a:not(.btn) {
+		padding-block: 0.5rem;
+		color: var(--ink);
 		text-decoration: none;
 		border-bottom: 2px solid transparent;
 	}
-	nav a:hover {
-		color: var(--text);
-		border-bottom-color: var(--border-strong);
+	nav a:not(.btn):hover {
+		border-bottom-color: var(--blue);
 	}
 	nav a[aria-current='page'] {
-		color: var(--text);
-		border-bottom-color: var(--accent);
+		border-bottom-color: var(--blue);
+	}
+	.cta {
+		min-height: 2.6rem;
+		padding-inline: 1.1rem;
+		font-size: 0.95rem;
+	}
+	@media (max-width: 640px) {
+		.opt {
+			display: none;
+		}
+		nav {
+			gap: 1rem;
+		}
 	}
 </style>

@@ -1,22 +1,22 @@
 /*
   FixCore design tokens.
-  Dark bench surface with one accent: amber, the colour of a soldering-iron
-  indicator light. It is used only on things the visitor can act on.
+  Bold and techy, but light: white pages, one electric blue, near-black ink.
+  WhatsApp green is used only for WhatsApp actions so it reads as "message us".
 */
 
 :root {
-	--bg: #080c0a;
-	--surface: #0f1612;
-	--surface-2: #16201a;
-	--border: rgb(255 255 255 / 0.12);
-	--border-strong: rgb(255 255 255 / 0.28);
-	--text: #e9eee8;
-	--muted: #9aab9f;
-	--accent: #ffb81c;
-	--accent-ink: #1a1200;
+	--blue: #1f4fff;
+	--blue-deep: #1236c9;
+	--ink: #0a0f1f;
+	--paper: #ffffff;
+	--mist: #eef2fb;
+	--line: #d5dcee;
+	--muted: #4a566f;
+	--wa: #25d366;
+	--wa-hover: #3be07b;
 
-	--display: "Syne Variable", "Arial Black", sans-serif;
-	--body: "Public Sans Variable", system-ui, sans-serif;
+	--display: "Sora Variable", system-ui, sans-serif;
+	--body: "Geist Variable", system-ui, sans-serif;
 }
 
 *,
@@ -27,13 +27,14 @@
 
 html {
 	-webkit-text-size-adjust: 100%;
-	color-scheme: dark;
+	scroll-behavior: smooth;
+	scroll-padding-top: 1rem;
 }
 
 body {
 	margin: 0;
-	background: var(--bg);
-	color: var(--text);
+	background: var(--paper);
+	color: var(--ink);
 	font-family: var(--body);
 	font-size: 1.0625rem;
 	line-height: 1.6;
@@ -46,55 +47,112 @@ h3 {
 	margin: 0;
 	font-family: var(--display);
 	font-weight: 800;
-	line-height: 0.95;
-	letter-spacing: -0.03em;
+	line-height: 1.05;
+	letter-spacing: -0.035em;
 	text-wrap: balance;
 }
 
 h2 {
-	font-size: clamp(2.25rem, 6vw, 4rem);
+	font-size: clamp(2rem, 4.6vw, 3.25rem);
 }
 
 h3 {
-	font-size: 1.35rem;
-	line-height: 1.15;
+	font-size: 1.25rem;
+	line-height: 1.2;
 	letter-spacing: -0.02em;
 }
 
 p {
 	margin: 0 0 1em;
-	max-width: 34em;
+	max-width: 36em;
 }
 
 a {
-	color: inherit;
-	text-decoration-thickness: 1px;
-	text-underline-offset: 0.25em;
-	transition: color 0.15s, text-decoration-color 0.15s;
+	color: var(--blue);
+	text-underline-offset: 0.2em;
 }
 
 a:hover {
-	color: var(--accent);
+	color: var(--blue-deep);
 }
 
 :focus-visible {
-	outline: 2px solid var(--accent);
+	outline: 3px solid var(--blue);
 	outline-offset: 3px;
 }
 
 ::selection {
-	background: var(--accent);
-	color: var(--accent-ink);
+	background: var(--blue);
+	color: #fff;
 }
 
 .wrap {
 	width: 100%;
-	max-width: 1120px;
+	max-width: 1180px;
 	margin-inline: auto;
 	padding-inline: clamp(1rem, 4vw, 2rem);
 }
 
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	min-height: 3.25rem;
+	padding-inline: 1.5rem;
+	border: 2px solid transparent;
+	border-radius: 10px;
+	font-family: var(--display);
+	font-weight: 700;
+	font-size: 1rem;
+	letter-spacing: -0.01em;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.12s;
+}
+
+.btn:hover {
+	transform: translateY(-2px);
+}
+
+.btn:active {
+	transform: translateY(0);
+}
+
+.btn-wa {
+	background: var(--wa);
+	color: var(--ink);
+}
+
+.btn-wa:hover {
+	background: var(--wa-hover);
+	color: var(--ink);
+}
+
+.btn-line {
+	border-color: currentColor;
+	background: transparent;
+	color: inherit;
+}
+
+.btn-line:hover {
+	background: rgb(255 255 255 / 0.12);
+	color: inherit;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
 @media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
 	*,
 	*::before,
 	*::after {
