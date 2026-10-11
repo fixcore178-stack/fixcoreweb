@@ -1,70 +1,54 @@
 ---
-import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE, WHATSAPP_URL } from '../consts';
+import { SITE_TITLE } from '../consts';
+
+const path = Astro.url.pathname;
 ---
 
 <header>
-	<nav>
+	<div class="wrap bar">
 		<a class="brand" href="/">{SITE_TITLE}</a>
-		<div class="links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-			<a class="cta" href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp us</a>
-		</div>
-	</nav>
+		<nav aria-label="Main">
+			<a href="/" aria-current={path === '/' ? 'page' : undefined}>Home</a>
+			<a href="/about" aria-current={path.startsWith('/about') ? 'page' : undefined}>About</a>
+		</nav>
+	</div>
 </header>
 <style>
 	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+		border-bottom: 2px solid var(--ink);
 	}
-	nav {
-		max-width: 1000px;
-		margin: 0 auto;
+	.bar {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		min-height: 4rem;
 	}
 	.brand {
-		font-size: 1.4em;
-		font-weight: 700;
-		letter-spacing: -0.02em;
-		color: rgb(var(--black));
+		font-family: var(--display);
+		font-weight: 800;
+		font-stretch: 70%;
+		font-size: 2rem;
+		line-height: 1;
+		letter-spacing: -0.005em;
 		text-decoration: none;
-		padding: 0.6em 0;
 	}
-	.links {
+	nav {
 		display: flex;
-		align-items: center;
-		gap: 0.5em;
+		gap: 1.5rem;
+		font-family: var(--display);
+		font-weight: 600;
+		font-stretch: 90%;
+		font-size: 1.05rem;
 	}
-	.links :global(a) {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
+	nav a {
 		text-decoration: none;
+		padding-block: 0.6rem;
+		border-bottom: 3px solid transparent;
 	}
-	.links :global(a.active) {
-		border-bottom-color: var(--accent);
+	nav a:hover {
+		border-bottom-color: var(--trace);
 	}
-	.links a.cta {
-		background: #25d366;
-		color: #06311a;
-		font-weight: 700;
-		padding: 0.4em 0.9em;
-		border-radius: 999px;
-		border-bottom: none;
-		margin-left: 0.5em;
-	}
-	@media (max-width: 520px) {
-		.links :global(a:not(.cta)) {
-			padding: 1em 0.3em;
-			font-size: 0.9em;
-		}
-		.links a.cta {
-			font-size: 0.85em;
-		}
+	nav a[aria-current='page'] {
+		border-bottom-color: var(--ink);
 	}
 </style>

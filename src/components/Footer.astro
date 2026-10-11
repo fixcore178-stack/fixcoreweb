@@ -1,47 +1,37 @@
 ---
-import {
-	SITE_TITLE,
-	WHATSAPP_URL,
-	WHATSAPP_DISPLAY,
-	INSTAGRAM_URL,
-	INSTAGRAM_HANDLE,
-	FACEBOOK_URL,
-} from '../consts';
+import { SITE_TITLE, INSTAGRAM_URL, INSTAGRAM_HANDLE, FACEBOOK_URL } from '../consts';
 
-const today = new Date();
+const year = new Date().getFullYear();
 ---
 
 <footer>
-	<div class="links">
-		<a href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp {WHATSAPP_DISPLAY}</a>
-		<a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram {INSTAGRAM_HANDLE}</a>
-		<a href={FACEBOOK_URL} target="_blank" rel="noopener">Facebook</a>
+	<div class="wrap row">
+		<p>&copy; {year} {SITE_TITLE}</p>
+		<p class="links">
+			<a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram {INSTAGRAM_HANDLE}</a>
+			<a href={FACEBOOK_URL} target="_blank" rel="noopener">Facebook</a>
+		</p>
 	</div>
-	<p>&copy; {today.getFullYear()} {SITE_TITLE}. All rights reserved.</p>
 </footer>
 <style>
 	footer {
-		padding: 2em 1em 4em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
-		text-align: center;
+		border-top: 2px solid var(--ink);
+		padding-block: 1.5rem;
+		font-size: 1rem;
 	}
-	.links {
+	.row {
 		display: flex;
-		justify-content: center;
 		flex-wrap: wrap;
-		gap: 0.5em 1.5em;
-		margin-bottom: 1em;
-	}
-	.links a {
-		color: rgb(var(--gray-dark));
-		text-decoration: none;
-		font-weight: 700;
-	}
-	.links a:hover {
-		color: var(--accent);
+		justify-content: space-between;
+		gap: 0.5rem 2rem;
 	}
 	p {
 		margin: 0;
+		max-width: none;
+	}
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 1.5rem;
 	}
 </style>

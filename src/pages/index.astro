@@ -6,24 +6,37 @@ import {
 	SITE_TITLE,
 	SITE_TAGLINE,
 	SITE_DESCRIPTION,
-	WHATSAPP_URL,
+	WHATSAPP_NUMBER,
 	WHATSAPP_DISPLAY,
+	WHATSAPP_URL,
 	INSTAGRAM_URL,
 	INSTAGRAM_HANDLE,
 	FACEBOOK_URL,
 } from '../consts';
 
-// Examples of what people can ask about. Edit freely once the service list is settled.
+// `value` is the noun used in the message; `label` is what the button says.
 const devices = [
-	{ name: 'Phones & tablets', note: 'Cracked screens, battery, charging problems, water damage.' },
-	{ name: 'Laptops & computers', note: 'Slow, won\'t start, overheating, broken screens or keyboards.' },
-	{ name: 'Other devices', note: 'Game consoles, accessories and more. If it\'s tech, ask us.' },
+	{ label: 'Phone', value: 'phone' },
+	{ label: 'Laptop', value: 'laptop' },
+	{ label: 'Tablet', value: 'tablet' },
+	{ label: 'Game console', value: 'game console' },
+	{ label: 'Something else', value: 'device' },
+];
+
+// `value` finishes the sentence "my phone ...".
+const problems = [
+	{ label: 'Cracked screen', value: 'has a cracked screen' },
+	{ label: "Won't charge", value: "won't charge" },
+	{ label: 'Water damage', value: 'got wet' },
+	{ label: "Won't turn on", value: "won't turn on" },
+	{ label: 'Slow or freezing', value: 'is slow or keeps freezing' },
+	{ label: 'Something else', value: 'has a different problem' },
 ];
 
 const steps = [
-	{ title: 'Message us', text: 'Tell us what\'s wrong with your device on WhatsApp or Instagram. Photos help.' },
-	{ title: 'Get a quote', text: 'We get back to you with what\'s needed and what it will cost.' },
-	{ title: 'Get it fixed', text: 'Once you\'re happy with the quote, we fix it and let you know when it\'s ready.' },
+	{ title: "Tell us what's wrong", text: 'Use the form above or just write to us. Photos help.' },
+	{ title: 'Get a quote', text: 'We reply on WhatsApp or Instagram with what it needs and the price.' },
+	{ title: 'Get it fixed', text: 'Say yes to the quote and we get to work.' },
 ];
 ---
 
@@ -36,187 +49,382 @@ const steps = [
 		<Header />
 		<main>
 			<section class="hero">
-				<p class="eyebrow">Tech repairs · Trinidad &amp; Tobago</p>
-				<h1>Broken tech? <span>We'll fix it.</span></h1>
-				<p class="lead">
-					FixCore repairs your devices so you can get back to what matters. Tell us what's wrong and
-					we'll get back to you with a quote.
-				</p>
-				<div class="buttons">
-					<a class="btn whatsapp" href={WHATSAPP_URL} target="_blank" rel="noopener">
-						Message us on WhatsApp
-					</a>
-					<a class="btn ghost" href={INSTAGRAM_URL} target="_blank" rel="noopener">
-						{INSTAGRAM_HANDLE} on Instagram
-					</a>
-				</div>
-			</section>
+				<div class="wrap">
+					<h1>What's broken?</h1>
+					<p class="intro">
+						Pick what's wrong and we'll write the message for you. Send it on WhatsApp and we'll
+						reply with a quote.
+					</p>
 
-			<section>
-				<h2>What we repair</h2>
-				<p>Not sure if we can fix yours? Send us a message and ask.</p>
-				<div class="cards">
-					{devices.map((d) => (
-						<div class="card">
-							<h3>{d.name}</h3>
-							<p>{d.note}</p>
+					<form id="ticket" class="picker" data-number={WHATSAPP_NUMBER}>
+						<div class="choices">
+							<fieldset>
+								<legend>What is it?</legend>
+								<div class="chips">
+									{devices.map((d) => (
+										<label class="chip">
+											<input type="radio" name="device" value={d.value} />
+											<span>{d.label}</span>
+										</label>
+									))}
+								</div>
+							</fieldset>
+							<fieldset>
+								<legend>What happened?</legend>
+								<div class="chips">
+									{problems.map((p) => (
+										<label class="chip">
+											<input type="radio" name="problem" value={p.value} />
+											<span>{p.label}</span>
+										</label>
+									))}
+								</div>
+							</fieldset>
 						</div>
-					))}
+
+						<div class="tag">
+							<h2 class="tag-title">Your message</h2>
+							<p id="message" class="message" aria-live="polite">{`Hi ${SITE_TITLE}, I need help with a repair.`}</p>
+							<label class="details">
+								<span>Anything else we should know?</span>
+								<input type="text" name="details" placeholder="Phone model, when it happened" autocomplete="off" />
+							</label>
+							<a id="send" class="send" href={WHATSAPP_URL} target="_blank" rel="noopener">
+								Send on WhatsApp
+							</a>
+						</div>
+					</form>
 				</div>
 			</section>
 
-			<section>
-				<h2>How it works</h2>
-				<ol class="steps">
-					{steps.map((s, i) => (
-						<li>
-							<span class="num">{i + 1}</span>
-							<div>
+			<section class="band">
+				<div class="wrap band-grid">
+					<h2>How a repair works</h2>
+					<ol class="steps">
+						{steps.map((s) => (
+							<li>
 								<h3>{s.title}</h3>
 								<p>{s.text}</p>
-							</div>
-						</li>
-					))}
-				</ol>
+							</li>
+						))}
+					</ol>
+				</div>
 			</section>
 
-			<section class="contact" id="contact">
-				<h2>Get in touch</h2>
-				<p>The fastest way to reach us is WhatsApp.</p>
-				<div class="buttons">
-					<a class="btn whatsapp" href={WHATSAPP_URL} target="_blank" rel="noopener">
-						WhatsApp {WHATSAPP_DISPLAY}
+			<section class="contact">
+				<div class="wrap">
+					<p class="ask">Would you rather talk it through?</p>
+					<a class="number" href={WHATSAPP_URL} target="_blank" rel="noopener">
+						<span class="sr-only">WhatsApp </span>{WHATSAPP_DISPLAY}
 					</a>
-					<a class="btn ghost" href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram</a>
-					<a class="btn ghost" href={FACEBOOK_URL} target="_blank" rel="noopener">Facebook</a>
+					<p class="socials">
+						<a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram {INSTAGRAM_HANDLE}</a>
+						<a href={FACEBOOK_URL} target="_blank" rel="noopener">Facebook</a>
+					</p>
 				</div>
 			</section>
 		</main>
 		<Footer />
+
+		<script>
+			const form = document.querySelector<HTMLFormElement>('#ticket');
+			const out = document.querySelector<HTMLElement>('#message');
+			const send = document.querySelector<HTMLAnchorElement>('#send');
+
+			if (form && out && send) {
+				const number = form.dataset.number ?? '';
+
+				const build = () => {
+					const data = new FormData(form);
+					const device = String(data.get('device') ?? '');
+					const problem = String(data.get('problem') ?? '');
+					const details = String(data.get('details') ?? '').trim();
+
+					let body = 'I need help with a repair.';
+					if (device && problem) body = `my ${device} ${problem}.`;
+					else if (device) body = `I need help with my ${device}.`;
+					else if (problem) body = `my device ${problem}.`;
+
+					let message = `Hi FixCore, ${body}`;
+					if (details) message += ` ${/[.!?]$/.test(details) ? details : details + '.'}`;
+					if (device || problem) message += ' Can you give me a quote?';
+
+					out.textContent = message;
+					send.href = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+				};
+
+				form.addEventListener('input', build);
+				form.addEventListener('submit', (e) => e.preventDefault());
+			}
+		</script>
 	</body>
 </html>
 
 <style>
-	main {
-		width: 1000px;
-		max-width: 100%;
-		padding: 2em 1em 3em;
-	}
-	section {
-		margin-bottom: 3.5em;
-	}
+	/* Hero */
 	.hero {
-		padding: 2.5em 1.5em;
-		border-radius: 16px;
-		background: linear-gradient(135deg, #0b1630, #12307a);
-		color: #e8eeff;
+		padding-block: clamp(1.5rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5.5rem);
 	}
-	.hero h1 {
-		color: white;
-		font-size: 2.6em;
-		margin-bottom: 0.4em;
+	h1 {
+		font-size: clamp(4.5rem, 21vw, 13.5rem);
+		font-stretch: 62%;
+		line-height: 0.84;
+		letter-spacing: -0.01em;
+		margin-bottom: 0.2em;
 	}
-	.hero h1 span {
-		color: #6fd3ff;
+	.intro {
+		font-size: 1.25rem;
+		margin-bottom: 2.5rem;
 	}
-	.eyebrow {
-		margin: 0 0 0.5em;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		font-size: 0.75em;
-		color: #9fb4ff;
+	.picker {
+		display: grid;
+		gap: 2.5rem;
+		align-items: start;
 	}
-	.lead {
-		font-size: 1.1em;
-		max-width: 36em;
+	@media (min-width: 900px) {
+		.picker {
+			grid-template-columns: 1.2fr 1fr;
+			gap: 4rem;
+		}
 	}
-	.buttons {
+
+	fieldset {
+		border: 0;
+		margin: 0 0 2rem;
+		padding: 0;
+		min-width: 0;
+	}
+	legend {
+		padding: 0;
+		margin-bottom: 0.7rem;
+		font-family: var(--display);
+		font-weight: 700;
+		font-stretch: 90%;
+		font-size: 1.2rem;
+	}
+	.chips {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.75em;
-		margin-top: 1.25em;
+		gap: 0.5rem;
 	}
-	.btn {
-		display: inline-block;
-		padding: 0.6em 1.2em;
-		border-radius: 999px;
-		font-weight: 700;
-		text-decoration: none;
-		font-size: 0.95em;
+	.chip {
+		position: relative;
 	}
-	.btn.whatsapp {
-		background: #25d366;
-		color: #06311a;
-	}
-	.btn.ghost {
-		border: 2px solid currentColor;
-		color: var(--accent);
-	}
-	.hero .btn.ghost {
-		color: white;
-	}
-	.cards {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-		gap: 1em;
-		margin-top: 1.25em;
-	}
-	.card {
-		padding: 1.25em;
-		border-radius: 12px;
-		background: white;
-		box-shadow: 0 2px 10px rgba(var(--gray), 25%);
-	}
-	.card h3 {
-		font-size: 1.2em;
-		margin-bottom: 0.3em;
-	}
-	.card p {
+	.chip input {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
 		margin: 0;
-		font-size: 0.9em;
+		cursor: pointer;
+	}
+	.chip span {
+		display: inline-flex;
+		align-items: center;
+		min-height: 2.9rem;
+		padding-inline: 1rem;
+		border: 2px solid var(--ink);
+		border-radius: 3px;
+		font-family: var(--display);
+		font-weight: 600;
+		font-stretch: 90%;
+		font-size: 1.1rem;
+		line-height: 1;
+		transition: background-color 0.1s, color 0.1s;
+	}
+	.chip input:hover + span {
+		background: var(--flux);
+	}
+	.chip input:checked + span {
+		background: var(--ink);
+		color: var(--paper);
+	}
+	.chip input:focus-visible + span {
+		outline: 3px solid var(--ink);
+		outline-offset: 3px;
+	}
+
+	/* The message, shaped like the tag that goes on a device at the bench */
+	.tag {
+		position: relative;
+		background: var(--paper-raised);
+		border: 2px solid var(--ink);
+		border-radius: 3px;
+		padding: 3rem 1.5rem 1.5rem;
+	}
+	.tag::before {
+		content: '';
+		position: absolute;
+		top: 1rem;
+		left: 1.5rem;
+		width: 1rem;
+		height: 1rem;
+		border: 2px solid var(--ink);
+		border-radius: 50%;
+		background: var(--paper);
+	}
+	.tag-title {
+		font-size: 1.4rem;
+		font-stretch: 90%;
+		font-weight: 700;
+		margin-bottom: 0.75rem;
+	}
+	.message {
+		min-height: 6.5em;
+		margin-bottom: 1.25rem;
+		padding-bottom: 1.25rem;
+		border-bottom: 2px dashed var(--trace);
+		font-size: 1.25rem;
+		line-height: 1.5;
+	}
+	.details {
+		display: block;
+		margin-bottom: 1.5rem;
+	}
+	.details span {
+		display: block;
+		margin-bottom: 0.35rem;
+		font-size: 1rem;
+		color: var(--muted);
+	}
+	.details input {
+		width: 100%;
+		min-height: 2.9rem;
+		border: 0;
+		border-bottom: 2px solid var(--ink);
+		background: transparent;
+		font: inherit;
+		font-size: 1.1rem;
+		color: var(--ink);
+		border-radius: 0;
+	}
+	.details input::placeholder {
+		color: var(--muted);
+		opacity: 0.8;
+	}
+	.send {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 3.6rem;
+		border: 2px solid var(--ink);
+		border-radius: 3px;
+		background: var(--flux);
+		color: var(--ink);
+		box-shadow: 4px 4px 0 var(--ink);
+		font-family: var(--display);
+		font-weight: 800;
+		font-stretch: 80%;
+		font-size: 1.5rem;
+		text-decoration: none;
+		transition: transform 0.08s, box-shadow 0.08s;
+	}
+	.send:hover {
+		transform: translate(2px, 2px);
+		box-shadow: 2px 2px 0 var(--ink);
+	}
+	.send:active {
+		transform: translate(4px, 4px);
+		box-shadow: 0 0 0 var(--ink);
+	}
+
+	/* How it works */
+	.band {
+		background: var(--pcb);
+		color: var(--paper);
+		padding-block: clamp(3rem, 8vw, 6rem);
+	}
+	.band h2 {
+		color: var(--paper);
+		margin-bottom: 2rem;
+	}
+	.band-grid {
+		display: grid;
+		gap: 1rem 4rem;
+	}
+	@media (min-width: 900px) {
+		.band-grid {
+			grid-template-columns: 1fr 1.2fr;
+			align-items: start;
+		}
+		.band h2 {
+			margin-bottom: 0;
+		}
 	}
 	.steps {
+		counter-reset: step;
 		list-style: none;
+		margin: 0;
 		padding: 0;
-		margin: 1.25em 0 0;
-		display: grid;
-		gap: 1em;
 	}
 	.steps li {
-		display: flex;
-		gap: 1em;
-		align-items: flex-start;
+		counter-increment: step;
+		display: grid;
+		grid-template-columns: 3.5rem 1fr;
+		column-gap: 1rem;
+		padding-block: 1.5rem;
+		border-top: 2px solid rgb(237 240 233 / 0.3);
+	}
+	.steps li:last-child {
+		border-bottom: 2px solid rgb(237 240 233 / 0.3);
+	}
+	.steps li::before {
+		content: counter(step);
+		grid-row: span 2;
+		font-family: var(--display);
+		font-weight: 800;
+		font-stretch: 62%;
+		font-size: 3.5rem;
+		line-height: 0.9;
+		color: var(--flux);
 	}
 	.steps h3 {
-		font-size: 1.2em;
-		margin-bottom: 0.1em;
+		color: var(--paper);
+		margin-bottom: 0.4rem;
 	}
 	.steps p {
 		margin: 0;
 	}
-	.num {
-		flex: none;
-		width: 2.2em;
-		height: 2.2em;
-		border-radius: 50%;
-		background: var(--accent);
-		color: white;
-		font-weight: 700;
-		display: grid;
-		place-items: center;
+	.band a:focus-visible {
+		outline-color: var(--paper);
 	}
+
+	/* Contact */
 	.contact {
-		padding: 2em 1.5em;
-		border-radius: 16px;
-		background: rgb(var(--gray-light));
-		text-align: center;
+		padding-block: clamp(3rem, 8vw, 6rem);
 	}
-	.contact .buttons {
-		justify-content: center;
+	.ask {
+		margin-bottom: 0;
+		font-size: 1.25rem;
 	}
-	@media (max-width: 720px) {
-		.hero h1 {
-			font-size: 2em;
-		}
+	.number {
+		display: inline-block;
+		font-family: var(--display);
+		font-weight: 800;
+		font-stretch: 62%;
+		font-size: clamp(4.5rem, 20vw, 12rem);
+		line-height: 0.95;
+		letter-spacing: -0.01em;
+		text-decoration-thickness: 0.06em;
+		text-underline-offset: 0.08em;
+		text-decoration-color: var(--flux);
+	}
+	.number:hover {
+		text-decoration-color: var(--pcb);
+	}
+	.socials {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 2rem;
+		margin: 1rem 0 0;
+		max-width: none;
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
 	}
 </style>

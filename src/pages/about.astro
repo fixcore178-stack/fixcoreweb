@@ -15,15 +15,15 @@ import { SITE_TITLE, WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL } from '../consts
 	</head>
 	<body>
 		<Header />
-		<main>
+		<main class="wrap page">
 			<h1>About FixCore</h1>
 			<p>
-				FixCore is a tech repair business based in Trinidad &amp; Tobago. We fix the devices you rely
-				on every day, so you don't have to replace them.
+				FixCore is a tech repair business in Trinidad &amp; Tobago. We fix the phones, laptops and
+				other devices you rely on every day, so you don't have to replace them.
 			</p>
 			<p>
-				Not sure what's wrong, or whether it's worth repairing? Message us and describe the problem.
-				We'll tell you what we can do and what it will cost before any work starts.
+				Not sure what's wrong, or whether it's worth repairing? Describe the problem and we'll tell
+				you what we can do.
 			</p>
 			<p>
 				Reach us on <a href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>,
@@ -34,3 +34,15 @@ import { SITE_TITLE, WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL } from '../consts
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.page {
+		padding-block: clamp(2rem, 6vw, 4rem) clamp(3rem, 8vw, 6rem);
+	}
+	h1 {
+		font-size: clamp(3.5rem, 12vw, 8rem);
+		font-stretch: 62%;
+		line-height: 0.88;
+		margin-bottom: 0.4em;
+	}
+</style>
