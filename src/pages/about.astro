@@ -17,19 +17,21 @@ import { SITE_TITLE, WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL } from '../consts
 		<Header />
 		<main class="wrap page">
 			<h1>About FixCore</h1>
-			<p>
-				FixCore is a tech repair business in Trinidad &amp; Tobago. We fix the phones, laptops and
-				other devices you rely on every day, so you don't have to replace them.
-			</p>
-			<p>
-				Not sure what's wrong, or whether it's worth repairing? Describe the problem and we'll tell
-				you what we can do.
-			</p>
-			<p>
-				Reach us on <a href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>,
-				<a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram</a> or
-				<a href={FACEBOOK_URL} target="_blank" rel="noopener">Facebook</a>.
-			</p>
+			<div class="copy">
+				<p>
+					FixCore is a tech repair business in Trinidad &amp; Tobago. We fix the phones, laptops and
+					other devices you rely on every day, so you don't have to replace them.
+				</p>
+				<p>
+					Not sure what's wrong, or whether it's worth repairing? Describe the problem and we'll
+					tell you what we can do.
+				</p>
+				<p>
+					Reach us on <a href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>,
+					<a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram</a> or
+					<a href={FACEBOOK_URL} target="_blank" rel="noopener">Facebook</a>.
+				</p>
+			</div>
 		</main>
 		<Footer />
 	</body>
@@ -37,12 +39,20 @@ import { SITE_TITLE, WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL } from '../consts
 
 <style>
 	.page {
-		padding-block: clamp(2rem, 6vw, 4rem) clamp(3rem, 8vw, 6rem);
+		padding-block: clamp(2.5rem, 7vw, 5rem) clamp(4rem, 9vw, 7rem);
 	}
 	h1 {
-		font-size: clamp(3.5rem, 12vw, 8rem);
-		font-stretch: 62%;
-		line-height: 0.88;
-		margin-bottom: 0.4em;
+		font-size: clamp(2.75rem, 9vw, 7rem);
+		margin-bottom: 0.6em;
+	}
+	.copy {
+		margin-left: auto;
+		max-width: 34em;
+		font-size: 1.15rem;
+	}
+	@media (max-width: 720px) {
+		.copy {
+			margin-left: 0;
+		}
 	}
 </style>

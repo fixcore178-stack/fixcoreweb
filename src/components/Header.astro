@@ -15,40 +15,43 @@ const path = Astro.url.pathname;
 </header>
 <style>
 	header {
-		border-bottom: 2px solid var(--ink);
+		border-bottom: 1px solid var(--border);
 	}
 	.bar {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		min-height: 4rem;
+		min-height: 4.25rem;
 	}
 	.brand {
 		font-family: var(--display);
 		font-weight: 800;
-		font-stretch: 70%;
-		font-size: 2rem;
+		font-size: 1.5rem;
 		line-height: 1;
-		letter-spacing: -0.005em;
+		letter-spacing: -0.04em;
 		text-decoration: none;
+	}
+	.brand:hover {
+		color: var(--text);
 	}
 	nav {
 		display: flex;
 		gap: 1.5rem;
-		font-family: var(--display);
-		font-weight: 600;
-		font-stretch: 90%;
-		font-size: 1.05rem;
+		font-size: 0.95rem;
+		font-weight: 500;
 	}
 	nav a {
+		padding-block: 0.7rem;
+		color: var(--muted);
 		text-decoration: none;
-		padding-block: 0.6rem;
-		border-bottom: 3px solid transparent;
+		border-bottom: 2px solid transparent;
 	}
 	nav a:hover {
-		border-bottom-color: var(--trace);
+		color: var(--text);
+		border-bottom-color: var(--border-strong);
 	}
 	nav a[aria-current='page'] {
-		border-bottom-color: var(--ink);
+		color: var(--text);
+		border-bottom-color: var(--accent);
 	}
 </style>

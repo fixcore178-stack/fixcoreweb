@@ -1,20 +1,22 @@
 /*
   FixCore design tokens.
-  paper: antistatic-mat grey-green. ink: near-black green. pcb: solder-mask green.
-  flux: multimeter yellow, used only for the action the visitor should take.
+  Dark bench surface with one accent: amber, the colour of a soldering-iron
+  indicator light. It is used only on things the visitor can act on.
 */
 
 :root {
-	--paper: #edf0e9;
-	--paper-raised: #fbfcf8;
-	--ink: #14211b;
-	--muted: #46564d;
-	--trace: #b9c3b6;
-	--pcb: #0d4f38;
-	--flux: #ffc61a;
+	--bg: #080c0a;
+	--surface: #0f1612;
+	--surface-2: #16201a;
+	--border: rgb(255 255 255 / 0.12);
+	--border-strong: rgb(255 255 255 / 0.28);
+	--text: #e9eee8;
+	--muted: #9aab9f;
+	--accent: #ffb81c;
+	--accent-ink: #1a1200;
 
-	--display: "Archivo Variable", "Arial Narrow", Arial, sans-serif;
-	--text: "Source Serif 4 Variable", Georgia, serif;
+	--display: "Syne Variable", "Arial Black", sans-serif;
+	--body: "Public Sans Variable", system-ui, sans-serif;
 }
 
 *,
@@ -25,15 +27,16 @@
 
 html {
 	-webkit-text-size-adjust: 100%;
+	color-scheme: dark;
 }
 
 body {
 	margin: 0;
-	background: var(--paper);
-	color: var(--ink);
-	font-family: var(--text);
-	font-size: 1.1875rem;
-	line-height: 1.65;
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--body);
+	font-size: 1.0625rem;
+	line-height: 1.6;
 	overflow-wrap: break-word;
 }
 
@@ -43,21 +46,19 @@ h3 {
 	margin: 0;
 	font-family: var(--display);
 	font-weight: 800;
-	line-height: 1;
+	line-height: 0.95;
+	letter-spacing: -0.03em;
 	text-wrap: balance;
 }
 
 h2 {
-	font-stretch: 70%;
-	font-size: clamp(2.5rem, 7vw, 4.25rem);
-	letter-spacing: -0.005em;
+	font-size: clamp(2.25rem, 6vw, 4rem);
 }
 
 h3 {
-	font-stretch: 90%;
-	font-weight: 700;
-	font-size: 1.4rem;
+	font-size: 1.35rem;
 	line-height: 1.15;
+	letter-spacing: -0.02em;
 }
 
 p {
@@ -67,22 +68,28 @@ p {
 
 a {
 	color: inherit;
-	text-decoration-thickness: 2px;
-	text-underline-offset: 0.2em;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.25em;
+	transition: color 0.15s, text-decoration-color 0.15s;
 }
 
 a:hover {
-	text-decoration-color: var(--pcb);
+	color: var(--accent);
 }
 
 :focus-visible {
-	outline: 3px solid var(--ink);
+	outline: 2px solid var(--accent);
 	outline-offset: 3px;
+}
+
+::selection {
+	background: var(--accent);
+	color: var(--accent-ink);
 }
 
 .wrap {
 	width: 100%;
-	max-width: 1100px;
+	max-width: 1120px;
 	margin-inline: auto;
 	padding-inline: clamp(1rem, 4vw, 2rem);
 }
