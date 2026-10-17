@@ -1,0 +1,55 @@
+---
+import { gallery } from '../data/site';
+---
+
+{
+	gallery.length > 0 && (
+		<section class="section" id="gallery">
+			<div class="wrap">
+				<div class="section-head reveal">
+					<span class="eyebrow">Recent work</span>
+					<h2>Real repairs, <span class="grad">real results</span>.</h2>
+				</div>
+				<ul class="grid">
+					{gallery.map((g, i) => (
+						<li class="reveal" style={`--d:${i % 3}`}>
+							<figure class="glass">
+								<img src={g.src} alt={g.alt} width={g.width ?? 800} height={g.height ?? 600} loading="lazy" decoding="async" />
+								{g.caption && <figcaption>{g.caption}</figcaption>}
+							</figure>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+	)
+}
+
+<style>
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+		gap: 1.1rem;
+	}
+	figure {
+		margin: 0;
+		overflow: hidden;
+		--r: 20px;
+	}
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		transition: transform 0.9s var(--ease);
+	}
+	figure:hover img {
+		transform: scale(1.04);
+	}
+	figcaption {
+		padding: 0.9rem 1.1rem;
+		font-size: 0.92rem;
+		color: var(--muted);
+	}
+</style>

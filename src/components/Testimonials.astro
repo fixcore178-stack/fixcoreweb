@@ -1,0 +1,54 @@
+---
+import { testimonials } from '../data/site';
+---
+
+{
+	testimonials.length > 0 && (
+		<section class="section" id="reviews">
+			<div class="wrap">
+				<div class="section-head reveal">
+					<span class="eyebrow">Customers</span>
+					<h2>What people <span class="grad">say</span>.</h2>
+				</div>
+				<ul class="grid">
+					{testimonials.map((t, i) => (
+						<li class="reveal" style={`--d:${i % 3}`}>
+							<figure class="glass">
+								<blockquote>{t.quote}</blockquote>
+								<figcaption>
+									<b>{t.name}</b>
+									{t.detail && <span>{t.detail}</span>}
+								</figcaption>
+							</figure>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+	)
+}
+
+<style>
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+		gap: 1.1rem;
+	}
+	figure {
+		margin: 0;
+		height: 100%;
+		padding: 1.6rem;
+	}
+	blockquote {
+		margin: 0 0 1.2rem;
+		font-size: 1.05rem;
+		line-height: 1.6;
+	}
+	figcaption {
+		display: grid;
+		font-size: 0.92rem;
+	}
+	figcaption span {
+		color: var(--muted);
+	}
+</style>

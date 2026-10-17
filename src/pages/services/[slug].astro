@@ -1,0 +1,385 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import BrandIcon from '../../components/BrandIcon.astro';
+import { services, quoteHref, type Service } from '../../data/services';
+import { SITE_TITLE, SITE_URL, WHATSAPP_URL, whatsappUrl } from '../../consts';
+import { business } from '../../data/site';
+
+export function getStaticPaths() {
+	return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+interface Props {
+	service: Service;
+}
+const { service } = Astro.props;
+const others = services.filter((s) => s.slug !== service.slug);
+const quote = quoteHref(service);
+const ask = whatsappUrl(`Hi ${SITE_TITLE}, I have a question about ${service.name.toLowerCase()}.`);
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'Service',
+	name: service.name,
+	description: service.seoDescription,
+	url: `${SITE_URL}/services/${service.slug}`,
+	areaServed: { '@type': 'Country', name: 'Trinidad and Tobago' },
+	provider: { '@type': 'LocalBusiness', name: SITE_TITLE, url: SITE_URL },
+};
+---
+
+<Base title={`${service.title} | ${SITE_TITLE}`} description={service.seoDescription} schema={schema}>
+	<section class="top">
+		<div class="wrap top-grid">
+			<div class="copy">
+				<nav class="crumbs reveal" aria-label="Breadcrumb">
+					<a href="/services">Services</a>
+					<Icon name="chevron" size={14} class="sep" />
+					<span aria-current="page">{service.name}</span>
+				</nav>
+				<span class="big-ico reveal" style="--d:1"><Icon name={service.icon} size={34} /></span>
+				<h1 class="reveal-lines">
+					<span class="line" style="--i:0"><span>{service.title}</span></span>
+				</h1>
+				<p class="lead reveal" style="--d:2">{service.intro}</p>
+				<div class="cta-row reveal" style="--d:3">
+					<a class="btn btn-primary btn-lg" href={quote}>
+						Get a quote <Icon class="arrow" name="arrow" size={18} stroke={2.2} />
+					</a>
+					<a class="btn btn-glass btn-lg" href={ask} target="_blank" rel="noopener">
+						<BrandIcon name="whatsapp" size={19} /> Ask a question
+					</a>
+				</div>
+			</div>
+
+			<aside class="send glass glow reveal" style="--d:2" data-tilt="3" aria-labelledby="send-title">
+				<h2 id="send-title">What to send us</h2>
+				<p>The more we know, the faster we can quote.</p>
+				<ul>
+					{
+						service.send.map((item) => (
+							<li>
+								<span class="tick"><Icon name="check" size={14} stroke={3} /></span>
+								<span>{item}</span>
+							</li>
+						))
+					}
+				</ul>
+			</aside>
+		</div>
+	</section>
+
+	<section class="section problems">
+		<div class="wrap">
+			<div class="section-head reveal">
+				<span class="eyebrow">What we fix</span>
+				<h2>Common {service.slug === 'diagnostics' ? 'situations' : 'problems'}.</h2>
+				<p class="lead">Not on the list? Message us anyway. We will tell you if we can help.</p>
+			</div>
+			<ul class="grid">
+				{
+					service.problems.map((p, i) => (
+						<li class="reveal" style={`--d:${i % 3}`}>
+							<article class="glass glow" data-tilt="3">
+								<span class="ico"><Icon name={p.icon} size={24} /></span>
+								<h3>{p.title}</h3>
+								<p>{p.text}</p>
+							</article>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap steps-grid">
+			<div class="reveal">
+				<span class="eyebrow">How it works</span>
+				<h2>Message, quote, <span class="grad">fixed</span>.</h2>
+				<a class="btn btn-glass" href="/#process">See the full process</a>
+			</div>
+			<ol class="mini">
+				<li class="reveal glass" style="--d:0"><b>1</b><span><strong>Tell us what is wrong.</strong> Use the quote form or message us directly.</span></li>
+				<li class="reveal glass" style="--d:1"><b>2</b><span><strong>Get a quote.</strong> We reply with what it needs and what it costs.</span></li>
+				<li class="reveal glass" style="--d:2"><b>3</b><span><strong>Get it fixed.</strong> Say yes and we get to work.</span></li>
+			</ol>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap faq-grid">
+			<div class="reveal">
+				<span class="eyebrow">Questions</span>
+				<h2>Good <span class="grad">questions</span>.</h2>
+				<p class="lead">Based in {business.serviceArea}. Message us for anything else.</p>
+			</div>
+			<Faq items={service.faq} prefix={`faq-${service.slug}`} />
+		</div>
+	</section>
+
+	<section class="section others">
+		<div class="wrap">
+			<div class="section-head reveal">
+				<span class="eyebrow">More services</span>
+				<h2>Other things we <span class="grad">repair</span>.</h2>
+			</div>
+			<ul class="chips">
+				{
+					others.map((s, i) => (
+						<li class="reveal" style={`--d:${i % 4}`}>
+							<a class="glass glow" href={`/services/${s.slug}`}>
+								<span class="ico sm"><Icon name={s.icon} size={20} /></span>
+								<span>{s.name}</span>
+								<Icon class="go" name="arrow" size={16} />
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<CtaBand title={`Need ${service.name.toLowerCase()}?`} quoteHref={quote} />
+</Base>
+
+<style>
+	.top {
+		padding: clamp(7.5rem, 13vw, 9.5rem) 0 clamp(2rem, 5vw, 3.5rem);
+	}
+	.top-grid {
+		display: grid;
+		gap: 2.5rem;
+		align-items: center;
+	}
+	@media (min-width: 980px) {
+		.top-grid {
+			grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.8fr);
+			gap: 4rem;
+		}
+	}
+	.crumbs {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		margin-bottom: 1.6rem;
+		font-size: 0.9rem;
+		color: var(--muted);
+	}
+	.crumbs a {
+		color: var(--muted);
+		text-decoration: none;
+	}
+	.crumbs a:hover {
+		color: var(--cyan);
+	}
+	.crumbs :global(.sep) {
+		rotate: -90deg;
+	}
+	.crumbs [aria-current] {
+		color: var(--ink);
+	}
+	.big-ico {
+		display: grid;
+		place-items: center;
+		width: 4.4rem;
+		height: 4.4rem;
+		margin-bottom: 1.4rem;
+		border-radius: 20px;
+		background: var(--accent-grad);
+		color: var(--on-accent);
+		box-shadow:
+			0 16px 40px color-mix(in srgb, var(--blue-strong) 45%, transparent),
+			inset 0 1px 0 rgb(255 255 255 / 0.4);
+	}
+	h1 {
+		margin-bottom: 1.2rem;
+		font-size: clamp(2.3rem, 5.6vw, 4.4rem);
+	}
+	.top .lead {
+		max-width: 32em;
+		margin-bottom: 1.8rem;
+	}
+	.cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+	}
+	.send {
+		padding: clamp(1.5rem, 3vw, 2.1rem);
+		transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+		transition: transform 0.6s var(--ease);
+	}
+	.send:global(.tilting) {
+		transition: transform 0.1s linear;
+	}
+	.send h2 {
+		margin-bottom: 0.4rem;
+		font-size: 1.5rem;
+	}
+	.send > p {
+		margin-bottom: 1.3rem;
+		color: var(--muted);
+	}
+	.send ul {
+		display: grid;
+		gap: 0.85rem;
+	}
+	.send li {
+		display: flex;
+		gap: 0.8rem;
+		align-items: flex-start;
+		color: var(--ink-2);
+	}
+	.tick {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 1.5rem;
+		height: 1.5rem;
+		margin-top: 0.15rem;
+		border-radius: 50%;
+		background: var(--accent-grad);
+		color: var(--on-accent);
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+		gap: 1.1rem;
+	}
+	.grid li {
+		display: flex;
+	}
+	.grid article {
+		width: 100%;
+		padding: 1.6rem;
+		transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+		transition: transform 0.6s var(--ease);
+	}
+	.grid article:global(.tilting) {
+		transition: transform 0.1s linear;
+	}
+	.ico {
+		display: grid;
+		place-items: center;
+		width: 3.2rem;
+		height: 3.2rem;
+		margin-bottom: 1rem;
+		border-radius: 14px;
+		background: color-mix(in srgb, var(--blue-strong) 16%, transparent);
+		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--blue) 30%, transparent);
+		color: var(--blue);
+		transition:
+			background 0.35s,
+			color 0.35s,
+			transform 0.5s var(--ease);
+	}
+	article:hover .ico {
+		background: var(--accent-grad);
+		color: var(--on-accent);
+		transform: translateY(-3px) rotate(-5deg);
+	}
+	.ico.sm {
+		width: 2.4rem;
+		height: 2.4rem;
+		margin: 0;
+		border-radius: 12px;
+	}
+	.grid h3 {
+		margin-bottom: 0.45rem;
+	}
+	.grid p {
+		margin: 0;
+		color: var(--muted);
+	}
+
+	.steps-grid,
+	.faq-grid {
+		display: grid;
+		gap: 2rem;
+		align-items: start;
+	}
+	@media (min-width: 980px) {
+		.steps-grid {
+			grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+			gap: 4rem;
+			align-items: center;
+		}
+		.faq-grid {
+			grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+			gap: 4rem;
+		}
+	}
+	.steps-grid .btn {
+		margin-top: 1.4rem;
+	}
+	.mini {
+		display: grid;
+		gap: 0.9rem;
+	}
+	.mini li {
+		display: flex;
+		align-items: center;
+		gap: 1.1rem;
+		padding: 1.15rem 1.4rem;
+		--r: 20px;
+		color: var(--muted);
+	}
+	.mini strong {
+		color: var(--ink);
+	}
+	.mini b {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 50%;
+		background: var(--accent-grad);
+		color: var(--on-accent);
+		font-family: var(--display);
+		font-size: 1rem;
+	}
+
+	.others {
+		padding-block: clamp(2rem, 6vw, 4rem) 0;
+	}
+	.chips {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+		gap: 0.9rem;
+	}
+	.chips a {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		padding: 0.9rem 1.1rem;
+		--r: 18px;
+		color: var(--ink);
+		font-family: var(--display);
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		text-decoration: none;
+		transition:
+			transform 0.4s var(--ease),
+			background-color 0.3s;
+	}
+	.chips a:hover {
+		color: var(--ink);
+		transform: translateY(-3px);
+		background: var(--glass-hi);
+	}
+	.chips :global(.go) {
+		margin-left: auto;
+		color: var(--muted);
+		transition: transform 0.4s var(--ease);
+	}
+	.chips a:hover :global(.go) {
+		transform: translateX(4px);
+		color: var(--cyan);
+	}
+</style>

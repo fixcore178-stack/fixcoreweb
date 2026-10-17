@@ -1,0 +1,143 @@
+---
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { services } from '../../data/services';
+import { SITE_TITLE } from '../../consts';
+---
+
+<Base
+	title={`Repair services | ${SITE_TITLE}`}
+	description="Phone, laptop, tablet and game console repairs plus diagnostics in Trinidad & Tobago. Pick a service and get a quote on WhatsApp."
+>
+	<section class="top">
+		<div class="wrap">
+			<span class="eyebrow reveal">Services</span>
+			<h1 class="reveal-lines">
+				<span class="line" style="--i:0"><span>What can we</span></span>
+				<span class="line" style="--i:1"><span class="grad">fix for you?</span></span>
+			</h1>
+			<p class="lead reveal" style="--d:2">
+				Pick a device to see what we repair and what to send us. Not sure what is wrong? Start with diagnostics.
+			</p>
+		</div>
+	</section>
+
+	<section class="section list">
+		<div class="wrap">
+			<ul class="stack">
+				{
+					services.map((s, i) => (
+						<li class="reveal" style={`--d:${i % 2}`}>
+							<a class="row glass glow" data-tilt="2" href={`/services/${s.slug}`}>
+								<span class="ico"><Icon name={s.icon} size={28} /></span>
+								<span class="txt">
+									<h2>{s.cardTitle}</h2>
+									<span>{s.cardText}</span>
+								</span>
+								<span class="go"><Icon name="arrow" size={20} stroke={2} /></span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<CtaBand />
+</Base>
+
+<style>
+	.top {
+		padding: clamp(8rem, 14vw, 10.5rem) 0 1rem;
+	}
+	h1 {
+		margin-bottom: 1.3rem;
+		font-size: clamp(2.7rem, 7.4vw, 6rem);
+	}
+	.list {
+		padding-block: clamp(2rem, 5vw, 3rem) 1rem;
+	}
+	.stack {
+		display: grid;
+		gap: 1rem;
+	}
+	.row {
+		display: flex;
+		align-items: center;
+		gap: 1.4rem;
+		padding: clamp(1.2rem, 2.6vw, 1.7rem);
+		color: var(--ink);
+		text-decoration: none;
+		transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+		transition:
+			transform 0.6s var(--ease),
+			background-color 0.3s;
+	}
+	.row:global(.tilting) {
+		transition:
+			transform 0.1s linear,
+			background-color 0.3s;
+	}
+	.row:hover {
+		color: var(--ink);
+		background: var(--glass-hi);
+	}
+	.ico {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 3.8rem;
+		height: 3.8rem;
+		border-radius: 18px;
+		background: color-mix(in srgb, var(--blue-strong) 16%, transparent);
+		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--blue) 30%, transparent);
+		color: var(--blue);
+		transition:
+			background 0.35s,
+			color 0.35s,
+			transform 0.5s var(--ease);
+	}
+	.row:hover .ico {
+		background: var(--accent-grad);
+		color: var(--on-accent);
+		transform: rotate(-5deg);
+	}
+	.txt {
+		display: grid;
+		gap: 0.2rem;
+		min-width: 0;
+	}
+	.txt h2 {
+		font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+	}
+	.txt span {
+		color: var(--muted);
+	}
+	.go {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.8rem;
+		height: 2.8rem;
+		margin-left: auto;
+		border-radius: 50%;
+		background: var(--glass);
+		box-shadow: inset 0 0 0 1px var(--stroke);
+		color: var(--ink);
+		transition:
+			transform 0.4s var(--ease),
+			background 0.3s,
+			color 0.3s;
+	}
+	.row:hover .go {
+		transform: translateX(4px);
+		background: var(--accent-grad);
+		color: var(--on-accent);
+	}
+	@media (max-width: 560px) {
+		.go {
+			display: none;
+		}
+	}
+</style>

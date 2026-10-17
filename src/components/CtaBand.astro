@@ -1,0 +1,70 @@
+---
+import { WHATSAPP_URL } from '../consts';
+import Icon from './Icon.astro';
+import BrandIcon from './BrandIcon.astro';
+
+interface Props {
+	title?: string;
+	text?: string;
+	quoteHref?: string;
+}
+const {
+	title = 'Ready to get it fixed?',
+	text = 'Tell us what is wrong and we will send you a quote. It takes a minute.',
+	quoteHref = '/#quote',
+} = Astro.props;
+---
+
+<section class="section cta">
+	<div class="wrap">
+		<div class="band glass reveal">
+			<div class="copy">
+				<h2>{title}</h2>
+				<p class="lead">{text}</p>
+			</div>
+			<div class="btns">
+				<a class="btn btn-primary btn-lg" href={quoteHref}>
+					Get a repair quote <Icon class="arrow" name="arrow" size={18} stroke={2.2} />
+				</a>
+				<a class="btn btn-glass btn-lg" href={WHATSAPP_URL} target="_blank" rel="noopener">
+					<BrandIcon name="whatsapp" size={19} /> WhatsApp us
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.cta {
+		padding-block: clamp(2rem, 6vw, 4rem);
+	}
+	.band {
+		display: grid;
+		gap: 1.75rem;
+		align-items: center;
+		padding: clamp(1.75rem, 5vw, 3.5rem);
+		overflow: hidden;
+		background:
+			radial-gradient(60% 120% at 100% 0%, color-mix(in srgb, var(--blue-strong) 30%, transparent), transparent 70%),
+			radial-gradient(50% 100% at 0% 100%, color-mix(in srgb, var(--violet) 20%, transparent), transparent 70%),
+			var(--glass);
+	}
+	@media (min-width: 900px) {
+		.band {
+			grid-template-columns: 1.3fr auto;
+			gap: 3rem;
+		}
+	}
+	h2 {
+		font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+		margin-bottom: 0.7rem;
+	}
+	.lead {
+		margin: 0;
+	}
+	.btns {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+</style>

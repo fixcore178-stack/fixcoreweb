@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<Base title={`Page not found | ${SITE_TITLE}`} description="That page could not be found." noindex>
+	<section class="lost">
+		<div class="wrap">
+			<p class="code reveal" aria-hidden="true">404</p>
+			<h1 class="reveal" style="--d:1">This page <span class="grad">needs a repair</span>.</h1>
+			<p class="lead reveal" style="--d:2">We could not find what you were looking for. Head back home or get a quote for your device.</p>
+			<div class="row reveal" style="--d:3">
+				<a class="btn btn-primary btn-lg" href="/">Back to home</a>
+				<a class="btn btn-glass btn-lg" href="/#quote">
+					Get a quote <Icon class="arrow" name="arrow" size={18} stroke={2.2} />
+				</a>
+			</div>
+		</div>
+	</section>
+</Base>
+
+<style>
+	.lost {
+		display: grid;
+		align-items: center;
+		min-height: 88vh;
+		padding: 9rem 0 4rem;
+	}
+	.code {
+		margin: 0 0 0.5rem;
+		font-family: var(--display);
+		font-weight: 800;
+		font-size: clamp(5rem, 22vw, 14rem);
+		line-height: 0.85;
+		letter-spacing: -0.06em;
+		background: linear-gradient(180deg, var(--ink), transparent 85%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		-webkit-text-fill-color: transparent;
+	}
+	h1 {
+		margin-bottom: 1rem;
+		font-size: clamp(2rem, 5vw, 3.6rem);
+	}
+	.row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+		margin-top: 1.6rem;
+	}
+</style>

@@ -1,0 +1,949 @@
+---
+import { devices, problems } from '../data/quote';
+import { WHATSAPP_NUMBER, SITE_TITLE, WHATSAPP_URL } from '../consts';
+import Icon from './Icon.astro';
+import BrandIcon from './BrandIcon.astro';
+
+const stepNames = ['Device', 'Problem', 'Details', 'Review'];
+---
+
+<form class="wizard glass" id="wizard" novalidate autocomplete="off" data-number={WHATSAPP_NUMBER} data-brand={SITE_TITLE}>
+	<ol class="progress" aria-label="Quote steps" style="--wp:0">
+		{
+			stepNames.map((n, i) => (
+				<li>
+					<button type="button" data-goto={i + 1} data-state={i === 0 ? 'current' : 'todo'} disabled={i !== 0}>
+						<span class="dot">
+							<span class="num">{i + 1}</span>
+							<Icon class="tick" name="check" size={14} stroke={3} />
+						</span>
+						<span class="lbl">{n}</span>
+					</button>
+				</li>
+			))
+		}
+	</ol>
+
+	<div class="panels">
+		<fieldset class="step" data-step="1">
+			<legend><h3 tabindex="-1">What are we fixing?</h3></legend>
+			<div class="opts opts-5">
+				{
+					devices.map((d) => (
+						<label class="opt">
+							<input type="radio" name="device" value={d.value} />
+							<span class="card">
+								<span class="ico"><Icon name={d.icon} size={24} /></span>
+								<span class="txt">
+									<b>{d.label}</b>
+									<small>{d.hint}</small>
+								</span>
+								<span class="chk"><Icon name="check" size={14} stroke={3} /></span>
+							</span>
+						</label>
+					))
+				}
+			</div>
+			<p class="step-error" role="alert" data-error="1"></p>
+		</fieldset>
+
+		<fieldset class="step" data-step="2" hidden>
+			<legend><h3 tabindex="-1">What is going on with it?</h3></legend>
+			<div class="opts">
+				{
+					problems.map((p) => (
+						<label class="opt">
+							<input type="radio" name="problem" value={p.value} />
+							<span class="card">
+								<span class="ico"><Icon name={p.icon} size={24} /></span>
+								<span class="txt">
+									<b>{p.label}</b>
+									<small>{p.hint}</small>
+								</span>
+								<span class="chk"><Icon name="check" size={14} stroke={3} /></span>
+							</span>
+						</label>
+					))
+				}
+			</div>
+			<p class="step-error" role="alert" data-error="2"></p>
+		</fieldset>
+
+		<div class="step" data-step="3" role="group" aria-labelledby="step3-title" hidden>
+			<h3 id="step3-title" class="legend" tabindex="-1">A few details</h3>
+			<div class="fields">
+				<div class="field">
+					<label for="f-model"><span id="model-label">Make and model</span> <em id="model-opt">(helps us quote faster)</em></label>
+					<input id="f-model" name="model" type="text" maxlength="60" placeholder="e.g. iPhone 13, Dell Inspiron 15, PS5" aria-describedby="e-model" />
+					<p class="field-error" id="e-model" role="alert"></p>
+				</div>
+				<div class="field">
+					<label for="f-details">
+						<span id="details-label">Anything else we should know?</span> <em id="details-opt">(optional)</em>
+					</label>
+					<textarea id="f-details" name="details" rows="4" maxlength="400" placeholder="What happened, when it started, anything you have already tried" aria-describedby="e-details"></textarea>
+					<div class="meta">
+						<p class="field-error" id="e-details" role="alert"></p>
+						<span class="count" aria-hidden="true"><span id="count">0</span>/400</span>
+					</div>
+				</div>
+				<div class="field">
+					<label for="f-name">Your name <em>(optional)</em></label>
+					<input id="f-name" name="name" type="text" maxlength="40" placeholder="So we know who to reply to" autocomplete="given-name" aria-describedby="e-name" />
+					<p class="field-error" id="e-name" role="alert"></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="step" data-step="4" role="group" aria-labelledby="step4-title" hidden>
+			<h3 id="step4-title" class="legend" tabindex="-1">Review and send</h3>
+			<dl class="summary" data-summary></dl>
+			<div class="preview">
+				<p class="preview-label"><BrandIcon name="whatsapp" size={15} /> Your WhatsApp message</p>
+				<div class="msg" data-message></div>
+			</div>
+			<p class="fine">Nothing is sent until you tap send inside WhatsApp.</p>
+		</div>
+	</div>
+
+	<div class="actions">
+		<button type="button" class="btn btn-glass" data-back hidden>
+			<Icon name="back" size={16} stroke={2.2} /> Back
+		</button>
+		<button type="submit" class="btn btn-primary" data-next>
+			<span data-next-label>Continue</span> <Icon class="arrow" name="arrow" size={16} stroke={2.2} />
+		</button>
+		<button type="button" class="btn btn-glass" data-copy hidden>
+			<Icon name="copy" size={16} stroke={2} /> <span data-copy-label>Copy message</span>
+		</button>
+		<a class="btn btn-wa btn-lg" data-send href={WHATSAPP_URL} target="_blank" rel="noopener" hidden>
+			<BrandIcon name="whatsapp" size={20} /> <span data-send-label>Send on WhatsApp</span>
+		</a>
+	</div>
+	<p class="sr-only" role="status" aria-live="polite" data-status></p>
+
+	<noscript>
+		<p class="noscript">
+			This form needs JavaScript. You can still <a href={WHATSAPP_URL}>message us on WhatsApp</a> directly.
+		</p>
+	</noscript>
+</form>
+
+<style>
+	.wizard {
+		padding: clamp(1.25rem, 3.5vw, 2.25rem);
+		background: color-mix(in srgb, var(--glass-solid) 55%, transparent);
+	}
+
+	/* Progress */
+	.progress {
+		position: relative;
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+	}
+	.progress::before,
+	.progress::after {
+		content: '';
+		position: absolute;
+		top: 1.05rem;
+		left: 12.5%;
+		right: 12.5%;
+		height: 2px;
+		border-radius: 2px;
+	}
+	.progress::before {
+		background: var(--stroke);
+	}
+	.progress::after {
+		background: var(--accent-grad);
+		transform: scaleX(var(--wp, 0));
+		transform-origin: left;
+		transition: transform 0.7s var(--ease);
+	}
+	.progress button {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		justify-items: center;
+		gap: 0.45rem;
+		width: 100%;
+		padding: 0;
+		border: 0;
+		background: none;
+		color: var(--muted);
+		font: inherit;
+		font-size: 0.82rem;
+		font-weight: 600;
+		cursor: pointer;
+	}
+	.progress button:disabled {
+		cursor: default;
+	}
+	.dot {
+		position: relative;
+		display: grid;
+		place-items: center;
+		width: 2.15rem;
+		height: 2.15rem;
+		border-radius: 50%;
+		background: var(--glass-solid);
+		box-shadow: inset 0 0 0 1.5px var(--stroke-hi);
+		font-family: var(--display);
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--muted);
+		transition:
+			background 0.4s,
+			box-shadow 0.4s,
+			color 0.4s,
+			transform 0.5s var(--ease);
+	}
+	.dot :global(.tick) {
+		position: absolute;
+		opacity: 0;
+		scale: 0.5;
+		transition:
+			opacity 0.3s,
+			scale 0.4s var(--ease);
+	}
+	[data-state='current'] .dot {
+		background: var(--accent-grad);
+		color: var(--on-accent);
+		box-shadow: 0 0 0 5px color-mix(in srgb, var(--blue-strong) 25%, transparent);
+		transform: scale(1.08);
+	}
+	[data-state='current'] {
+		color: var(--ink);
+	}
+	[data-state='done'] .dot {
+		background: var(--glass-solid);
+		box-shadow: inset 0 0 0 1.5px var(--cyan);
+		color: var(--cyan);
+	}
+	[data-state='done'] .num {
+		opacity: 0;
+	}
+	[data-state='done'] .dot :global(.tick) {
+		opacity: 1;
+		scale: 1;
+	}
+	[data-state='done']:hover .dot {
+		background: var(--glass-hi);
+	}
+
+	/* Steps */
+	.step {
+		min-width: 0;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+	.step[hidden] {
+		display: none;
+	}
+	.step.enter-fwd {
+		animation: in-fwd 0.6s var(--ease) both;
+	}
+	.step.enter-back {
+		animation: in-back 0.6s var(--ease) both;
+	}
+	@keyframes in-fwd {
+		from {
+			opacity: 0;
+			transform: translateX(26px);
+		}
+	}
+	@keyframes in-back {
+		from {
+			opacity: 0;
+			transform: translateX(-26px);
+		}
+	}
+	legend {
+		padding: 0;
+		margin-bottom: 1.25rem;
+	}
+	legend h3,
+	.legend {
+		margin-bottom: 1.25rem;
+		font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+		outline-offset: 6px;
+	}
+	legend h3 {
+		margin-bottom: 0;
+	}
+
+	.opts {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 14.5rem), 1fr));
+		gap: 0.75rem;
+	}
+	.opt {
+		position: relative;
+		display: block;
+	}
+	.opt input {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		opacity: 0;
+		cursor: pointer;
+		z-index: 2;
+	}
+	.card {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+		height: 100%;
+		min-height: 4.6rem;
+		padding: 0.8rem 1rem;
+		border-radius: var(--r-sm);
+		background: var(--glass);
+		box-shadow:
+			inset 0 0 0 1px var(--stroke),
+			inset 0 1px 0 var(--hi);
+		transition:
+			transform 0.35s var(--ease),
+			box-shadow 0.25s,
+			background-color 0.25s;
+	}
+	.ico {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.8rem;
+		height: 2.8rem;
+		border-radius: 12px;
+		background: color-mix(in srgb, var(--blue-strong) 16%, transparent);
+		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--blue) 25%, transparent);
+		color: var(--blue);
+		transition:
+			background 0.25s,
+			color 0.25s;
+	}
+	.txt {
+		display: grid;
+		gap: 0.1rem;
+		line-height: 1.25;
+		min-width: 0;
+	}
+	.txt b {
+		font-family: var(--display);
+		font-weight: 600;
+		font-size: 1rem;
+		letter-spacing: -0.02em;
+	}
+	.txt small {
+		font-size: 0.8rem;
+		color: var(--muted);
+	}
+	.chk {
+		position: absolute;
+		top: 0.55rem;
+		right: 0.6rem;
+		display: grid;
+		place-items: center;
+		width: 1.35rem;
+		height: 1.35rem;
+		border-radius: 50%;
+		background: var(--accent-grad);
+		color: var(--on-accent);
+		opacity: 0;
+		scale: 0.4;
+		transition:
+			opacity 0.25s,
+			scale 0.45s var(--ease);
+	}
+	.opt:hover .card {
+		transform: translateY(-2px);
+		background: var(--glass-hi);
+		box-shadow:
+			inset 0 0 0 1px var(--stroke-hi),
+			inset 0 1px 0 var(--hi);
+	}
+	.opt input:checked + .card {
+		background: color-mix(in srgb, var(--blue-strong) 16%, var(--glass));
+		box-shadow:
+			inset 0 0 0 1.5px var(--blue),
+			0 10px 30px color-mix(in srgb, var(--blue-strong) 22%, transparent),
+			inset 0 1px 0 var(--hi);
+	}
+	.opt input:checked + .card .ico {
+		background: var(--accent-grad);
+		color: var(--on-accent);
+	}
+	.opt input:checked + .card .chk {
+		opacity: 1;
+		scale: 1;
+	}
+	.opt input:focus-visible + .card {
+		outline: 2px solid var(--cyan);
+		outline-offset: 3px;
+	}
+
+	/* Fields */
+	.fields {
+		display: grid;
+		gap: 1.15rem;
+	}
+	.field label {
+		display: block;
+		margin-bottom: 0.45rem;
+		font-size: 0.92rem;
+		font-weight: 600;
+		color: var(--ink-2);
+	}
+	.field label em {
+		font-style: normal;
+		font-weight: 400;
+		color: var(--muted);
+	}
+	.field input,
+	.field textarea {
+		display: block;
+		width: 100%;
+		padding: 0.85rem 1rem;
+		border: 0;
+		border-radius: 14px;
+		background: var(--field);
+		box-shadow: inset 0 0 0 1px var(--stroke);
+		color: var(--ink);
+		font: inherit;
+		font-size: 1rem;
+		resize: vertical;
+		transition:
+			box-shadow 0.2s,
+			background-color 0.2s;
+	}
+	.field textarea {
+		min-height: 7rem;
+		max-height: 16rem;
+	}
+	.field input::placeholder,
+	.field textarea::placeholder {
+		color: var(--faint);
+	}
+	.field input:hover,
+	.field textarea:hover {
+		box-shadow: inset 0 0 0 1px var(--stroke-hi);
+	}
+	.field input:focus,
+	.field textarea:focus {
+		outline: none;
+		background: var(--glass-hi);
+		box-shadow:
+			inset 0 0 0 1.5px var(--blue),
+			0 0 0 4px color-mix(in srgb, var(--blue-strong) 22%, transparent);
+	}
+	.field [aria-invalid='true'] {
+		box-shadow: inset 0 0 0 1.5px var(--danger);
+	}
+	.meta {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+	.count {
+		margin-left: auto;
+		padding-top: 0.35rem;
+		font-size: 0.78rem;
+		color: var(--muted);
+		font-variant-numeric: tabular-nums;
+	}
+	.field-error,
+	.step-error {
+		margin: 0.4rem 0 0;
+		min-height: 0;
+		font-size: 0.88rem;
+		font-weight: 500;
+		color: var(--danger);
+	}
+	.field-error:empty,
+	.step-error:empty {
+		display: none;
+	}
+	.step-error {
+		margin-top: 0.9rem;
+	}
+	.step-error:not(:empty),
+	.field-error:not(:empty) {
+		animation: shake 0.45s var(--ease);
+	}
+	@keyframes shake {
+		20%,
+		60% {
+			transform: translateX(-4px);
+		}
+		40%,
+		80% {
+			transform: translateX(4px);
+		}
+	}
+
+	/* Review */
+	.summary {
+		display: grid;
+		margin: 0 0 1.25rem;
+		border-radius: var(--r-sm);
+		background: var(--glass);
+		box-shadow: inset 0 0 0 1px var(--stroke);
+		overflow: hidden;
+	}
+	.summary :global(.row) {
+		display: grid;
+		grid-template-columns: 7.5rem 1fr auto;
+		align-items: baseline;
+		gap: 0.75rem;
+		padding: 0.8rem 1rem;
+	}
+	.summary :global(.row + .row) {
+		border-top: 1px solid var(--stroke);
+	}
+	.summary :global(dt) {
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: var(--muted);
+	}
+	.summary :global(dd) {
+		margin: 0;
+		min-width: 0;
+		font-weight: 500;
+		overflow-wrap: anywhere;
+	}
+	.summary :global(button) {
+		padding: 0.25rem 0.55rem;
+		border: 0;
+		border-radius: 999px;
+		background: none;
+		color: var(--blue);
+		font: inherit;
+		font-size: 0.85rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.2s;
+	}
+	.summary :global(button:hover) {
+		background: var(--glass-hi);
+		color: var(--cyan);
+	}
+	@media (max-width: 520px) {
+		.summary :global(.row) {
+			grid-template-columns: 1fr auto;
+		}
+		.summary :global(dt) {
+			grid-column: 1 / -1;
+			margin-bottom: -0.4rem;
+		}
+	}
+	.preview {
+		padding: 1rem;
+		border-radius: var(--r-sm);
+		background: color-mix(in srgb, var(--wa) 8%, var(--glass));
+		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wa) 30%, transparent);
+	}
+	.preview-label {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		margin: 0 0 0.7rem;
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--ink-2);
+	}
+	.preview-label :global(svg) {
+		color: var(--wa);
+	}
+	.msg {
+		padding: 0.9rem 1.05rem;
+		border-radius: 14px 14px 14px 4px;
+		background: var(--glass-solid);
+		box-shadow: inset 0 0 0 1px var(--stroke);
+		font-size: 0.95rem;
+		line-height: 1.55;
+		overflow-wrap: anywhere;
+	}
+	.msg :global(p) {
+		margin: 0;
+		max-width: none;
+		min-height: 1.55em;
+	}
+	.msg :global(strong) {
+		color: var(--ink);
+	}
+	.fine {
+		margin: 0.8rem 0 0;
+		font-size: 0.85rem;
+		color: var(--muted);
+	}
+
+	/* Actions */
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem;
+		margin-top: 1.6rem;
+	}
+	.actions [hidden] {
+		display: none;
+	}
+	.actions [data-next],
+	.actions [data-send] {
+		margin-left: auto;
+	}
+	@media (max-width: 560px) {
+		.actions [data-send],
+		.actions [data-next] {
+			order: -1;
+			width: 100%;
+			margin-left: 0;
+		}
+		.actions [data-back],
+		.actions [data-copy] {
+			flex: 1;
+		}
+	}
+	.noscript {
+		margin-top: 1rem;
+		font-size: 0.9rem;
+	}
+</style>
+
+<script>
+	import { deviceByValue, problemByValue } from '../data/quote';
+
+	const form = document.querySelector<HTMLFormElement>('#wizard');
+	if (form) init(form);
+
+	function init(form: HTMLFormElement) {
+		const number = form.dataset.number ?? '';
+		const brand = form.dataset.brand ?? 'FixCore Tech';
+		const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		const steps = Array.from(form.querySelectorAll<HTMLElement>('.step'));
+		const progress = form.querySelector<HTMLElement>('.progress')!;
+		const progressBtns = Array.from(progress.querySelectorAll<HTMLButtonElement>('button'));
+		const backBtn = form.querySelector<HTMLButtonElement>('[data-back]')!;
+		const nextBtn = form.querySelector<HTMLButtonElement>('[data-next]')!;
+		const nextLabel = form.querySelector<HTMLElement>('[data-next-label]')!;
+		const copyBtn = form.querySelector<HTMLButtonElement>('[data-copy]')!;
+		const copyLabel = form.querySelector<HTMLElement>('[data-copy-label]')!;
+		const sendBtn = form.querySelector<HTMLAnchorElement>('[data-send]')!;
+		const sendLabel = form.querySelector<HTMLElement>('[data-send-label]')!;
+		const summary = form.querySelector<HTMLElement>('[data-summary]')!;
+		const messageEl = form.querySelector<HTMLElement>('[data-message]')!;
+		const statusEl = form.querySelector<HTMLElement>('[data-status]')!;
+
+		const modelInput = form.querySelector<HTMLInputElement>('#f-model')!;
+		const detailsInput = form.querySelector<HTMLTextAreaElement>('#f-details')!;
+		const nameInput = form.querySelector<HTMLInputElement>('#f-name')!;
+		const modelLabel = form.querySelector<HTMLElement>('#model-label')!;
+		const modelOpt = form.querySelector<HTMLElement>('#model-opt')!;
+		const detailsLabel = form.querySelector<HTMLElement>('#details-label')!;
+		const detailsOpt = form.querySelector<HTMLElement>('#details-opt')!;
+		const countEl = form.querySelector<HTMLElement>('#count')!;
+
+		let step = 1;
+		let reached = 1;
+
+		/* ----- Data helpers ----- */
+		// Strip control characters, collapse whitespace and cap the length
+		const clean = (v: string, max: number) =>
+			v
+				.replace(/[\u0000-\u001F\u007F]+/g, ' ')
+				.replace(/\s+/g, ' ')
+				.trim()
+				.slice(0, max);
+
+		const picked = (name: string) => form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.value ?? '';
+
+		const values = () => ({
+			device: picked('device'),
+			problem: picked('problem'),
+			model: clean(modelInput.value, 60),
+			details: clean(detailsInput.value, 400),
+			name: clean(nameInput.value, 40),
+		});
+
+		/* ----- Validation ----- */
+		type Issue = { field?: HTMLElement; error: HTMLElement | null; msg: string };
+		const errEl = (id: string) => form.querySelector<HTMLElement>(`#${id}`);
+		const stepErr = (n: number) => form.querySelector<HTMLElement>(`[data-error="${n}"]`);
+
+		const validate = (n: number): Issue[] => {
+			const v = values();
+			const issues: Issue[] = [];
+			if (n === 1 && !v.device) {
+				issues.push({ error: stepErr(1), msg: 'Pick the device you need fixed to continue.' });
+			}
+			if (n === 2 && !v.problem) {
+				issues.push({ error: stepErr(2), msg: 'Choose what is going on, or pick "Not sure" and we will help.' });
+			}
+			if (n === 3) {
+				if (v.device === 'other' && v.model.length < 2) {
+					issues.push({ field: modelInput, error: errEl('e-model'), msg: 'Tell us what the device is.' });
+				}
+				if (v.problem === 'unsure' && v.details.length < 10) {
+					issues.push({ field: detailsInput, error: errEl('e-details'), msg: 'Describe what is happening in a few words so we can help.' });
+				}
+			}
+			return issues;
+		};
+
+		const clearErrors = () => {
+			form.querySelectorAll<HTMLElement>('.field-error, .step-error').forEach((e) => (e.textContent = ''));
+			form.querySelectorAll('[aria-invalid]').forEach((e) => e.removeAttribute('aria-invalid'));
+		};
+
+		const showIssues = (issues: Issue[]) => {
+			clearErrors();
+			issues.forEach((i) => {
+				if (i.error) i.error.textContent = i.msg;
+				i.field?.setAttribute('aria-invalid', 'true');
+			});
+			const first = issues[0];
+			if (first?.field) first.field.focus();
+			statusEl.textContent = first ? first.msg : '';
+		};
+
+		/* ----- Message ----- */
+		const buildMessage = () => {
+			const v = values();
+			const device = deviceByValue(v.device);
+			const problem = problemByValue(v.problem);
+			const lines = [`Hi ${brand}! I'd like a repair quote.`, ''];
+			if (v.device === 'other') lines.push(`*Device:* ${v.model}`);
+			else {
+				lines.push(`*Device:* ${device?.label ?? ''}`);
+				if (v.model) lines.push(`*Make and model:* ${v.model}`);
+			}
+			lines.push(`*Problem:* ${problem?.phrase ?? ''}`);
+			if (v.details) lines.push(`*Details:* ${v.details}`);
+			if (v.name) lines.push(`*Name:* ${v.name}`);
+			lines.push('', 'Thank you!');
+			return lines.join('\n');
+		};
+
+		const waHref = (msg: string) => `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+
+		/* ----- Rendering ----- */
+		const el = (tag: string, text?: string, cls?: string) => {
+			const e = document.createElement(tag);
+			if (text !== undefined) e.textContent = text;
+			if (cls) e.className = cls;
+			return e;
+		};
+
+		const renderReview = () => {
+			const v = values();
+			const device = deviceByValue(v.device);
+			const problem = problemByValue(v.problem);
+			const rows: [string, string, number][] = [];
+			rows.push(['Device', v.device === 'other' ? v.model : (device?.label ?? ''), v.device === 'other' ? 3 : 1]);
+			if (v.device !== 'other' && v.model) rows.push(['Make and model', v.model, 3]);
+			rows.push(['Problem', problem?.label ?? '', 2]);
+			if (v.details) rows.push(['Details', v.details, 3]);
+			if (v.name) rows.push(['Name', v.name, 3]);
+
+			summary.replaceChildren(
+				...rows.map(([label, value, goto]) => {
+					const row = el('div', undefined, 'row');
+					row.append(el('dt', label), el('dd', value));
+					const edit = el('button', 'Edit');
+					edit.type = 'button';
+					edit.setAttribute('aria-label', `Edit ${label.toLowerCase()}`);
+					edit.addEventListener('click', () => goTo(goto));
+					row.append(edit);
+					return row;
+				}),
+			);
+
+			const msg = buildMessage();
+			messageEl.replaceChildren(
+				...msg.split('\n').map((line) => {
+					const p = el('p');
+					const m = /^\*(.+?):\*\s(.*)$/.exec(line);
+					if (m) {
+						p.append(el('strong', `${m[1]}:`), document.createTextNode(` ${m[2]}`));
+					} else p.textContent = line;
+					return p;
+				}),
+			);
+			sendBtn.href = waHref(msg);
+		};
+
+		const syncStepThree = () => {
+			const v = values();
+			const other = v.device === 'other';
+			const unsure = v.problem === 'unsure';
+			modelLabel.textContent = other ? 'What is the device?' : 'Make and model';
+			modelOpt.textContent = other ? '(required)' : '(helps us quote faster)';
+			modelInput.placeholder = other ? 'e.g. smartwatch, drone, e-reader' : 'e.g. iPhone 13, Dell Inspiron 15, PS5';
+			detailsLabel.textContent = unsure ? 'What is it doing?' : 'Anything else we should know?';
+			detailsOpt.textContent = unsure ? '(required, a few words is fine)' : '(optional)';
+			countEl.textContent = String(detailsInput.value.length);
+		};
+
+		const render = (dir: 'fwd' | 'back' | 'none') => {
+			steps.forEach((s) => {
+				const active = Number(s.dataset.step) === step;
+				s.hidden = !active;
+				s.classList.remove('enter-fwd', 'enter-back');
+				if (active && dir !== 'none' && !reduce) {
+					void s.offsetWidth;
+					s.classList.add(dir === 'fwd' ? 'enter-fwd' : 'enter-back');
+				}
+			});
+			progress.style.setProperty('--wp', String((step - 1) / 3));
+			progressBtns.forEach((b, i) => {
+				const n = i + 1;
+				b.dataset.state = n === step ? 'current' : n <= reached ? 'done' : 'todo';
+				b.disabled = n > reached || n === step;
+				if (n === step) b.setAttribute('aria-current', 'step');
+				else b.removeAttribute('aria-current');
+			});
+			backBtn.hidden = step === 1;
+			nextBtn.hidden = step === 4;
+			copyBtn.hidden = step !== 4;
+			sendBtn.hidden = step !== 4;
+			nextLabel.textContent = step === 3 ? 'Review' : 'Continue';
+			if (step === 3) syncStepThree();
+			if (step === 4) renderReview();
+		};
+
+		const focusHeading = () => {
+			const h = form.querySelector<HTMLElement>(`.step[data-step="${step}"] h3`);
+			h?.focus({ preventScroll: true });
+			// On small screens keep the top of the form in view as steps change
+			const r = form.getBoundingClientRect();
+			if (r.top < 0 || r.top > window.innerHeight * 0.5) {
+				form.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+			}
+		};
+
+		function goTo(n: number, opts: { focus?: boolean } = {}) {
+			const target = Math.max(1, Math.min(4, n));
+			const dir = target > step ? 'fwd' : target < step ? 'back' : 'none';
+			clearErrors();
+			step = target;
+			reached = Math.max(reached, step);
+			render(dir);
+			statusEl.textContent = `Step ${step} of 4`;
+			if (opts.focus !== false) focusHeading();
+		}
+
+		const next = () => {
+			const issues = validate(step);
+			if (issues.length) return showIssues(issues);
+			goTo(step + 1);
+		};
+
+		/* ----- Events ----- */
+		form.addEventListener('submit', (e) => {
+			e.preventDefault();
+			if (step < 4) next();
+		});
+		backBtn.addEventListener('click', () => goTo(step - 1));
+		progressBtns.forEach((b) =>
+			b.addEventListener('click', () => {
+				const n = Number(b.dataset.goto);
+				if (n <= reached && n !== step) goTo(n);
+			}),
+		);
+
+		// A pointer click on an option moves on by itself. Keyboard arrow keys do not,
+		// so changing a selection with the keyboard never throws you forward.
+		form.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((r) => {
+			r.addEventListener('click', (e) => {
+				if (e.detail === 0) return;
+				const from = step;
+				window.setTimeout(() => {
+					if (step === from && from < 3 && !validate(from).length) goTo(from + 1);
+				}, reduce ? 0 : 320);
+			});
+			r.addEventListener('change', () => {
+				clearErrors();
+				// Picking something new invalidates how far ahead the user had reached
+				if (r.name === 'device' || r.name === 'problem') reached = Math.min(reached, step);
+			});
+		});
+
+		detailsInput.addEventListener('input', () => {
+			countEl.textContent = String(detailsInput.value.length);
+		});
+		[modelInput, detailsInput, nameInput].forEach((i) =>
+			i.addEventListener('input', () => {
+				i.removeAttribute('aria-invalid');
+				const err = i.id === 'f-model' ? errEl('e-model') : i.id === 'f-details' ? errEl('e-details') : errEl('e-name');
+				if (err) err.textContent = '';
+			}),
+		);
+
+		sendBtn.addEventListener('click', (e) => {
+			// Re-check everything so a stale link can never go out
+			for (const n of [1, 2, 3]) {
+				const issues = validate(n);
+				if (issues.length) {
+					e.preventDefault();
+					goTo(n, { focus: false });
+					showIssues(issues);
+					return;
+				}
+			}
+			sendBtn.href = waHref(buildMessage());
+			sendLabel.textContent = 'Opening WhatsApp...';
+			statusEl.textContent = 'Opening WhatsApp';
+			window.setTimeout(() => (sendLabel.textContent = 'Send on WhatsApp'), 3500);
+		});
+
+		const copyText = async (text: string) => {
+			try {
+				await navigator.clipboard.writeText(text);
+				return true;
+			} catch {
+				const ta = document.createElement('textarea');
+				ta.value = text;
+				ta.setAttribute('readonly', '');
+				ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+				document.body.append(ta);
+				ta.select();
+				let ok = false;
+				try {
+					ok = document.execCommand('copy');
+				} catch {}
+				ta.remove();
+				return ok;
+			}
+		};
+		copyBtn.addEventListener('click', async () => {
+			const ok = await copyText(buildMessage());
+			copyLabel.textContent = ok ? 'Copied' : 'Could not copy';
+			statusEl.textContent = ok ? 'Message copied' : 'Could not copy the message';
+			window.setTimeout(() => (copyLabel.textContent = 'Copy message'), 2200);
+		});
+
+		/* ----- Prefill from ?device= and ?problem= (service pages link here) ----- */
+		const params = new URLSearchParams(location.search);
+		const pd = params.get('device');
+		const pp = params.get('problem');
+		const pick = (name: string, value: string | null) => {
+			const input = value ? form.querySelector<HTMLInputElement>(`input[name="${name}"][value="${CSS.escape(value)}"]`) : null;
+			if (input) input.checked = true;
+			return !!input;
+		};
+		const hasDevice = pick('device', pd);
+		const hasProblem = pick('problem', pp);
+		if (hasDevice && hasProblem) {
+			reached = step = 3;
+		} else if (hasDevice) {
+			reached = step = 2;
+		}
+		render('none');
+	}
+</script>

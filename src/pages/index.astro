@@ -1,616 +1,778 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import Base from '../layouts/Base.astro';
+import DeviceScene from '../components/DeviceScene.astro';
+import QuoteWizard from '../components/QuoteWizard.astro';
+import Faq from '../components/Faq.astro';
+import Gallery from '../components/Gallery.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ContactSection from '../components/ContactSection.astro';
+import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
-import Circuit from '../components/Circuit.astro';
+import BrandIcon from '../components/BrandIcon.astro';
 import {
 	SITE_TITLE,
 	SITE_TAGLINE,
 	SITE_DESCRIPTION,
-	WHATSAPP_NUMBER,
-	WHATSAPP_DISPLAY,
+	SITE_URL,
 	WHATSAPP_URL,
+	WHATSAPP_DISPLAY,
 	INSTAGRAM_URL,
-	INSTAGRAM_HANDLE,
 	FACEBOOK_URL,
+	TIKTOK_URL,
+	socials,
 } from '../consts';
+import { services, quoteHref } from '../data/services';
+import { business } from '../data/site';
 
-// Device `value` is the noun used in the WhatsApp message; `label` is the button text.
-const devices = [
-	{ label: 'Phone', value: 'phone', icon: 'phone' },
-	{ label: 'Laptop', value: 'laptop', icon: 'laptop' },
-	{ label: 'Tablet', value: 'tablet', icon: 'tablet' },
-	{ label: 'Game console', value: 'game console', icon: 'console' },
-	{ label: 'Something else', value: 'device', icon: 'other' },
+const trust = [
+	{ icon: 'pin', text: `Local to ${business.serviceArea}` },
+	{ icon: 'chat', text: 'Quotes on WhatsApp' },
+	{ icon: 'quote', text: 'A quote before any work' },
+	{ icon: 'wrench', text: 'Phones, laptops, tablets and consoles' },
 ] as const;
 
-// Problem `value` finishes the sentence "my phone ...".
-const problems = [
-	{ label: 'Cracked screen', value: 'has a cracked screen', note: 'Cracked glass, black screen, lines or dead spots.' },
-	{ label: 'Battery', value: 'has a battery problem', note: 'Drains fast, swollen, or shuts off by itself.' },
-	{ label: "Won't charge", value: "won't charge", note: 'Not charging, or a loose or damaged charging port.' },
-	{ label: 'Water damage', value: 'got wet', note: 'Dropped in water or spilled on. Switch it off and message us.' },
-	{ label: "Won't turn on", value: "won't turn on", note: 'No power, stuck on the logo, or restarting.' },
-	{ label: 'Slow or freezing', value: 'is slow or keeps freezing', note: 'Lag, crashes, full storage or software problems.' },
-];
-
 const steps = [
-	{ title: "Tell us what's wrong", text: 'Use the picker at the top or write to us directly. Add the make and model, and a photo if you can.' },
-	{ title: 'Get a quote', text: 'We reply on WhatsApp or Instagram with what it needs and what it costs.' },
-	{ title: 'Get it fixed', text: 'Say yes to the quote and we get to work.' },
-];
+	{ icon: 'chat', title: "Tell us what's wrong", text: 'Use the quote form or message us directly. Add the make and model, and a photo if you can.' },
+	{ icon: 'quote', title: 'Get a quote', text: 'We reply on WhatsApp or Instagram with what it needs and what it costs.' },
+	{ icon: 'wrench', title: 'Get it fixed', text: 'Say yes to the quote and we get to work. If we cannot fix it, we will tell you.' },
+] as const;
+
+const why = [
+	{ icon: 'pin', title: 'Local and easy to reach', text: `A ${business.serviceArea} business you can message directly on WhatsApp, Instagram, TikTok or Facebook.` },
+	{ icon: 'quote', title: 'A quote before any work', text: 'You hear what it needs and what it costs first. Work starts when you say yes.' },
+	{ icon: 'shield', title: 'Straight answers', text: 'If it is not worth repairing, or we cannot fix it, we will tell you plainly.' },
+	{ icon: 'wrench', title: 'Repair, do not replace', text: 'Fixing the device you already own is often the better choice. Ask us and we will tell you.' },
+] as const;
 
 const faqs = [
-	{
-		q: 'How do I get a quote?',
-		a: 'Pick what is wrong in the picker at the top and send the message on WhatsApp. You can also message us on Instagram. Tell us the make and model and we reply with a quote.',
-	},
-	{
-		q: 'Can you fix my model?',
-		a: 'Send us the make and model and what is wrong with it. If we cannot fix it, we will tell you.',
-	},
-	{
-		q: 'What should I send with my message?',
-		a: 'The make and model, what happened, and a photo of the damage if you can take one.',
-	},
-	{
-		q: 'What is the fastest way to reach you?',
-		a: `WhatsApp on ${WHATSAPP_DISPLAY}. You can also message ${INSTAGRAM_HANDLE} on Instagram or write on Facebook.`,
-	},
+	{ q: 'How do I get a quote?', a: 'Use the quote form on this page. Pick your device and the problem, add a few details and send the ready-made message on WhatsApp. You can also message us directly on WhatsApp or Instagram. We reply with what it needs and the price.' },
+	{ q: 'Which devices do you repair?', a: 'Phones, laptops, tablets and game consoles. If your device is something else, message us and ask.' },
+	{ q: 'Can you fix my model?', a: 'Send us the make and model and what is wrong with it. If we cannot fix it, we will tell you.' },
+	{ q: 'What should I send with my message?', a: 'The make and model, what happened and when it started. A photo of any damage helps a lot.' },
+	{ q: 'My device got wet. What should I do?', a: 'Switch it off straight away, do not try to charge it and message us. Acting quickly gives it the best chance.' },
+	{ q: 'What is the fastest way to reach you?', a: `WhatsApp on ${WHATSAPP_DISPLAY}. You can also message us on Instagram, TikTok or Facebook.` },
+	...(business.warranty ? [{ q: 'Do you offer a warranty?', a: business.warranty }] : []),
 ];
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'LocalBusiness',
+	name: SITE_TITLE,
+	description: SITE_DESCRIPTION,
+	url: SITE_URL,
+	image: `${SITE_URL}/og.png`,
+	telephone: '+18687200146',
+	areaServed: { '@type': 'Country', name: 'Trinidad and Tobago' },
+	sameAs: [INSTAGRAM_URL, FACEBOOK_URL, TIKTOK_URL],
+	hasOfferCatalog: {
+		'@type': 'OfferCatalog',
+		name: 'Repair services',
+		itemListElement: services.map((s) => ({
+			'@type': 'Offer',
+			itemOffered: { '@type': 'Service', name: s.name, url: `${SITE_URL}/services/${s.slug}` },
+		})),
+	},
+};
+
+// Bento layout: widths for the first five service cards
+const spans = ['s7', 's5', 's4', 's4', 's4'];
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={`${SITE_TITLE} | ${SITE_TAGLINE}`} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section class="hero">
-				<Circuit />
-				<div class="wrap hero-grid">
-					<div class="hero-copy">
-						<h1>Phone buss? Laptop slow? We'll sort it out.</h1>
-						<p class="lead">
-							FixCore Tech repairs phones, laptops, tablets and game consoles right here in Trinidad
-							&amp; Tobago. Tell us what's wrong on WhatsApp and we'll send you a quote.
-						</p>
-						<div class="actions">
-							<a class="btn btn-wa" href={WHATSAPP_URL} target="_blank" rel="noopener">
-								Message us on WhatsApp
-							</a>
-							<a class="btn btn-line" href={INSTAGRAM_URL} target="_blank" rel="noopener">
-								Instagram
-							</a>
-						</div>
-					</div>
-
-					<form id="ticket" class="picker" data-number={WHATSAPP_NUMBER}>
-						<h2 class="picker-title">Start your repair</h2>
-						<fieldset>
-							<legend>What is it?</legend>
-							<div class="chips">
-								{devices.map((d) => (
-									<label class="chip">
-										<input type="radio" name="device" value={d.value} />
-										<span>{d.label}</span>
-									</label>
-								))}
-							</div>
-						</fieldset>
-						<fieldset>
-							<legend>What happened?</legend>
-							<div class="chips">
-								{problems.map((p) => (
-									<label class="chip">
-										<input type="radio" name="problem" value={p.value} />
-										<span>{p.label}</span>
-									</label>
-								))}
-							</div>
-						</fieldset>
-						<label class="details">
-							<span>Anything else? (optional)</span>
-							<input type="text" name="details" placeholder="Phone model, when it happened" autocomplete="off" />
-						</label>
-						<div class="preview">
-							<span class="preview-label">Your message</span>
-							<p id="message" aria-live="polite">{`Hi ${SITE_TITLE}, I need help with a repair.`}</p>
-						</div>
-						<a id="send" class="btn btn-wa send" href={WHATSAPP_URL} target="_blank" rel="noopener">
-							Send on WhatsApp
-						</a>
-					</form>
+<Base title={`${SITE_TITLE} | ${SITE_TAGLINE}`} description={SITE_DESCRIPTION} schema={schema}>
+	<!-- ============ Hero ============ -->
+	<section class="hero" id="top">
+		<div class="wrap hero-grid">
+			<div class="copy">
+				<span class="eyebrow reveal">Local tech repair · {business.serviceArea}</span>
+				<h1 class="reveal-lines">
+					<span class="line" style="--i:0"><span>Phone buss?</span></span>
+					<span class="line" style="--i:1"><span>Laptop slow?</span></span>
+					<span class="line" style="--i:2"><span class="grad">We'll sort it out.</span></span>
+				</h1>
+				<p class="lead reveal" style="--d:3">
+					{SITE_TITLE} repairs phones, laptops, tablets and game consoles right here at home. Tell us what is wrong
+					and we will send you a quote on WhatsApp.
+				</p>
+				<div class="cta-row reveal" style="--d:4">
+					<a class="btn btn-primary btn-lg" href="#quote">
+						Get a repair quote <Icon class="arrow" name="arrow" size={18} stroke={2.2} />
+					</a>
+					<a class="btn btn-glass btn-lg" href={WHATSAPP_URL} target="_blank" rel="noopener">
+						<BrandIcon name="whatsapp" size={19} /> WhatsApp us
+					</a>
 				</div>
-			</section>
-
-			<section class="repairs" id="repairs">
-				<div class="wrap">
-					<h2>What we repair</h2>
-					<p class="section-note">Not on the list? Drop us a message and ask. We'll tell you if we can help.</p>
-					<div class="repair-cols">
-						<div>
-							<h3 class="col-title">Devices</h3>
-							<ul class="rows devices">
-								{devices.map((d) => (
-									<li>
-										<span class="ico"><Icon name={d.icon} /></span>
-										<span class="row-title">{d.label === 'Something else' ? 'Other devices' : `${d.label}s`}</span>
-									</li>
-								))}
-							</ul>
-						</div>
-						<div>
-							<h3 class="col-title">Common problems</h3>
-							<ul class="rows problems">
-								{problems.map((p) => (
-									<li>
-										<span class="row-title">{p.label}</span>
-										<span class="row-note">{p.note}</span>
-									</li>
-								))}
-							</ul>
-						</div>
-					</div>
+				<div class="follow reveal" style="--d:5">
+					<span>Find us on</span>
+					<ul>
+						{
+							socials.slice(1).map((s) => (
+								<li>
+									<a href={s.href} target="_blank" rel="noopener" aria-label={`${s.label} ${s.handle}`}>
+										<BrandIcon name={s.name} size={18} />
+									</a>
+								</li>
+							))
+						}
+					</ul>
 				</div>
-			</section>
+			</div>
 
-			<section class="how">
-				<div class="wrap">
-					<h2>How it works</h2>
-					<ol class="steps">
-						{steps.map((s) => (
-							<li>
+			<div class="visual reveal" style="--d:2">
+				<DeviceScene />
+			</div>
+		</div>
+
+		<div class="wrap">
+			<ul class="trust glass reveal" style="--d:6">
+				{
+					trust.map((t) => (
+						<li>
+							<Icon name={t.icon} size={20} />
+							<span>{t.text}</span>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<!-- ============ Services ============ -->
+	<section class="section" id="services">
+		<div class="wrap">
+			<div class="section-head head-split">
+				<div class="reveal">
+					<span class="eyebrow">Repairs</span>
+					<h2>Whatever is broken, <span class="grad">start here</span>.</h2>
+				</div>
+				<p class="lead reveal" style="--d:1">
+					Pick the device to see what we fix. Not on the list? Message us and ask. We will tell you if we can help.
+				</p>
+			</div>
+
+			<ul class="bento">
+				{
+					services.map((s, i) => (
+						<li class={`reveal ${spans[i] ?? ''}`} style={`--d:${i % 3}`}>
+							<a class="svc glass glow" data-tilt="4" href={`/services/${s.slug}`}>
+								<span class="svc-ico"><Icon name={s.icon} size={28} /></span>
+								<h3>{s.cardTitle}</h3>
+								<p>{s.cardText}</p>
+								<ul class="chips" aria-label="Common fixes">
+									{s.problems.slice(0, 3).map((p) => (
+										<li>{p.title}</li>
+									))}
+								</ul>
+								<span class="more">
+									Explore <Icon class="arrow" name="arrow" size={16} stroke={2.2} />
+								</span>
+							</a>
+						</li>
+					))
+				}
+				<li class="reveal s12" style="--d:1">
+					<a class="svc svc-wide glass glow" data-tilt="2" href="/?device=other#quote">
+						<span class="svc-ico"><Icon name="other" size={28} /></span>
+						<div class="wide-copy">
+							<h3>Something else?</h3>
+							<p>Smartwatches, e-readers and other gadgets. Tell us what it is and we will let you know if we can help.</p>
+						</div>
+						<span class="more">
+							Ask us <Icon class="arrow" name="arrow" size={16} stroke={2.2} />
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	<!-- ============ Quote ============ -->
+	<section class="section" id="quote" data-hide-fab>
+		<div class="wrap quote-grid">
+			<div class="quote-intro">
+				<div class="reveal">
+					<span class="eyebrow">Repair quote</span>
+					<h2>Your message, <span class="grad">written for you</span>.</h2>
+					<p class="lead">Pick the device, tell us the problem, review it and send it on WhatsApp. No account needed.</p>
+				</div>
+				<ul class="how-mini reveal" style="--d:1">
+					<li><span class="n">1</span><span>Choose your device and what is going on</span></li>
+					<li><span class="n">2</span><span>Add the model and any details</span></li>
+					<li><span class="n">3</span><span>Review and send it on WhatsApp</span></li>
+				</ul>
+				<p class="alt reveal" style="--d:2">
+					Prefer to type it yourself?
+					<a href={WHATSAPP_URL} target="_blank" rel="noopener">Message us on WhatsApp</a>.
+				</p>
+			</div>
+			<div class="reveal" style="--d:1">
+				<QuoteWizard />
+			</div>
+		</div>
+	</section>
+
+	<!-- ============ How it works ============ -->
+	<section class="section" id="process">
+		<div class="wrap">
+			<div class="section-head reveal">
+				<span class="eyebrow">How it works</span>
+				<h2>Three steps, <span class="grad">no guesswork</span>.</h2>
+			</div>
+			<ol class="timeline" data-progress style="--p:0">
+				{
+					steps.map((s, i) => (
+						<li data-step>
+							<span class="node">
+								<Icon name={s.icon} size={22} />
+								<b>{i + 1}</b>
+							</span>
+							<div class="step-card glass reveal" style={`--d:${i}`}>
 								<h3>{s.title}</h3>
 								<p>{s.text}</p>
-							</li>
-						))}
-					</ol>
-				</div>
-			</section>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
 
-			<section class="faq" id="faq">
-				<div class="wrap faq-grid">
-					<h2>Questions</h2>
-					<div class="qa">
-						{faqs.map((f) => (
-							<details>
-								<summary>{f.q}</summary>
-								<p>{f.a}</p>
-							</details>
-						))}
-					</div>
-				</div>
-			</section>
+	<!-- ============ Why FixCore ============ -->
+	<section class="section" id="why">
+		<div class="wrap why-grid">
+			<div class="why-copy reveal">
+				<span class="eyebrow">Why {SITE_TITLE}</span>
+				<h2>Repairs that feel <span class="grad">straightforward</span>.</h2>
+				<p class="lead">No jargon and no runaround. Just a local team that tells you what is going on.</p>
+			</div>
+			<ul class="why-list">
+				{
+					why.map((w, i) => (
+						<li class="reveal" style={`--d:${i}`}>
+							<article class="glass glow" data-tilt="3">
+								<span class="svc-ico"><Icon name={w.icon} size={24} /></span>
+								<h3>{w.title}</h3>
+								<p>{w.text}</p>
+							</article>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
 
-			<section class="contact">
-				<Circuit />
-				<div class="wrap contact-in">
-					<h2>Drop us a message</h2>
-					<a class="number" href={WHATSAPP_URL} target="_blank" rel="noopener">
-						<span class="sr-only">WhatsApp </span>{WHATSAPP_DISPLAY}
-					</a>
-					<div class="actions">
-						<a class="btn btn-wa" href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>
-						<a class="btn btn-line" href={INSTAGRAM_URL} target="_blank" rel="noopener">
-							Instagram {INSTAGRAM_HANDLE}
-						</a>
-						<a class="btn btn-line" href={FACEBOOK_URL} target="_blank" rel="noopener">Facebook</a>
-					</div>
-				</div>
-			</section>
-		</main>
-		<Footer />
+	<Gallery />
+	<Testimonials />
 
-		<script>
-			const form = document.querySelector<HTMLFormElement>('#ticket');
-			const out = document.querySelector<HTMLElement>('#message');
-			const send = document.querySelector<HTMLAnchorElement>('#send');
+	<ContactSection />
 
-			if (form && out && send) {
-				const number = form.dataset.number ?? '';
+	<!-- ============ FAQ ============ -->
+	<section class="section" id="faq">
+		<div class="wrap faq-grid">
+			<div class="faq-copy reveal">
+				<span class="eyebrow">FAQ</span>
+				<h2>Good <span class="grad">questions</span>.</h2>
+				<p class="lead">Cannot find your answer? Message us and we will get back to you.</p>
+				<a class="btn btn-glass" href={WHATSAPP_URL} target="_blank" rel="noopener">
+					<BrandIcon name="whatsapp" size={18} /> Ask on WhatsApp
+				</a>
+			</div>
+			<Faq items={faqs} />
+		</div>
+	</section>
 
-				const build = () => {
-					const data = new FormData(form);
-					const device = String(data.get('device') ?? '');
-					const problem = String(data.get('problem') ?? '');
-					const details = String(data.get('details') ?? '').trim();
-
-					let body = 'I need help with a repair.';
-					if (device && problem) body = `my ${device} ${problem}.`;
-					else if (device) body = `I need help with my ${device}.`;
-					else if (problem) body = `my device ${problem}.`;
-
-					let message = `Hi FixCore Tech, ${body}`;
-					if (details) message += ` ${/[.!?]$/.test(details) ? details : details + '.'}`;
-					if (device || problem) message += ' Can you give me a quote?';
-
-					out.textContent = message;
-					send.href = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
-				};
-
-				form.addEventListener('input', build);
-				form.addEventListener('submit', (e) => e.preventDefault());
-			}
-		</script>
-	</body>
-</html>
+	<CtaBand />
+</Base>
 
 <style>
-	/* Hero: logo navy with circuit traces, like the lines on the shield */
+	/* ---------- Hero ---------- */
 	.hero {
 		position: relative;
-		overflow: hidden;
-		background: radial-gradient(120% 90% at 85% 0%, var(--navy-2) 0%, var(--navy) 60%);
-		--circuit-node: var(--navy);
-		color: #fff;
-		padding-block: clamp(2.5rem, 6vw, 5rem);
-	}
-	/* Keep the traces quiet behind the text column and brighter on the right */
-	.hero :global(.circuit) {
-		mask-image: linear-gradient(90deg, rgb(0 0 0 / 0.18) 0%, rgb(0 0 0 / 0.18) 45%, #000 80%);
+		padding: clamp(7.5rem, 14vw, 10rem) 0 clamp(2rem, 5vw, 3.5rem);
 	}
 	.hero-grid {
-		position: relative;
 		display: grid;
-		gap: 2.5rem;
+		gap: 3rem;
 		align-items: center;
 	}
-	@media (min-width: 960px) {
+	@media (min-width: 980px) {
 		.hero-grid {
-			grid-template-columns: 1.1fr 1fr;
-			gap: 4rem;
+			grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+			gap: 2rem;
 		}
 	}
 	h1 {
-		font-size: clamp(2.5rem, 6.2vw, 4.75rem);
-		line-height: 1;
-		letter-spacing: -0.045em;
-		margin-bottom: 0.4em;
+		margin-bottom: 1.4rem;
+		font-size: clamp(2.7rem, 7.2vw, 5.6rem);
 	}
-	.lead {
-		font-size: 1.25rem;
-		line-height: 1.5;
-		margin-bottom: 1.75rem;
-		color: #cfe0f7;
+	@media (min-width: 980px) {
+		/* Each phrase stays on its own line beside the device scene */
+		h1 {
+			font-size: clamp(2.6rem, 4.75vw, 4.5rem);
+		}
+		h1 .line > span {
+			white-space: nowrap;
+		}
 	}
-	.actions {
+	.hero .lead {
+		max-width: 31em;
+		margin-bottom: 2rem;
+	}
+	.cta-row {
 		display: flex;
 		flex-wrap: wrap;
+		gap: 0.8rem;
+	}
+	.follow {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-top: 2rem;
+		font-size: 0.9rem;
+		color: var(--muted);
+	}
+	.follow ul {
+		display: flex;
+		gap: 0.5rem;
+	}
+	.follow a {
+		display: grid;
+		place-items: center;
+		width: 2.6rem;
+		height: 2.6rem;
+		border-radius: 50%;
+		background: var(--glass);
+		box-shadow: inset 0 0 0 1px var(--stroke);
+		color: var(--ink);
+		transition:
+			transform 0.35s var(--ease),
+			background-color 0.2s,
+			color 0.2s;
+	}
+	.follow a:hover {
+		transform: translateY(-3px);
+		background: var(--glass-hi);
+		color: var(--cyan);
+	}
+	.visual {
+		position: relative;
+	}
+	@media (min-width: 980px) {
+		.visual {
+			margin-right: -1.5rem;
+		}
+	}
+	.trust {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+		gap: 0.5rem 1.5rem;
+		margin-top: clamp(2.5rem, 6vw, 4rem);
+		padding: 1.1rem 1.6rem;
+		--r: 20px;
+	}
+	.trust li {
+		display: flex;
+		align-items: center;
 		gap: 0.75rem;
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: var(--ink-2);
+	}
+	.trust :global(svg) {
+		flex: none;
+		color: var(--cyan);
 	}
 
-	/* Picker card */
-	.picker {
-		background: var(--paper);
+	/* ---------- Services bento ---------- */
+	.head-split {
+		display: grid;
+		gap: 1rem 3rem;
+		align-items: end;
+	}
+	@media (min-width: 900px) {
+		.head-split {
+			grid-template-columns: 1.2fr 1fr;
+		}
+		.head-split .lead {
+			margin: 0 0 0.35rem;
+		}
+	}
+	.bento {
+		display: grid;
+		gap: 1.1rem;
+		grid-template-columns: 1fr;
+	}
+	@media (min-width: 680px) {
+		.bento {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		.bento .s12 {
+			grid-column: 1 / -1;
+		}
+	}
+	@media (min-width: 1000px) {
+		.bento {
+			grid-template-columns: repeat(12, 1fr);
+		}
+		.bento .s7 {
+			grid-column: span 7;
+		}
+		.bento .s5 {
+			grid-column: span 5;
+		}
+		.bento .s4 {
+			grid-column: span 4;
+		}
+		.bento .s12 {
+			grid-column: span 12;
+		}
+	}
+	.bento > li {
+		display: flex;
+	}
+	.svc {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		width: 100%;
+		padding: clamp(1.4rem, 2.5vw, 1.9rem);
 		color: var(--ink);
-		border-radius: 18px;
-		padding: clamp(1.25rem, 3vw, 2rem);
-		box-shadow: 0 24px 60px rgb(0 8 30 / 0.5);
+		text-decoration: none;
+		transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+		transition:
+			transform 0.6s var(--ease),
+			background-color 0.3s;
 	}
-	.picker-title {
-		font-size: 1.6rem;
-		margin-bottom: 1.25rem;
+	.svc.tilting {
+		transition:
+			transform 0.1s linear,
+			background-color 0.3s;
 	}
-	fieldset {
-		border: 0;
-		margin: 0 0 1.25rem;
-		padding: 0;
-		min-width: 0;
+	.svc:hover {
+		color: var(--ink);
+		background: var(--glass-hi);
 	}
-	legend {
-		padding: 0;
-		margin-bottom: 0.6rem;
-		font-weight: 600;
-		font-size: 0.95rem;
+	.svc-ico {
+		display: grid;
+		place-items: center;
+		width: 3.4rem;
+		height: 3.4rem;
+		margin-bottom: 1.1rem;
+		border-radius: 16px;
+		background: color-mix(in srgb, var(--blue-strong) 16%, transparent);
+		box-shadow:
+			inset 0 0 0 1px color-mix(in srgb, var(--blue) 30%, transparent),
+			0 8px 24px color-mix(in srgb, var(--blue-strong) 18%, transparent);
+		color: var(--blue);
+		transition:
+			background 0.35s,
+			color 0.35s,
+			transform 0.5s var(--ease);
+	}
+	.svc:hover .svc-ico,
+	.why-list article:hover .svc-ico {
+		background: var(--accent-grad);
+		color: var(--on-accent);
+		transform: translateY(-3px) rotate(-5deg);
+	}
+	.svc h3 {
+		font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+		margin-bottom: 0.5rem;
+	}
+	.svc p {
+		margin: 0 0 1.1rem;
 		color: var(--muted);
+		max-width: 30em;
 	}
 	.chips {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
+		gap: 0.4rem;
+		margin-bottom: 1.4rem;
 	}
-	.chip {
-		position: relative;
+	.chips li {
+		padding: 0.3rem 0.75rem;
+		border-radius: 999px;
+		background: var(--glass);
+		box-shadow: inset 0 0 0 1px var(--stroke);
+		font-size: 0.8rem;
+		color: var(--ink-2);
 	}
-	.chip input {
-		position: absolute;
-		inset: 0;
-		opacity: 0;
-		margin: 0;
-		cursor: pointer;
-	}
-	.chip span {
+	.more {
 		display: inline-flex;
 		align-items: center;
-		min-height: 2.75rem;
-		padding-inline: 1rem;
-		border: 1.5px solid var(--line);
-		border-radius: 999px;
-		background: var(--paper);
+		gap: 0.5rem;
+		margin-top: auto;
+		font-family: var(--display);
 		font-weight: 600;
 		font-size: 0.95rem;
-		line-height: 1;
-		transition: border-color 0.15s, background-color 0.15s, color 0.15s;
-	}
-	.chip input:hover + span {
-		border-color: var(--blue);
 		color: var(--blue);
 	}
-	.chip input:checked + span {
-		background: var(--blue);
-		border-color: var(--blue);
-		color: #fff;
+	.more :global(svg) {
+		transition: transform 0.4s var(--ease);
 	}
-	.chip input:focus-visible + span {
-		outline: 3px solid var(--blue);
-		outline-offset: 2px;
+	.svc:hover .more {
+		color: var(--cyan);
 	}
-	.details {
-		display: block;
-		margin-bottom: 1.25rem;
+	.svc:hover .more :global(svg) {
+		transform: translateX(6px);
 	}
-	.details span {
-		display: block;
-		margin-bottom: 0.4rem;
-		font-weight: 600;
-		font-size: 0.95rem;
-		color: var(--muted);
+	.svc-wide {
+		flex-direction: row;
+		align-items: center;
+		gap: 1.4rem;
 	}
-	.details input {
-		width: 100%;
-		min-height: 3rem;
-		padding: 0 0.9rem;
-		border: 1.5px solid var(--line);
-		border-radius: 10px;
-		background: var(--paper);
-		font: inherit;
-		color: var(--ink);
-		transition: border-color 0.15s;
-	}
-	.details input::placeholder {
-		color: #6b7691;
-	}
-	.details input:hover {
-		border-color: #9aa7c7;
-	}
-	.details input:focus {
-		outline: none;
-		border-color: var(--blue);
-		box-shadow: 0 0 0 3px rgb(31 79 255 / 0.2);
-	}
-	.preview {
-		margin-bottom: 1.25rem;
-		padding: 1rem 1.1rem;
-		border-radius: 12px;
-		background: var(--mist);
-	}
-	.preview-label {
-		display: block;
-		margin-bottom: 0.25rem;
-		font-size: 0.85rem;
-		font-weight: 600;
-		color: var(--muted);
-	}
-	.preview p {
+	.svc-wide .svc-ico {
 		margin: 0;
-		min-height: 3.2em;
+		flex: none;
 	}
-	.send {
-		width: 100%;
-		min-height: 3.5rem;
-		font-size: 1.1rem;
+	.svc-wide p {
+		margin: 0;
 	}
-
-	/* Sections */
-	section:not(.hero) {
-		padding-block: clamp(3.5rem, 8vw, 6rem);
+	.svc-wide h3 {
+		margin-bottom: 0.2rem;
 	}
-	.section-note {
-		margin: 0.75rem 0 2.5rem;
-		font-size: 1.15rem;
-		color: var(--muted);
+	.svc-wide .more {
+		margin: 0 0 0 auto;
 	}
-
-	/* Repairs */
-	.repair-cols {
-		display: grid;
-		gap: 2.5rem 4rem;
-	}
-	@media (min-width: 900px) {
-		.repair-cols {
-			grid-template-columns: 1fr 1.25fr;
+	@media (max-width: 679px) {
+		.svc-wide {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+		.svc-wide .svc-ico {
+			margin-bottom: 0.4rem;
+		}
+		.svc-wide .more {
+			margin: 1rem 0 0;
 		}
 	}
-	.col-title {
-		margin-bottom: 0.75rem;
-		font-size: 1rem;
-		color: var(--blue);
-		letter-spacing: 0;
-	}
-	.rows {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		border-top: 2px solid var(--ink);
-	}
-	.rows li {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		padding-block: 1.1rem;
-		border-bottom: 1px solid var(--line);
-	}
-	.ico {
+
+	/* ---------- Quote ---------- */
+	.quote-grid {
 		display: grid;
-		place-items: center;
-		flex: none;
-		width: 3rem;
-		height: 3rem;
-		border-radius: 12px;
-		background: var(--mist);
-		color: var(--blue);
-	}
-	.row-title {
-		font-family: var(--display);
-		font-weight: 700;
-		font-size: 1.35rem;
-		letter-spacing: -0.03em;
-	}
-	.problems li {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 0.15rem;
+		gap: 2.5rem;
 		align-items: start;
 	}
-	@media (min-width: 640px) {
-		.problems li {
-			grid-template-columns: 11rem 1fr;
-			gap: 1.5rem;
+	@media (min-width: 1000px) {
+		.quote-grid {
+			grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
+			gap: 4rem;
+		}
+		.quote-intro {
+			position: sticky;
+			top: 7rem;
 		}
 	}
-	.row-note {
-		color: var(--muted);
+	.quote-intro h2,
+	.why-copy h2,
+	.faq-copy h2 {
+		font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+		overflow-wrap: normal;
+		hyphens: none;
 	}
-
-	/* How it works */
-	.how {
-		background: var(--mist);
-	}
-	.how h2 {
-		margin-bottom: 2.5rem;
-	}
-	.steps {
-		counter-reset: step;
-		list-style: none;
-		margin: 0;
-		padding: 0;
+	.how-mini {
 		display: grid;
-		gap: 2rem;
+		gap: 0.9rem;
+		margin: 2rem 0 1.5rem;
 	}
-	@media (min-width: 800px) {
-		.steps {
-			grid-template-columns: repeat(3, 1fr);
-			gap: 2.5rem;
-		}
-	}
-	.steps li {
-		counter-increment: step;
-	}
-	/* Shield-shaped badge, borrowed from the logo */
-	.steps li::before {
-		content: counter(step);
-		display: grid;
-		place-items: center;
-		width: 3.5rem;
-		height: 4rem;
-		margin-bottom: 1rem;
-		padding-bottom: 0.35rem;
-		clip-path: polygon(50% 0, 100% 12%, 100% 58%, 50% 100%, 0 58%, 0 12%);
-		background: var(--blue);
-		font-family: var(--display);
-		font-weight: 800;
-		font-size: 1.6rem;
-		line-height: 1;
-		color: #fff;
-	}
-	.steps h3 {
-		margin-bottom: 0.5rem;
-		font-size: 1.4rem;
-	}
-	.steps p {
-		margin: 0;
-		color: var(--muted);
-	}
-
-	/* FAQ */
-	.faq-grid {
-		display: grid;
-		gap: 2rem 4rem;
-	}
-	@media (min-width: 900px) {
-		.faq-grid {
-			grid-template-columns: 1fr 1.6fr;
-			align-items: start;
-		}
-	}
-	.qa {
-		border-top: 2px solid var(--ink);
-	}
-	details {
-		border-bottom: 1px solid var(--line);
-	}
-	summary {
+	.how-mini li {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		padding-block: 1.2rem;
+		gap: 0.9rem;
+		color: var(--ink-2);
+	}
+	.how-mini .n {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 50%;
+		background: var(--glass);
+		box-shadow: inset 0 0 0 1px var(--stroke-hi);
 		font-family: var(--display);
 		font-weight: 700;
-		font-size: 1.15rem;
-		letter-spacing: -0.02em;
-		cursor: pointer;
-		list-style: none;
-		transition: color 0.15s;
+		font-size: 0.85rem;
+		color: var(--cyan);
 	}
-	summary::-webkit-details-marker {
-		display: none;
-	}
-	summary::after {
-		content: '+';
-		flex: none;
-		font-size: 1.6rem;
-		line-height: 1;
-		color: var(--blue);
-	}
-	details[open] summary::after {
-		content: '\2212';
-	}
-	summary:hover {
-		color: var(--blue);
-	}
-	details p {
-		margin: 0 0 1.25rem;
+	.alt {
+		font-size: 0.95rem;
 		color: var(--muted);
 	}
 
-	/* Contact */
-	.contact {
+	/* ---------- Timeline ---------- */
+	.timeline {
 		position: relative;
-		overflow: hidden;
-		background: var(--navy);
-		--circuit-node: var(--navy);
-		color: #fff;
+		display: grid;
+		gap: 1.5rem;
+		align-items: start;
 	}
-	.contact-in {
+	/* Track and glowing fill. Vertical on small screens, horizontal on wide ones. */
+	.timeline::before,
+	.timeline::after {
+		content: '';
+		position: absolute;
+		left: 1.6rem;
+		top: 1.6rem;
+		bottom: 1.6rem;
+		width: 2px;
+		border-radius: 2px;
+	}
+	.timeline::before {
+		background: var(--stroke);
+	}
+	.timeline::after {
+		background: var(--accent-grad);
+		box-shadow: 0 0 18px color-mix(in srgb, var(--cyan) 60%, transparent);
+		transform: scaleY(var(--p, 0));
+		transform-origin: top;
+	}
+	.timeline li {
 		position: relative;
+		display: grid;
+		grid-template-columns: 3.2rem 1fr;
+		gap: 1.1rem;
+		align-items: start;
+		align-content: start;
 	}
-	.contact h2 {
-		color: #fff;
+	.node {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		width: 3.2rem;
+		height: 3.2rem;
+		border-radius: 50%;
+		background: var(--glass-solid);
+		box-shadow: inset 0 0 0 1.5px var(--stroke-hi);
+		color: var(--muted);
+		transition:
+			background 0.6s var(--ease),
+			color 0.6s,
+			box-shadow 0.6s,
+			transform 0.7s var(--ease);
 	}
-	.number {
-		display: block;
-		margin: 0.5rem 0 2rem;
-		width: fit-content;
-		max-width: 100%;
+	.node b {
+		position: absolute;
+		top: -0.35rem;
+		right: -0.35rem;
+		display: grid;
+		place-items: center;
+		width: 1.35rem;
+		height: 1.35rem;
+		border-radius: 50%;
+		background: var(--glass-solid);
+		box-shadow: inset 0 0 0 1px var(--stroke-hi);
 		font-family: var(--display);
-		font-weight: 800;
-		font-size: clamp(2.75rem, 12vw, 8.5rem);
-		line-height: 1;
-		letter-spacing: -0.05em;
-		white-space: nowrap;
-		color: #fff;
-		text-decoration: none;
-		transition: color 0.15s;
+		font-size: 0.7rem;
+		color: var(--ink-2);
 	}
-	.number:hover {
-		color: var(--blue-glow);
+	.timeline li:global(.on) .node {
+		background: var(--accent-grad);
+		color: var(--on-accent);
+		box-shadow:
+			0 0 0 6px color-mix(in srgb, var(--blue-strong) 22%, transparent),
+			0 10px 30px color-mix(in srgb, var(--blue-strong) 40%, transparent);
+		transform: scale(1.06);
 	}
-	.contact :global(.btn-line):hover {
-		background: rgb(255 255 255 / 0.12);
+	.step-card {
+		padding: 1.4rem 1.5rem;
+		--r: 20px;
+	}
+	.step-card h3 {
+		margin-bottom: 0.45rem;
+	}
+	.step-card p {
+		margin: 0;
+		color: var(--muted);
+	}
+	@media (min-width: 900px) {
+		.timeline {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.75rem;
+		}
+		.timeline::before,
+		.timeline::after {
+			left: 1.6rem;
+			right: 1.6rem;
+			top: 1.6rem;
+			bottom: auto;
+			width: auto;
+			height: 2px;
+		}
+		.timeline::after {
+			transform: scaleX(var(--p, 0));
+			transform-origin: left;
+		}
+		.timeline li {
+			grid-template-columns: 1fr;
+			gap: 1.4rem;
+		}
+	}
+
+	/* ---------- Why ---------- */
+	.why-grid {
+		display: grid;
+		gap: 2.5rem;
+		align-items: start;
+	}
+	@media (min-width: 1000px) {
+		.why-grid {
+			grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr);
+			gap: 4rem;
+		}
+		.why-copy {
+			position: sticky;
+			top: 7rem;
+		}
+	}
+	.why-list {
+		display: grid;
+		gap: 1.1rem;
+	}
+	@media (min-width: 640px) {
+		.why-list {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		/* Stagger the second column so the grid does not read as a flat 2x2 */
+		.why-list > li:nth-child(even) {
+			margin-top: 2.2rem;
+		}
+	}
+	.why-list article {
+		height: 100%;
+		padding: 1.6rem;
+		transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+		transition: transform 0.6s var(--ease);
+	}
+	.why-list article:global(.tilting) {
+		transition: transform 0.1s linear;
+	}
+	.why-list h3 {
+		margin-bottom: 0.5rem;
+	}
+	.why-list p {
+		margin: 0;
+		color: var(--muted);
+	}
+
+	/* ---------- FAQ ---------- */
+	.faq-grid {
+		display: grid;
+		gap: 2.5rem;
+		align-items: start;
+	}
+	@media (min-width: 1000px) {
+		.faq-grid {
+			grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+			gap: 4rem;
+		}
+		.faq-copy {
+			position: sticky;
+			top: 7rem;
+		}
+	}
+	.faq-copy .btn {
+		margin-top: 0.5rem;
 	}
 </style>
