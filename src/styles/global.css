@@ -563,3 +563,11 @@ html.lenis body {
 		translate: none;
 	}
 }
+
+/* Phone numbers: display font, bold, evenly spaced digits */
+.handle-num {
+	font-family: var(--display);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.02em;
+}
