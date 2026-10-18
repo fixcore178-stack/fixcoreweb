@@ -48,7 +48,11 @@ export const policies = {
 	deposit: 'A minimum 50% deposit is required when we need to order parts.',
 	storage: 'Repaired and unclaimed devices are kept in storage for 1 year.',
 	dataRecovery: 'Data recovery is offered where possible.',
-	payment: 'We accept all payment methods.',
-	coverage: 'We cover any area in Trinidad and Tobago. We do not offer delivery; pickup is available.',
+	
+	coverage: 'We do not travel. Drop off or collect your device at our Curepe location, 3 Alice Street, Curepe.',
+	address: '3 Alice Street, Curepe',
+	owner: 'Christopher Brathwaite',
+	repairTime: 'Repair time depends on the problem and what needs fixing. Most jobs take a few hours.',
+	payment: 'Credit and debit cards, bank transfer, or cash on collection.',
 	dropOff: 'Simple repairs are often done while you wait. Jobs that take longer, or need parts, are drop-off.',
 };
