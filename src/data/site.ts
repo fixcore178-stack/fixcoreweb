@@ -3,7 +3,7 @@
 // simply does not render. Add real details here as they become available.
 
 export const business = {
-	serviceArea: 'Trinidad & Tobago',
+	serviceArea: 'Trinidad',
 	address: '3 Alice Street, Curepe',
 
 	// Opening hours, for example: [{ days: 'Mon to Fri', time: '9:00 am to 5:00 pm' }]
@@ -50,7 +50,7 @@ export const policies = {
 	storage: 'Repaired and unclaimed devices are kept in storage for 1 year.',
 	dataRecovery: 'Data recovery is offered where possible.',
 	
-	coverage: 'We offer drop-off and pickup only. Drop off or collect your device at 3 Alice Street, Curepe.',
+	coverage: 'We serve customers throughout Trinidad. Drop-off and pickup can be arranged; message us first to confirm your area, meeting point and any applicable fee. Our Curepe address is available for arranged drop-off and collection.',
 	address: '3 Alice Street, Curepe',
 	owner: 'Christopher Brathwaite',
 	repairTime: 'Repair time depends on the problem and what needs fixing. Most jobs take a few hours.',
