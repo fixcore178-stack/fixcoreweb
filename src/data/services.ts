@@ -71,56 +71,6 @@ export const services: Service[] = [
 		seoDescription: 'Laptop repairs in Trinidad & Tobago: screens, batteries, power faults, slow performance and spills. Get a quote from FixCore Tech on WhatsApp.',
 	},
 	{
-		slug: 'tablet-repair',
-		name: 'Tablet repairs',
-		icon: 'tablet',
-		device: 'tablet',
-		cardTitle: 'Tablet repairs',
-		cardText: 'iPads and Android tablets with broken glass, weak batteries or charging problems.',
-		title: 'Tablet repairs in Trinidad & Tobago',
-		intro:
-			'Tablets take a beating from kids, commutes and couches. If yours is cracked or not behaving, send us the details and we will quote the repair.',
-		problems: [
-			{ icon: 'screen', title: 'Cracked or damaged screen', text: 'Shattered glass, a display that has gone dark or touch that has stopped working.' },
-			{ icon: 'battery', title: 'Battery problems', text: 'Dies quickly, will not hold a charge or shuts off unexpectedly.' },
-			{ icon: 'charging', title: "Won't charge", text: 'Loose, damaged or dead charging port, or charging that keeps cutting out.' },
-			{ icon: 'power', title: "Won't turn on", text: 'Black screen, stuck on the logo or a boot loop.' },
-			{ icon: 'slow', title: 'Slow or freezing', text: 'Apps crashing, long waits or a tablet that is out of storage.' },
-			{ icon: 'water', title: 'Water damage', text: 'Spills and splashes. Power it down and message us.' },
-		],
-		send: ['The make and model, for example iPad 9th generation or Galaxy Tab A8', 'What happened and when it started', 'A photo of the damage', 'Whether it is a Wi-Fi or cellular model if you know'],
-		faq: [
-			{ q: 'Can you repair iPads and Android tablets?', a: 'Send us the exact model and what is wrong. We will confirm whether we can help before you commit to anything.' },
-			{ q: 'How do I get a quote?', a: 'Use the quote form and send the message on WhatsApp. We reply with what it needs and the price.' },
-		],
-		seoDescription: 'Tablet repairs in Trinidad & Tobago: cracked screens, batteries and charging faults for iPads and Android tablets. Quote on WhatsApp from FixCore Tech.',
-	},
-	{
-		slug: 'console-repair',
-		name: 'Game console repairs',
-		icon: 'console',
-		device: 'console',
-		cardTitle: 'Game console repairs',
-		cardText: 'Consoles and handhelds that will not power on, keep freezing or have damaged screens and ports.',
-		title: 'Game console repairs in Trinidad & Tobago',
-		intro:
-			'When the console stops working, game night stops with it. Tell us what it is doing and we will let you know what we can do.',
-		problems: [
-			{ icon: 'power', title: "Won't turn on", text: 'No power, a console that shuts off straight away or one stuck at startup.' },
-			{ icon: 'slow', title: 'Freezing or crashing', text: 'Games that lock up, restarts mid-play or a console that runs very slowly.' },
-			{ icon: 'charging', title: 'Charging and power problems', text: 'Handhelds that will not charge or a loose power connection.' },
-			{ icon: 'screen', title: 'Damaged screens', text: 'Cracked or dead displays on handheld consoles.' },
-			{ icon: 'battery', title: 'Battery problems', text: 'Handhelds whose battery drains fast or will not hold a charge.' },
-			{ icon: 'help', title: 'Not sure what is wrong', text: 'Odd noises, error codes or random behaviour. Describe it and we will help work it out.' },
-		],
-		send: ['The console and model, for example PS5 or Nintendo Switch', 'What it does or does not do', 'Any error code or message on screen', 'A photo of any visible damage'],
-		faq: [
-			{ q: 'Which consoles can you repair?', a: 'Send us the console, the model and the problem. We will confirm what we can do.' },
-			{ q: 'What if it cannot be fixed?', a: 'If we cannot fix it, we will tell you.' },
-		],
-		seoDescription: 'Game console repairs in Trinidad & Tobago for power faults, freezing, damaged screens and charging problems. Get a quote from FixCore Tech on WhatsApp.',
-	},
-	{
 		slug: 'diagnostics',
 		name: 'Diagnostics',
 		icon: 'diagnostics',
@@ -142,7 +92,7 @@ export const services: Service[] = [
 			{ q: 'What should I tell you?', a: 'Everything you have noticed: what happens, when, and what you have already tried. The more detail, the better.' },
 			{ q: 'Will you tell me if it is not worth fixing?', a: 'Yes. We will tell you what we can do and what we cannot.' },
 		],
-		seoDescription: 'Not sure what is wrong with your phone, laptop, tablet or console? Describe the symptoms and FixCore Tech in Trinidad & Tobago will help you work it out.',
+		seoDescription: 'Not sure what is wrong with your phone or laptop? Describe the symptoms and FixCore Tech in Trinidad & Tobago will help you work it out.',
 	},
 ];
 
