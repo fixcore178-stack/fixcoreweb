@@ -784,7 +784,7 @@ const stepNames = ['Device', 'Problem', 'Details', 'Review'];
 			const unsure = v.problem === 'unsure';
 			modelLabel.textContent = other ? 'What is the device?' : 'Make and model';
 			modelOpt.textContent = other ? '(required)' : '(helps us quote faster)';
-			modelInput.placeholder = other ? 'e.g. smartwatch, drone, e-reader' : 'e.g. iPhone 13, Dell Inspiron 15, PS5';
+			modelInput.placeholder = other ? 'e.g. a phone or laptop we do not list' : 'e.g. iPhone 13, Dell Inspiron 15, PS5';
 			detailsLabel.textContent = unsure ? 'What is it doing?' : 'Anything else we should know?';
 			detailsOpt.textContent = unsure ? '(required, a few words is fine)' : '(optional)';
 			countEl.textContent = String(detailsInput.value.length);
