@@ -8,6 +8,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 // `section` links scroll on the landing page; `path` marks the matching page as current.
 const links = [
 	{ href: '/#services', label: 'Services', section: 'services', path: '/services' },
+	{ href: '/pricing', label: 'Pricing', path: '/pricing' },
 	{ href: '/#process', label: 'How it works', section: 'process' },
 	{ href: '/about', label: 'About', path: '/about' },
 	{ href: '/#faq', label: 'FAQ', section: 'faq' },
