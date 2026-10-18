@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE_TITLE, WHATSAPP_DISPLAY, WHATSAPP_URL } from '../consts';
+import { business, prices, policies } from '../data/site';
+---
+
+<Base title={`Contact and booking | ${SITE_TITLE}`} description={`Contact FixCore Tech on WhatsApp, opening hours, and drop-off details in Curepe, Trinidad.`}>
+	<section class="top">
+		<div class="wrap">
+			<span class="eyebrow reveal">FixCore Tech</span>
+			<h1 class="reveal">Contact and booking</h1>
+		</div>
+	</section>
+	<section class="section">
+		<div class="wrap page-copy">
+			<p>Message us on WhatsApp first, with your device and the problem. We confirm the quote and whether it needs drop-off before you bring anything in.</p>
+			<h2>WhatsApp</h2>
+			<p><a class="btn btn-primary" href={WHATSAPP_URL} target="_blank" rel="noopener">Message us on WhatsApp</a></p>
+			<p>{WHATSAPP_DISPLAY}</p>
+			<h2>Opening hours</h2>
+			<ul>
+				{business.hours.map((h) => (<li>{h.days}: {h.time}</li>))}
+			</ul>
+			<h2>Drop-off and pickup</h2>
+			<p>We do not travel. Drop off or collect your device at {business.address}.</p>
+			<p>{policies.coverage}</p>
+			<h2>Quotes</h2>
+			<p>You can get a quote within 30 minutes.</p>
+		</div>
+	</section>
+	<CtaBand />
+</Base>
+
+<style>
+	.page-copy { max-width: 760px; }
+	.page-copy h2 { margin-top: 2.25rem; }
+	.page-copy ul { padding-left: 1.2rem; line-height: 1.7; }
+	.price-table { width: 100%; border-collapse: collapse; }
+	.price-table th, .price-table td { padding: 0.8rem 0.4rem; text-align: left; border-bottom: 1px solid rgb(255 255 255 / 0.08); }
+	.price-table td { text-align: right; font-weight: 600; }
+</style>

@@ -8,6 +8,7 @@ export type ProblemOption = { value: string; label: string; phrase: string; icon
 export const devices: DeviceOption[] = [
 	{ value: 'phone', label: 'Phone', icon: 'phone', hint: 'iPhone, Samsung and more' },
 	{ value: 'laptop', label: 'Laptop', icon: 'laptop', hint: 'Windows, Mac, Chromebook' },
+	{ value: 'computer', label: 'Desktop or PC', icon: 'laptop', hint: 'Desktops and custom PCs' },
 	{ value: 'other', label: 'Something else', icon: 'other', hint: 'Tell us what it is' },
 ];
 

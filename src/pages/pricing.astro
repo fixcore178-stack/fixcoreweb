@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE_TITLE, WHATSAPP_DISPLAY, WHATSAPP_URL } from '../consts';
+import { business, prices, policies } from '../data/site';
+---
+
+<Base title={`Repair pricing | ${SITE_TITLE}`} description={`Starting prices for phone and laptop repairs in Trinidad and Tobago, and what affects the final quote.`}>
+	<section class="top">
+		<div class="wrap">
+			<span class="eyebrow reveal">FixCore Tech</span>
+			<h1 class="reveal">Repair pricing</h1>
+		</div>
+	</section>
+	<section class="section">
+		<div class="wrap page-copy">
+			<p>These are starting prices. The final price depends on the model and the fault. We confirm the quote on WhatsApp before any work starts.</p>
+			<h2>Phones</h2>
+			<table class="price-table glass"><tbody>
+				{prices.phone.map((r) => (<tr><th scope="row">{r.item}</th><td>from {r.from}</td></tr>))}
+			</tbody></table>
+			<h2>Laptops</h2>
+			<table class="price-table glass"><tbody>
+				{prices.laptop.map((r) => (<tr><th scope="row">{r.item}</th><td>from {r.from}</td></tr>))}
+			</tbody></table>
+			<h2>What changes the price</h2>
+			<ul>
+				<li>The make and model of the device.</li>
+				<li>The fault, and whether a part needs to be ordered.</li>
+				<li>Whether the repair can be done while you wait or needs drop-off.</li>
+			</ul>
+			<h2>Deposits</h2>
+			<p>{policies.deposit}</p>
+			<p><a class="btn btn-primary" href="/#quote">Get a quote</a></p>
+		</div>
+	</section>
+	<CtaBand />
+</Base>
+
+<style>
+	.page-copy { max-width: 760px; }
+	.page-copy h2 { margin-top: 2.25rem; }
+	.page-copy ul { padding-left: 1.2rem; line-height: 1.7; }
+	.price-table { width: 100%; border-collapse: collapse; }
+	.price-table th, .price-table td { padding: 0.8rem 0.4rem; text-align: left; border-bottom: 1px solid rgb(255 255 255 / 0.08); }
+	.price-table td { text-align: right; font-weight: 600; }
+</style>

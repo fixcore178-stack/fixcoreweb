@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE_TITLE, WHATSAPP_DISPLAY, WHATSAPP_URL } from '../consts';
+import { business, prices, policies } from '../data/site';
+---
+
+<Base title={`Repair terms | ${SITE_TITLE}`} description={`Warranty, deposits, storage, data and payment terms for FixCore Tech repairs.`}>
+	<section class="top">
+		<div class="wrap">
+			<span class="eyebrow reveal">FixCore Tech</span>
+			<h1 class="reveal">Repair terms</h1>
+		</div>
+	</section>
+	<section class="section">
+		<div class="wrap page-copy">
+			<h2>Warranty</h2>
+			<p>Every repair has a 7-day warranty. It covers a faulty part we fitted. It does not cover breakage or damage caused on purpose.</p>
+			<h2>Deposits</h2>
+			<p>{policies.deposit}</p>
+			<h2>Storage and unclaimed devices</h2>
+			<p>{policies.storage}</p>
+			<h2>Data</h2>
+			<p>We only access what is needed for the repair. Please back up anything important before you hand over your device. {policies.dataRecovery}</p>
+			<h2>Payment</h2>
+			<p>{policies.payment}</p>
+			<h2>Drop-off and pickup</h2>
+			<p>{policies.dropOff}</p>
+		</div>
+	</section>
+	<CtaBand />
+</Base>
+
+<style>
+	.page-copy { max-width: 760px; }
+	.page-copy h2 { margin-top: 2.25rem; }
+	.page-copy ul { padding-left: 1.2rem; line-height: 1.7; }
+	.price-table { width: 100%; border-collapse: collapse; }
+	.price-table th, .price-table td { padding: 0.8rem 0.4rem; text-align: left; border-bottom: 1px solid rgb(255 255 255 / 0.08); }
+	.price-table td { text-align: right; font-weight: 600; }
+</style>

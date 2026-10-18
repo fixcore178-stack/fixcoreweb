@@ -4,6 +4,7 @@
 
 export const business = {
 	serviceArea: 'Trinidad & Tobago',
+	address: '3 Alice Street, Curepe',
 
 	// Opening hours, for example: [{ days: 'Mon to Fri', time: '9:00 am to 5:00 pm' }]
 	hours: [
