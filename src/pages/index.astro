@@ -22,7 +22,7 @@ import {
 	socials,
 } from '../consts';
 import { services, quoteHref } from '../data/services';
-import { business } from '../data/site';
+import { business, policies } from '../data/site';
 
 const trust = [
 	{ icon: 'pin', text: `Local to ${business.serviceArea}` },
@@ -50,6 +50,13 @@ const faqs = [
 	{ q: 'Can you fix my model?', a: 'Send us the make and model and what is wrong with it. If we cannot fix it, we will tell you.' },
 	{ q: 'What should I send with my message?', a: 'The make and model, what happened and when it started. A photo of any damage helps a lot.' },
 	{ q: 'My device got wet. What should I do?', a: 'Switch it off straight away, do not try to charge it and message us. Acting quickly gives it the best chance.' },
+	{ q: 'Do I need to message first?', a: 'Yes. Message us on WhatsApp with your device and the problem. We confirm the price and whether it needs drop-off before you bring it in.' },
+	{ q: 'Do you offer delivery?', a: `${policies.coverage}` },
+	{ q: 'Do you need a deposit?', a: `${policies.deposit}` },
+	{ q: 'How long do you keep my device?', a: `${policies.storage}` },
+	{ q: 'Can you recover my data?', a: `${policies.dataRecovery} We recommend backing up anything important first.` },
+	{ q: 'How do I pay?', a: `${policies.payment}` },
+	{ q: 'Do I have to leave my device with you?', a: `${policies.dropOff}` },
 	{ q: 'What is the fastest way to reach you?', a: `WhatsApp on ${WHATSAPP_DISPLAY}. You can also message us on Instagram, TikTok or Facebook.` },
 	...(business.warranty ? [{ q: 'Do you offer a warranty?', a: business.warranty }] : []),
 ];

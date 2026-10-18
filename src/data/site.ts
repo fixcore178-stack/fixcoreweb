@@ -24,3 +24,31 @@ export const testimonials: { quote: string; name: string; detail?: string }[] = 
 
 // People behind the business. Example: { name: 'Name', role: 'Technician', bio: 'Short bio.' }
 export const team: { name: string; role: string; bio?: string }[] = [];
+
+// "From" prices in TTD, from local competitor research. Final price depends on model and fault.
+// Confirm with your own supplier costs before publishing changes.
+export const prices: Record<string, { item: string; from: string }[]> = {
+	phone: [
+		{ item: 'Screen (common Android models)', from: 'TT$400' },
+		{ item: 'Screen (iPhone or flagship)', from: 'TT$900' },
+		{ item: 'Battery (Android)', from: 'TT$250' },
+		{ item: 'Battery (iPhone)', from: 'TT$500' },
+		{ item: 'Charging port', from: 'TT$250' },
+	],
+	laptop: [
+		{ item: 'Screen', from: 'TT$700' },
+		{ item: 'Battery', from: 'TT$450' },
+		{ item: 'Charging port', from: 'TT$350' },
+		{ item: 'Keyboard', from: 'TT$400' },
+		{ item: 'Cleaning or thermal paste', from: 'TT$150' },
+	],
+};
+
+export const policies = {
+	deposit: 'A minimum 50% deposit is required when we need to order parts.',
+	storage: 'Repaired and unclaimed devices are kept in storage for 1 year.',
+	dataRecovery: 'Data recovery is offered where possible.',
+	payment: 'We accept all payment methods.',
+	coverage: 'We cover any area in Trinidad and Tobago. We do not offer delivery; pickup is available.',
+	dropOff: 'Simple repairs are often done while you wait. Jobs that take longer, or need parts, are drop-off.',
+};
