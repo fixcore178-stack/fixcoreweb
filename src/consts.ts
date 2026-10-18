@@ -2,9 +2,9 @@
 
 export const SITE_TITLE = "FixCore Tech";
 export const SITE_SHORT = "FixCore";
-export const SITE_TAGLINE = "Phone and laptop repairs in Trinidad & Tobago";
+export const SITE_TAGLINE = "Phone and laptop repairs across Trinidad";
 export const SITE_DESCRIPTION =
-	"FixCore Tech repairs phones and laptops in Trinidad & Tobago. Tell us what's wrong on WhatsApp and get a repair quote.";
+	"FixCore Tech repairs phones and laptops across Trinidad. Tell us what's wrong on WhatsApp and get a repair quote.";
 export const SITE_URL = "https://fixcore.christech.lol";
 
 // WhatsApp number, digits only, with country code.
