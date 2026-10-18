@@ -1,47 +1,46 @@
 ---
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { SITE_TITLE, WHATSAPP_DISPLAY, WHATSAPP_URL } from '../consts';
-import { business, prices, policies } from '../data/site';
+import { SITE_TITLE, WHATSAPP_URL } from '../consts';
+import { prices, policies } from '../data/site';
 ---
-
-<Base title={`Repair pricing | ${SITE_TITLE}`} description={`Starting prices for phone and laptop repairs in Trinidad and Tobago, and what affects the final quote.`}>
-	<section class="top">
-		<div class="wrap">
-			<span class="eyebrow reveal">FixCore Tech</span>
-			<h1 class="reveal">Repair pricing</h1>
+<Base title={`Repair Prices in Trinidad | ${SITE_TITLE}`} description="Starting prices for phone, laptop and computer repairs from FixCore Tech in Trinidad and Tobago. Get a confirmed quote before work begins.">
+	<section class="top"><div class="wrap">
+		<span class="eyebrow reveal">Clear pricing. No surprises.</span>
+		<h1 class="reveal">Repair prices</h1>
+		<p class="intro reveal">Starting prices for common repairs. Your exact price depends on the device, model, fault and parts required. We confirm your quote before starting work.</p>
+		<a class="btn btn-primary reveal" href="/#quote">Get a repair quote</a>
+	</div></section>
+	<section class="section"><div class="wrap page-copy">
+		<div class="price-note glass"><strong>How our pricing works</strong><p>Prices marked “from” are estimates, not guaranteed prices for every device. Parts availability and quality affect the final cost. We confirm the price and get your approval before starting repairs.</p></div>
+		<div class="price-section"><div class="section-heading"><span class="eyebrow">01 / Mobile devices</span><h2>Phone repairs</h2><p>Screen, battery and charging repairs for supported iPhone and Android models.</p></div>
+			<table class="price-table glass"><thead><tr><th scope="col">Repair</th><th scope="col">Starting price</th></tr></thead><tbody>{prices.phone.map((r) => (<tr><th scope="row">{r.item}</th><td>{r.from}</td></tr>))}</tbody></table>
 		</div>
-	</section>
-	<section class="section">
-		<div class="wrap page-copy">
-			<p>These are starting prices. The final price depends on the model and the fault. We confirm the quote on WhatsApp before any work starts.</p>
-			<h2>Phones</h2>
-			<table class="price-table glass"><tbody>
-				{prices.phone.map((r) => (<tr><th scope="row">{r.item}</th><td>from {r.from}</td></tr>))}
-			</tbody></table>
-			<h2>Laptops</h2>
-			<table class="price-table glass"><tbody>
-				{prices.laptop.map((r) => (<tr><th scope="row">{r.item}</th><td>from {r.from}</td></tr>))}
-			</tbody></table>
-			<h2>What changes the price</h2>
-			<ul>
-				<li>The make and model of the device.</li>
-				<li>The fault, and whether a part needs to be ordered.</li>
-				<li>Whether the repair can be done while you wait or needs drop-off.</li>
-			</ul>
-			<h2>Deposits</h2>
-			<p>{policies.deposit}</p>
-			<p><a class="btn btn-primary" href="/#quote">Get a quote</a></p>
+		<div class="price-section"><div class="section-heading"><span class="eyebrow">02 / Portable computers</span><h2>Laptop repairs</h2><p>Hardware repairs and maintenance for supported laptop brands.</p></div>
+			<table class="price-table glass"><thead><tr><th scope="col">Repair</th><th scope="col">Starting price</th></tr></thead><tbody>{prices.laptop.map((r) => (<tr><th scope="row">{r.item}</th><td>{r.from}</td></tr>))}</tbody></table>
 		</div>
-	</section>
+		<div class="price-section"><div class="section-heading"><span class="eyebrow">03 / Desktop computers</span><h2>PC and software services</h2><p>Starting labour prices for common computer jobs. Replacement parts are quoted separately where applicable.</p></div>
+			<table class="price-table glass"><thead><tr><th scope="col">Service</th><th scope="col">Starting price</th></tr></thead><tbody>
+				<tr><th scope="row">Computer diagnostics</th><td>TT$75</td></tr><tr><th scope="row">Desktop or PC troubleshooting</th><td>TT$150</td></tr><tr><th scope="row">Windows installation and drivers</th><td>TT$200</td></tr><tr><th scope="row">Virus and malware troubleshooting</th><td>TT$150</td></tr><tr><th scope="row">Desktop internal cleaning</th><td>TT$150</td></tr><tr><th scope="row">RAM or storage installation (labour)</th><td>TT$100</td></tr><tr><th scope="row">Data transfer or backup</th><td>TT$150</td></tr>
+			</tbody></table>
+		</div>
+		<div class="details-grid">
+			<article class="detail-card glass"><h3>Before we start</h3><p>We assess the issue, explain the repair and confirm the quote with you. No repair work starts without your approval.</p></article>
+			<article class="detail-card glass"><h3>Parts deposits</h3><p>{policies.deposit}</p></article>
+			<article class="detail-card glass"><h3>Turnaround time</h3><p>Timing depends on the fault and parts availability. Simple repairs may be completed while you wait; other jobs require drop-off.</p></article>
+			<article class="detail-card glass"><h3>Drop-off and collection</h3><p>Drop off or collect your device at 3 Alice Street, Curepe. Contact us first to arrange your visit.</p></article>
+		</div>
+		<p class="fine-print">These are indicative starting prices and may change. The final quote is confirmed after we know the exact device model and fault. Data recovery is not guaranteed. Back up your data where possible before service.</p>
+		<div class="price-cta"><div><span class="eyebrow">Need a model-specific price?</span><h2>Tell us what needs fixing.</h2><p>Send your device model and a short description of the problem.</p></div><a class="btn btn-primary" href={WHATSAPP_URL} target="_blank" rel="noopener">Ask on WhatsApp</a></div>
+	</div></section>
 	<CtaBand />
 </Base>
-
 <style>
-	.page-copy { max-width: 760px; }
-	.page-copy h2 { margin-top: 2.25rem; }
-	.page-copy ul { padding-left: 1.2rem; line-height: 1.7; }
-	.price-table { width: 100%; border-collapse: collapse; }
-	.price-table th, .price-table td { padding: 0.8rem 0.4rem; text-align: left; border-bottom: 1px solid rgb(255 255 255 / 0.08); }
-	.price-table td { text-align: right; font-weight: 600; }
+	.top .intro{max-width:650px;margin:1rem 0 1.5rem;color:var(--ink-2);font-size:clamp(1rem,2vw,1.15rem);line-height:1.7}
+	.page-copy{max-width:900px}.price-note{padding:1.25rem 1.4rem;border-radius:1.2rem;margin-bottom:3rem}.price-note strong{font-family:var(--display);font-size:1.1rem}.price-note p{margin:.5rem 0 0;color:var(--ink-2);line-height:1.7}
+	.price-section{margin:3rem 0}.section-heading{margin-bottom:1.1rem}.section-heading h2{margin:.45rem 0}.section-heading p{color:var(--ink-2);margin:0;line-height:1.65}
+	.price-table{width:100%;border-collapse:collapse;border-radius:1rem;overflow:hidden}.price-table th,.price-table td{padding:.95rem 1rem;text-align:left;border-bottom:1px solid var(--stroke)}.price-table thead th{color:var(--ink-2);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}.price-table tbody th{font-weight:500}.price-table td{text-align:right;white-space:nowrap;font-weight:700;color:var(--ink)}.price-table tr:last-child th,.price-table tr:last-child td{border-bottom:0}
+	.details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:3.5rem 0 2rem}.detail-card{padding:1.2rem;border-radius:1rem}.detail-card h3{margin:0 0 .5rem;font-family:var(--display)}.detail-card p{margin:0;color:var(--ink-2);line-height:1.65}
+	.fine-print{color:var(--muted);font-size:.9rem;line-height:1.7}.price-cta{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;margin-top:3rem;padding:clamp(1.25rem,4vw,2rem);border-radius:1.25rem;background:var(--glass);border:1px solid var(--stroke)}.price-cta h2{margin:.5rem 0}.price-cta p{margin:0;color:var(--ink-2)}
+	@media(max-width:600px){.price-table th,.price-table td{padding:.8rem .65rem;font-size:.92rem}.details-grid{grid-template-columns:1fr}.price-cta{align-items:flex-start;flex-direction:column}}
 </style>
