@@ -49,10 +49,11 @@ export const policies = {
 	storage: 'Repaired and unclaimed devices are kept in storage for 1 year.',
 	dataRecovery: 'Data recovery is offered where possible.',
 	
-	coverage: 'We do not travel. Drop off or collect your device at our Curepe location, 3 Alice Street, Curepe.',
+	coverage: 'We offer drop-off and pickup only. Drop off or collect your device at 3 Alice Street, Curepe.',
 	address: '3 Alice Street, Curepe',
 	owner: 'Christopher Brathwaite',
 	repairTime: 'Repair time depends on the problem and what needs fixing. Most jobs take a few hours.',
-	payment: 'Credit and debit cards, bank transfer, or cash on collection.',
+	payment: 'Cash on collection.',
+	quoteTime: 'You can get a quote within 30 minutes.',
 	dropOff: 'Simple repairs are often done while you wait. Jobs that take longer, or need parts, are drop-off.',
 };
