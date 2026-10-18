@@ -6,10 +6,13 @@ export const business = {
 	serviceArea: 'Trinidad & Tobago',
 
 	// Opening hours, for example: [{ days: 'Mon to Fri', time: '9:00 am to 5:00 pm' }]
-	hours: [] as { days: string; time: string }[],
+	hours: [
+		{ days: 'Mon to Fri', time: '5:00 pm to 10:00 pm' },
+		{ days: 'Sat and Sun', time: '9:00 am to 10:00 pm' },
+	] as { days: string; time: string }[],
 
 	// A real warranty or guarantee statement, for example: '30-day warranty on repairs.'
-	warranty: '' as string,
+	warranty: '7-day warranty on faulty parts we fitted. Does not cover breakage or deliberate damage.' as string,
 };
 
 // Real photos of completed repairs. Put images in /public/gallery and list them here.
