@@ -1,736 +1,103 @@
 ---
 import Base from '../layouts/Base.astro';
-import QuoteWizard from '../components/QuoteWizard.astro';
-import Faq from '../components/Faq.astro';
-import Gallery from '../components/Gallery.astro';
-import Testimonials from '../components/Testimonials.astro';
-import ContactSection from '../components/ContactSection.astro';
-import CtaBand from '../components/CtaBand.astro';
-import PartsDiagram from '../components/PartsDiagram.astro';
 import DeviceScene from '../components/DeviceScene.astro';
-import Icon from '../components/Icon.astro';
+import LaptopScene from '../components/LaptopScene.astro';
+import MotionControl from '../components/MotionControl.astro';
+import QuoteWizard from '../components/QuoteWizard.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Faq from '../components/Faq.astro';
 import BrandIcon from '../components/BrandIcon.astro';
-import {
-	SITE_TITLE,
-	SITE_TAGLINE,
-	SITE_DESCRIPTION,
-	SITE_URL,
-	WHATSAPP_URL,
-	WHATSAPP_DISPLAY,
-	INSTAGRAM_URL,
-	FACEBOOK_URL,
-	TIKTOK_URL,
-	socials,
-} from '../consts';
-import { services, quoteHref } from '../data/services';
-import { business, policies, schedule } from '../data/site';
-
-const steps = [
-	{ icon: 'chat', title: "Tell us what's wrong", text: 'Use the quote form or message us directly. Add the make and model, and a photo if you can.' },
-	{ icon: 'quote', title: 'Get a quote', text: 'We reply on WhatsApp or Instagram with what it needs and what it costs.' },
-	{ icon: 'wrench', title: 'Get it fixed', text: 'Say yes to the quote and we get to work. If we cannot fix it, we will tell you.' },
-] as const;
-
-const why = [
-	{ icon: 'pin', title: 'Local and easy to reach', text: `A ${business.serviceArea} business you can message directly on WhatsApp, Instagram, TikTok or Facebook.` },
-	{ icon: 'quote', title: 'A quote before any work', text: 'You hear what it needs and what it costs first. Work starts when you say yes.' },
-	{ icon: 'shield', title: 'Straight answers', text: 'If it is not worth repairing, or we cannot fix it, we will tell you plainly.' },
-	{ icon: 'wrench', title: 'Repair, do not replace', text: 'Fixing the device you already own is often the better choice. Ask us and we will tell you.' },
-] as const;
-
+import Icon from '../components/Icon.astro';
+import { SITE_TITLE, SITE_TAGLINE, SITE_DESCRIPTION, SITE_URL, WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL, TIKTOK_URL } from '../consts';
+import { services } from '../data/services';
+import { business, policies } from '../data/site';
 const faqs = [
-	{ q: 'How do I get a quote?', a: 'Use the quote form on this page. Pick your device and the problem, add a few details and send the ready-made message on WhatsApp. You can also message us directly on WhatsApp or Instagram. We reply with what it needs and the price, usually within 30 minutes.' },
-	{ q: 'Which devices do you repair?', a: 'Phones and laptops, all brands. If your device is something else, message us and ask.' },
-	{ q: 'Can you fix my model?', a: 'Send us the make and model and what is wrong with it. If we cannot fix it, we will tell you.' },
-	{ q: 'What should I send with my message?', a: 'The make and model, what happened and when it started. A photo of any damage helps a lot.' },
-	{ q: 'My device got wet. What should I do?', a: 'Switch it off straight away, do not try to charge it and message us. Acting quickly gives it the best chance.' },
-	{ q: 'Do I need to message first?', a: 'Yes. Message us on WhatsApp with your device and the problem. We confirm the price and whether it needs drop-off before you bring it in.' },
-	{ q: 'Do you offer delivery?', a: `${policies.coverage}` },
-	{ q: 'Do you need a deposit?', a: `${policies.deposit}` },
-	{ q: 'How long do you keep my device?', a: `${policies.storage}` },
-	{ q: 'How long does a repair take?', a: `${policies.repairTime}` },
-	{ q: 'Can you recover my data?', a: `${policies.dataRecovery} We recommend backing up anything important first.` },
-	{ q: 'How do I pay?', a: `${policies.payment}` },
-	{ q: 'Do I have to leave my device with you?', a: `${policies.dropOff}` },
-	{ q: 'What is the fastest way to reach you?', a: `WhatsApp on ${WHATSAPP_DISPLAY}. You can also message us on Instagram, TikTok or Facebook.` },
-	...(business.warranty ? [{ q: 'Do you offer a warranty?', a: business.warranty }] : []),
+  {q:'How do I get a quote?',a:'Pick your device and problem in the quote builder, add the model and send the prepared message on WhatsApp. We will reply with what it needs and what it costs.'},
+  {q:'Do I need to message before bringing a device?',a:'Yes. Message us first so we can confirm the repair and arrange drop-off at 3 Alice Street, Curepe.'},
+  {q:'My device got wet. What should I do?',a:'Switch it off, do not try to charge it, and message us with the model and what happened.'},
+  {q:'Do you need a deposit?',a:policies.deposit},
+  {q:'Do you offer a warranty?',a:business.warranty || 'Message us to confirm the terms for your repair.'},
+  {q:'How do I pay?',a:policies.payment},
 ];
-
-const schema = {
-	'@context': 'https://schema.org',
-	'@type': 'LocalBusiness',
-	name: SITE_TITLE,
-	description: SITE_DESCRIPTION,
-	url: SITE_URL,
-	image: `${SITE_URL}/og.png`,
-	telephone: '+18687200146',
-	areaServed: { '@type': 'AdministrativeArea', name: 'Trinidad' },
-	sameAs: [INSTAGRAM_URL, FACEBOOK_URL, TIKTOK_URL],
-	hasOfferCatalog: {
-		'@type': 'OfferCatalog',
-		name: 'Repair services',
-		itemListElement: services.map((s) => ({
-			'@type': 'Offer',
-			itemOffered: { '@type': 'Service', name: s.name, url: `${SITE_URL}/services/${s.slug}` },
-		})),
-	},
-};
-
-
+const schema = {'@context':'https://schema.org','@type':'LocalBusiness',name:SITE_TITLE,description:SITE_DESCRIPTION,url:SITE_URL,telephone:'+18687200146',areaServed:{'@type':'AdministrativeArea',name:business.serviceArea},sameAs:[INSTAGRAM_URL,FACEBOOK_URL,TIKTOK_URL]};
 ---
-
 <Base title={`${SITE_TITLE} | ${SITE_TAGLINE}`} description={SITE_DESCRIPTION} schema={schema}>
-	<!-- ============ Hero ============ -->
-	<section class="hero" id="top">
-		<div class="wrap hero-grid">
-			<div class="copy">
-				<span class="eyebrow reveal">Local tech repair · {business.serviceArea}</span>
-				<h1 class="reveal-lines">
-					<span class="line" style="--i:0"><span>Phone buss?</span></span>
-					<span class="line" style="--i:1"><span>Laptop slow?</span></span>
-					<span class="line" style="--i:2"><span class="grad">We'll sort it out.</span></span>
-				</h1>
-				<p class="lead reveal" style="--d:3">
-					{SITE_TITLE} repairs phones and laptops, all brands, across Trinidad. Tell us what is wrong
-					and we will send you a quote on WhatsApp.
-				</p>
-				<div class="cta-row reveal" style="--d:4">
-					<a class="btn btn-primary btn-lg" href="#quote">
-						Build my repair quote
-					</a>
-					<a class="btn btn-glass btn-lg" href={WHATSAPP_URL} target="_blank" rel="noopener">
-						<BrandIcon name="whatsapp" size={20} /> WhatsApp us
-					</a>
-				</div>
-				<div class="follow reveal" style="--d:5">
-					<span>Also on</span>
-					<ul>
-						{
-							socials.slice(1).map((s) => (
-								<li>
-									<a href={s.href} target="_blank" rel="noopener" aria-label={`${s.label} ${s.handle}`}>
-										<BrandIcon name={s.name} size={18} />
-									</a>
-								</li>
-							))
-						}
-					</ul>
-				</div>
-			</div>
+  <MotionControl />
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Local tech repair · {business.serviceArea}</p>
+        <h1>Phone buss?<br />Laptop slow?<br /><span class="grad">We'll sort it out.</span></h1>
+        <p class="lead">Phones, laptops and PCs. Tell us what is wrong. Get a quote before any work starts.</p>
+        <div class="cta-row"><a class="btn btn-primary btn-lg" href="#quote">Build my repair quote</a><a class="btn btn-glass btn-lg" href={WHATSAPP_URL} target="_blank" rel="noopener"><BrandIcon name="whatsapp" size={20} /> WhatsApp us</a></div>
+        <p class="hero-note">Your everyday tech. Worth another look.</p>
+      </div>
+      <div class="hero-device"><DeviceScene /></div>
+    </div>
+    <div class="wrap"><div class="location-strip"><span><Icon name="pin" size={18} />{business.address}</span><span>Quotes on WhatsApp</span><a href="#contact">Hours & contact</a></div></div>
+  </section>
 
-			<DeviceScene />
-		</div>
-		<div class="wrap shop-strip">
-			<aside class="ticket" aria-label="Shop details">
-				<div class="ticket-head">
-					<span class="mono">Shop details</span>
-					<span class="status" data-status aria-live="polite" hidden></span>
-				</div>
-				<dl>
-					{
-						business.address && (
-							<div>
-								<dt>Address</dt>
-								<dd>{business.address}</dd>
-							</div>
-						)
-					}
-					{
-						business.hours.map((h) => (
-							<div>
-								<dt>{h.days}</dt>
-								<dd class="mono">{h.time}</dd>
-							</div>
-						))
-					}
-				</dl>
-			</aside>
-		</div>
+  <section class="section services-section" id="services">
+    <div class="wrap">
+      <div class="section-head split-head"><h2 data-tag="Repair services">What needs<br /><span class="grad">a second life?</span></h2><p class="lead">Start with your device. We will help work out what it needs.</p></div>
+      <div class="service-grid">
+        {services.map((service,i)=>(
+          <a class={`service-tile service-${i} depth-surface`} href={`/services/${service.slug}`}>
+            <div class="mini-stage" aria-hidden="true" data-motion-scene>
+              {i===0 ? <div class="mini-phone"><span></span><i></i></div> : i===1 ? <div class="mini-laptop"><span></span><i></i></div> : i===2 ? <div class="mini-pc"><span></span><i></i><i></i></div> : <div class="mini-chip"><span></span></div>}
+            </div>
+            <div class="service-copy"><h3>{service.cardTitle}</h3><p>{service.cardText}</p><span class="service-link">View repair options <Icon name="arrow" size={16} /></span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
-	</section>
+  <section class="section workshop" id="process">
+    <div class="wrap workshop-grid">
+      <div class="workshop-visual"><LaptopScene /></div>
+      <div class="workshop-copy">
+        <h2 data-tag="From the inside out">A small part.<br /><span class="grad">A big difference.</span></h2>
+        <p class="lead">A tired battery. A damaged screen. A laptop that runs too hot. Tell us the symptoms and we will help identify the repair.</p>
+        <div class="repair-flow">
+          <p><b>You tell us.</b><span>Send the model, problem and a photo if you can.</span></p>
+          <p><b>You decide.</b><span>We explain the repair and quote before starting.</span></p>
+          <p><b>We repair.</b><span>Once you approve, we get to work.</span></p>
+        </div>
+        <a class="text-link" href="#quote">Describe my device problem</a>
+      </div>
+    </div>
+  </section>
 
-	<!-- ============ Services ============ -->
-	<section class="section" id="services">
-		<div class="wrap">
-			<div class="section-head head-split">
-				<div class="reveal">
-					<h2 data-tag="Repair services">Whatever is broken, <span class="grad">start here</span>.</h2>
-				</div>
-				<p class="lead reveal" style="--d:1">
-					Pick the device to see what we fix. Not on the list? Message us and ask. We will tell you if we can help.
-				</p>
-			</div>
+  <section class="section quote-section" id="quote" data-hide-fab>
+    <div class="wrap quote-grid">
+      <div><h2 data-tag="Request a repair">Let's get<br /><span class="grad">to the problem.</span></h2><p class="lead">Choose your device, add the details and review your message. You send it in WhatsApp when you are ready.</p><p class="quote-note">No account needed. No message sent automatically.</p><a class="text-link" href={WHATSAPP_URL} target="_blank" rel="noopener">Prefer to message us directly?</a></div>
+      <div class="quote-platform"><QuoteWizard /></div>
+    </div>
+  </section>
 
-			<ul class="ledger">
-				{
-					services.map((s, i) => (
-						<li class="reveal" style={`--d:${i % 3}`}>
-							<a class="row" href={`/services/${s.slug}`}>
-								<span class="svc-ico"><Icon name={s.icon} size={26} /></span>
-								<span class="row-main">
-									<h3>{s.cardTitle}</h3>
-									<p>{s.cardText}</p>
-								</span>
-								<span class="row-fixes" aria-label="Common fixes">
-									{s.problems.slice(0, 3).map((p) => (
-										<span>{p.title}</span>
-									))}
-								</span>
-								<span class="more">
-									Repair details <Icon class="arrow" name="arrow" size={16} stroke={2.2} />
-								</span>
-							</a>
-						</li>
-					))
-				}
-				<li class="reveal" style="--d:1">
-					<a class="row" href="/?device=other#quote">
-						<span class="svc-ico"><Icon name="other" size={26} /></span>
-						<span class="row-main">
-							<h3>Not sure what it is?</h3>
-							<p>Tell us what is going on and we will let you know whether we can help.</p>
-						</span>
-						<span class="row-fixes" aria-hidden="true"></span>
-						<span class="more">
-							Ask us <Icon class="arrow" name="arrow" size={16} stroke={2.2} />
-						</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</section>
-
-	<!-- ============ Inside ============ -->
-	<section class="section" id="inside">
-		<div class="wrap">
-			<div class="section-head head-split">
-				<div class="reveal">
-					<h2 data-tag="Inside your device">What we <span class="grad">open up</span>.</h2>
-				</div>
-				<p class="lead reveal" style="--d:1">
-					These are the parts we replace most often. Tell us which one is playing up and we will quote it.
-				</p>
-			</div>
-			<div class="reveal">
-				<PartsDiagram />
-			</div>
-		</div>
-	</section>
-
-	<!-- ============ Quote ============ -->
-	<section class="section" id="quote" data-hide-fab>
-		<div class="wrap quote-grid">
-			<div class="quote-intro">
-				<div class="reveal">
-					<h2 data-tag="Request a repair">Your message, <span class="grad">written for you</span>.</h2>
-					<p class="lead">Pick the device, tell us the problem, review it and send it on WhatsApp. No account needed.</p>
-				</div>
-				<ol class="how-mini reveal" style="--d:1">
-					<li><span class="n">1</span><span>Choose your device and what is going on</span></li>
-					<li><span class="n">2</span><span>Add the model and any details</span></li>
-					<li><span class="n">3</span><span>Review and send it on WhatsApp</span></li>
-				</ol>
-				<p class="alt reveal" style="--d:2">
-					Prefer to type it yourself?
-					<a href={WHATSAPP_URL} target="_blank" rel="noopener">Message us on WhatsApp</a>.
-				</p>
-			</div>
-			<div class="reveal" style="--d:1">
-				<QuoteWizard />
-			</div>
-		</div>
-	</section>
-
-	<!-- ============ How it works ============ -->
-	<section class="section" id="process">
-		<div class="wrap">
-			<div class="section-head reveal">
-				<h2 data-tag="The repair process">You approve the quote.<br /><span class="grad">Then we get to work.</span></h2>
-			</div>
-			<ol class="steps">
-				{
-					steps.map((s, i) => (
-						<li class="reveal" style={`--d:${i}`}>
-							<span class="num mono">{String(i + 1).padStart(2, '0')}</span>
-							<h3>{s.title}</h3>
-							<p>{s.text}</p>
-						</li>
-					))
-				}
-			</ol>
-		</div>
-	</section>
-
-	<!-- ============ Why FixCore ============ -->
-	<section class="section" id="why">
-		<div class="wrap why-grid">
-			<div class="why-copy reveal">
-				<h2 data-tag="Why FixCore">Repairs that feel <span class="grad">straightforward</span>.</h2>
-				<p class="lead">No jargon and no runaround. Just a local team that tells you what is going on.</p>
-			</div>
-			<ul class="why-list">
-				{
-					why.map((w, i) => (
-						<li class="reveal" style={`--d:${i}`}>
-							<article>
-								<span class="why-ico"><Icon name={w.icon} size={22} /></span>
-								<h3>{w.title}</h3>
-								<p>{w.text}</p>
-							</article>
-						</li>
-					))
-				}
-			</ul>
-		</div>
-	</section>
-
-	<Gallery />
-	<Testimonials />
-
-	<ContactSection />
-
-	<!-- ============ FAQ ============ -->
-	<section class="section" id="faq">
-		<div class="wrap faq-grid">
-			<div class="faq-copy reveal">
-					<h2 data-tag="Before you book">Good <span class="grad">questions</span>.</h2>
-				<p class="lead">Cannot find your answer? Message us and we will get back to you.</p>
-				<a class="btn btn-glass" href={WHATSAPP_URL} target="_blank" rel="noopener">
-					<BrandIcon name="whatsapp" size={18} /> Ask on WhatsApp
-				</a>
-			</div>
-			<Faq items={faqs} />
-		</div>
-	</section>
-
-	<CtaBand />
+  <ContactSection />
+  <section class="section" id="faq"><div class="wrap faq-grid"><div><h2 data-tag="Before you bring it in">A few useful<br /><span class="grad">answers.</span></h2><p class="lead">More detail on parts, collection and storage is in our <a href="/terms">repair terms</a>.</p></div><Faq items={faqs} /></div></section>
 </Base>
-
-<script define:vars={{ schedule }}>
-	// Live open / closed label from the real opening hours, in Trinidad time.
-	const el = document.querySelector('[data-status]');
-	if (el) {
-		const parts = new Intl.DateTimeFormat('en-US', {
-			timeZone: 'America/Port_of_Spain',
-			weekday: 'short',
-			hour: 'numeric',
-			minute: 'numeric',
-			hourCycle: 'h23',
-		}).formatToParts(new Date());
-		const get = (t) => parts.find((p) => p.type === t)?.value;
-		const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday'));
-		const t = Number(get('hour')) + Number(get('minute')) / 60;
-		const open = schedule.some((r) => r.days.includes(day) && t >= r.from && t < r.to);
-		el.dataset.open = String(open);
-		el.textContent = open ? 'Open now' : 'Closed now';
-		el.hidden = false;
-	}
-</script>
-
 <style>
-	/* ---------- Hero ---------- */
-	.hero {
-		position: relative;
-		padding: clamp(7.5rem, 12vw, 10rem) 0 0;
-	}
-	.hero-grid {
-		display: grid;
-		gap: 3rem;
-		align-items: center;
-	}
-	@media (min-width: 980px) {
-		.hero-grid {
-			grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-			gap: 4rem;
-		}
-	}
-	h1 {
-		margin-bottom: 1.4rem;
-		font-size: clamp(2.5rem, 7vw, 5rem);
-	}
-	@media (min-width: 980px) {
-		/* Each phrase stays on its own line beside the ticket */
-		h1 {
-			font-size: clamp(2.6rem, 4.6vw, 4.25rem);
-		}
-		h1 .line > span {
-			white-space: nowrap;
-		}
-	}
-	.hero .lead {
-		max-width: 31em;
-		margin-bottom: 2rem;
-	}
-	.cta-row {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.8rem;
-	}
-	.cta-row .btn {
-		white-space: normal;
-		text-align: center;
-	}
-	@media (min-width: 480px) {
-		.cta-row .btn {
-			white-space: nowrap;
-		}
-	}
-	.follow {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		margin-top: 2rem;
-		font-size: 0.9rem;
-		color: var(--color-muted);
-	}
-	.follow ul {
-		display: flex;
-		gap: 0.5rem;
-	}
-	.follow a {
-		display: grid;
-		place-items: center;
-		width: 2.75rem;
-		height: 2.75rem;
-		border-radius: var(--radius-sm);
-		box-shadow: inset 0 0 0 1px var(--color-rule);
-		color: var(--color-ink);
-		transition:
-			background-color var(--dur-fast),
-			color var(--dur-fast),
-			box-shadow var(--dur-fast);
-	}
-	.follow a:hover {
-		color: var(--color-accent);
-		box-shadow: inset 0 0 0 1px var(--color-accent);
-	}
-
-	/* The shop-details ticket: real facts from site data, set like a spec sheet */
-	.ticket {
-		display: grid;
-		gap: 1rem 2.5rem;
-		padding: 1.5rem 0;
-		border-block: 1px solid var(--color-rule-hi);
-	}
-	.shop-strip { margin-top: 3.5rem; }
-	.ticket-head {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		padding: 0;
-		font-size: 0.74rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--color-faint);
-	}
-	.ticket dl {
-		margin: 0;
-		display: grid;
-		gap: 1rem 2rem;
-	}
-	.ticket dl > div {
-		display: block;
-		padding: 0;
-	}
-	@media (min-width: 760px) {
-		.ticket { grid-template-columns: 160px 1fr; align-items: center; }
-		.ticket dl { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-		.ticket-head { align-items: start; flex-direction: column; gap: .45rem; }
-	}
-	.ticket dl > div:last-child {
-		border-bottom: 0;
-	}
-	.ticket dt {
-		font-family: var(--font-mono);
-		font-size: 0.74rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--color-faint);
-		padding-top: 0.2rem;
-	}
-	.ticket dd {
-		margin: 0;
-		color: var(--color-ink);
-		font-size: 0.98rem;
-		line-height: 1.5;
-	}
-	.trust {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-		gap: 0.75rem 1.5rem;
-		margin-top: clamp(2.5rem, 6vw, 4rem);
-		padding: 1.25rem 0;
-		border-block: 1px solid var(--color-rule);
-	}
-	.trust li {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		font-family: var(--font-mono);
-		font-size: 0.8rem;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		color: var(--color-ink-2);
-	}
-	.trust :global(svg) {
-		flex: none;
-		color: var(--color-accent);
-	}
-
-	/* ---------- Services ledger ---------- */
-	.head-split {
-		display: grid;
-		gap: 1rem 3rem;
-		align-items: end;
-	}
-	@media (min-width: 900px) {
-		.head-split {
-			grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-		}
-		.head-split .lead {
-			margin: 0 0 0.35rem;
-		}
-	}
-	.ledger {
-		border-top: 1px solid var(--color-rule-hi);
-	}
-	.ledger > li {
-		border-bottom: 1px solid var(--color-rule);
-	}
-	.row {
-		display: grid;
-		grid-template-columns: 3rem minmax(0, 1fr);
-		gap: 0.5rem 1.25rem;
-		align-items: start;
-		padding: 1.6rem 0.25rem;
-		color: var(--color-ink);
-		text-decoration: none;
-		transition: background-color var(--dur-fast);
-	}
-	.row:hover {
-		color: var(--color-ink);
-		background: var(--color-paper-2);
-	}
-	.svc-ico {
-		display: grid;
-		place-items: center;
-		width: 3rem;
-		height: 3rem;
-		color: var(--color-accent);
-	}
-	.row-main h3 {
-		font-size: clamp(1.25rem, 2.2vw, 1.55rem);
-		margin-bottom: 0.4rem;
-	}
-	.row-main p {
-		margin: 0;
-		color: var(--color-muted);
-		max-width: 34em;
-	}
-	.row-fixes {
-		grid-column: 2;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.25rem 1.1rem;
-		font-family: var(--font-mono);
-		font-size: 0.8rem;
-		color: var(--color-faint);
-	}
-	.more {
-		grid-column: 2;
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		font-family: var(--font-display);
-		font-weight: 600;
-		font-size: 0.95rem;
-		color: var(--color-accent);
-	}
-	.more :global(svg) {
-		transition: transform var(--dur-base) var(--ease-out);
-	}
-	.row:hover .more {
-		color: var(--color-accent-hover);
-	}
-	.row:hover .more :global(svg) {
-		transform: translateX(6px);
-	}
-	@media (min-width: 900px) {
-		.row {
-			grid-template-columns: 3rem minmax(0, 1.3fr) minmax(0, 1fr) auto;
-			align-items: center;
-			gap: 1.5rem;
-			padding-inline: 1rem;
-		}
-		.row-fixes,
-		.more {
-			grid-column: auto;
-		}
-		.row-fixes {
-			flex-direction: column;
-			gap: 0.3rem;
-		}
-	}
-
-	/* ---------- Quote ---------- */
-	.quote-grid {
-		display: grid;
-		gap: 2.5rem;
-		align-items: start;
-	}
-	@media (min-width: 1000px) {
-		.quote-grid {
-			grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
-			gap: 4rem;
-		}
-		.quote-intro {
-			position: sticky;
-			top: 7rem;
-		}
-	}
-	.quote-intro h2,
-	.why-copy h2,
-	.faq-copy h2 {
-		font-size: clamp(1.8rem, 3.3vw, 2.7rem);
-	}
-	.how-mini {
-		display: grid;
-		gap: 0.9rem;
-		margin: 2rem 0 1.5rem;
-	}
-	.how-mini li {
-		display: flex;
-		align-items: baseline;
-		gap: 0.9rem;
-		color: var(--color-ink-2);
-	}
-	.how-mini .n {
-		flex: none;
-		width: 1.5rem;
-		font-family: var(--font-mono);
-		font-size: 0.9rem;
-		color: var(--color-accent);
-	}
-	.alt {
-		font-size: 0.95rem;
-		color: var(--color-muted);
-	}
-
-	/* ---------- Steps ---------- */
-	.steps {
-		display: grid;
-		gap: 0;
-		border-top: 1px solid var(--color-rule-hi);
-	}
-	.steps li {
-		position: relative;
-		padding: 1.75rem 0;
-		border-bottom: 1px solid var(--color-rule);
-	}
-	/* Solder-pad node where each step meets the top trace */
-	.steps li::before {
-		content: '';
-		position: absolute;
-		top: -5px;
-		left: 0;
-		width: 9px;
-		height: 9px;
-		background: var(--color-accent);
-	}
-	.steps .num {
-		display: block;
-		margin-bottom: 1rem;
-		font-size: clamp(2rem, 4vw, 3rem);
-		line-height: 1;
-		color: var(--color-accent);
-	}
-	.steps h3 {
-		margin-bottom: 0.5rem;
-	}
-	.steps p {
-		margin: 0;
-		color: var(--color-muted);
-	}
-	@media (min-width: 900px) {
-		.steps {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-		.steps li {
-			padding: 2rem 2rem 2rem 0;
-			border-bottom: 0;
-		}
-		.steps li + li {
-			padding-left: 2rem;
-			border-left: 1px solid var(--color-rule);
-		}
-		.steps li + li::before {
-			left: -5px;
-		}
-	}
-
-	/* ---------- Why ---------- */
-	.why-grid {
-		display: grid;
-		gap: 2.5rem;
-		align-items: start;
-	}
-	@media (min-width: 1000px) {
-		.why-grid {
-			grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr);
-			gap: 4rem;
-		}
-		.why-copy {
-			position: sticky;
-			top: 7rem;
-		}
-	}
-	.why-list {
-		display: grid;
-		gap: 0;
-		border-top: 1px solid var(--color-rule-hi);
-	}
-	@media (min-width: 640px) {
-		.why-list {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			column-gap: 2.5rem;
-		}
-	}
-	.why-list article {
-		height: 100%;
-		padding: 1.6rem 0;
-		border-bottom: 1px solid var(--color-rule);
-	}
-	.why-ico {
-		display: block;
-		margin-bottom: 1rem;
-		color: var(--color-accent);
-	}
-	.why-list h3 {
-		margin-bottom: 0.5rem;
-	}
-	.why-list p {
-		margin: 0;
-		color: var(--color-muted);
-	}
-
-	/* ---------- FAQ ---------- */
-	.faq-grid {
-		display: grid;
-		gap: 2.5rem;
-		align-items: start;
-	}
-	@media (min-width: 1000px) {
-		.faq-grid {
-			grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
-			gap: 4rem;
-		}
-		.faq-copy {
-			position: sticky;
-			top: 7rem;
-		}
-	}
-	.faq-copy .btn {
-		margin-top: 0.5rem;
-	}
+.hero { padding:clamp(7.5rem,12vw,10rem) 0 0; overflow:hidden; }
+.hero-grid { display:grid; gap:2rem; align-items:center; }
+.hero-copy h1 { font-size:clamp(2.65rem,5.1vw,4.6rem); margin-bottom:1.6rem; }
+.hero-copy .lead { max-width:28em; }.cta-row { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:2rem; }.cta-row .btn { white-space:normal; }
+.hero-note { color:var(--color-muted); font-size:.85rem; margin:1.5rem 0 0; }.hero-device { min-width:0; }
+.location-strip { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; padding:1.4rem 0; border-block:1px solid var(--color-rule-hi); margin-top:3rem; font-size:.85rem; color:var(--color-ink-2); }.location-strip span:first-child { display:flex; align-items:center; gap:.6rem; }.location-strip :global(svg) { color:var(--color-accent); }
+.split-head { display:grid; gap:1rem; align-items:end; }.split-head .lead { max-width:23em; }
+.service-grid { display:grid; gap:1.25rem; }.service-tile { display:flex; flex-direction:column; text-decoration:none; color:var(--color-ink); border:1px solid var(--color-rule-hi); border-radius:12px; background:var(--color-paper-2); overflow:hidden; position:relative; box-shadow:0 9px 0 -4px var(--color-paper-3); }.service-tile:hover { color:var(--color-ink); border-color:var(--color-accent); }.service-copy { padding:1.4rem; }.service-copy h3 { font-size:1.3rem; }.service-copy p { color:var(--color-muted); font-size:.95rem; margin:1rem 0 1.5rem; }.service-link { display:flex; align-items:center; gap:.6rem; color:var(--color-accent); font-size:.85rem; font-weight:600; }
+.mini-stage { height:165px; position:relative; perspective:700px; background:var(--color-paper-3); overflow:hidden; }.mini-stage > div { position:absolute; left:50%; top:50%; transform-style:preserve-3d; animation:object-turn 9s ease-in-out infinite; }.service-1 .mini-stage > div { animation-delay:-2s; }.service-2 .mini-stage > div { animation-delay:-4s; }.service-3 .mini-stage > div { animation-delay:-6s; }
+.mini-phone { width:65px; height:118px; border:5px solid #8babb7; border-radius:13px; background:linear-gradient(135deg,#a5e2e2,#1a6377); box-shadow:5px 5px 0 #294653,12px 18px 15px #0003; }.mini-phone span { position:absolute; top:4px; width:22px; height:5px; background:#182e3a; left:16px; border-radius:5px; }.mini-phone i { position:absolute; inset:32px -3px -3px 22px; border:13px solid #267b8d; border-radius:50%; }
+.mini-laptop { width:128px; height:84px; border:5px solid #869da8; border-radius:5px; background:linear-gradient(130deg,#8bd2d7,#17485b); box-shadow:4px 4px 0 #314e5f; }.mini-laptop i { position:absolute; left:-15px; right:-15px; bottom:-28px; height:28px; background:linear-gradient(#a5bac4,#526f7f); transform:rotateX(55deg); transform-origin:top; border-radius:0 0 6px 6px; }
+.mini-pc { width:65px; height:106px; border:3px solid #8ca6b2; background:#243f4f; border-radius:5px; box-shadow:20px -12px 0 #456271; }.mini-pc i { position:absolute; left:10px; top:12px; width:38px; height:38px; border:7px dashed #7acbd4; border-radius:50%; animation:fan-mini 6s linear infinite; }.mini-pc i:last-child { top:57px; }.mini-chip { width:86px; height:86px; background:repeating-linear-gradient(90deg,#91b5bd 0 4px,transparent 4px 9px); padding:8px; }.mini-chip span { display:block; width:100%; height:100%; border:5px solid #86a4b0; background:linear-gradient(140deg,#557480,#203b4c); box-shadow:6px 8px 0 #193342; }
+.workshop { background:var(--color-paper-2); }.workshop-grid { display:grid; gap:2rem; align-items:center; }.workshop-copy .lead { margin-top:1.4rem; }.repair-flow { margin:2rem 0; }.repair-flow p { display:grid; gap:.25rem; padding:1rem 0; border-bottom:1px solid var(--color-rule); margin:0; }.repair-flow b { color:var(--color-ink); }.repair-flow span { color:var(--color-muted); font-size:.9rem; }.text-link { font-weight:600; font-size:.95rem; }.quote-grid,.faq-grid { display:grid; gap:2.5rem; }.quote-grid .lead,.faq-grid .lead { margin-top:1.5rem; }.quote-note { color:var(--color-muted); font-size:.85rem; }.quote-platform { perspective:1200px; }.quote-platform :global(.wizard) { box-shadow:8px 10px 0 -2px var(--color-paper-3); border:1px solid var(--color-rule-hi); background:var(--color-paper-2); }
+@keyframes object-turn { 0%,100% { transform:translate(-50%,-50%) rotateX(12deg) rotateY(-24deg) rotateZ(-9deg) translateY(4px); } 50% { transform:translate(-50%,-50%) rotateX(-8deg) rotateY(25deg) rotateZ(5deg) translateY(-5px); } }
+@keyframes fan-mini { to { rotate:360deg; } }
+@media(min-width:700px) { .service-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.split-head { grid-template-columns:1fr 1fr; } }
+@media(min-width:1000px) { .hero-grid { grid-template-columns:1.05fr 1fr; gap:3rem; }.workshop-grid { grid-template-columns:1.15fr 1fr; gap:4rem; }.quote-grid { grid-template-columns:.8fr 1.2fr; gap:4rem; }.faq-grid { grid-template-columns:.8fr 1.2fr; gap:4rem; }.service-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }.service-copy { padding:1.2rem; }.service-copy h3 { font-size:1.15rem; }.service-copy p { font-size:.88rem; }.service-1 { margin-top:2rem; }.service-3 { margin-top:2rem; }.service-tile { align-self:start; }.service-link { margin-top:auto; }.service-copy { display:flex; flex:1; flex-direction:column; } }
+@media(max-width:500px) { .hero { padding-top:7.5rem; }.hero-device { margin-top:1rem; }.hero-grid { gap:1rem; }.location-strip { margin-top:1rem; font-size:.8rem; }.location-strip > span:nth-child(2) { display:none; }.workshop-copy { order:-1; }.cta-row .btn { flex:1 1 100%; }.service-tile { flex-direction:row; }.mini-stage { flex:0 0 100px; height:auto; min-height:210px; }.mini-stage > div { scale:.75; transform-origin:0 0; }.service-copy { padding:1.1rem; }.service-copy h3 { font-size:1.1rem; }.service-copy p { font-size:.85rem; }.service-link { font-size:.75rem; } }
+:global([data-motion='paused']) .mini-stage > div,:global([data-motion='paused']) .mini-pc i { animation-play-state:paused; }
+@media(prefers-reduced-motion:reduce) { .mini-stage > div,.mini-pc i { animation:none; } }
 </style>
