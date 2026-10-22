@@ -18,3 +18,13 @@ Dials: ENERGY 3 / RHYTHM 3 / MOTION 3. Session direction: the owner explicitly r
 - Retained the existing cyan accent, Sora headings and readable Geist body text to keep FixCore recognizable.
 - Both dark and light tokens remain active; a working theme choice remains in the header.
 - Every device is labeled a simplified illustration; no customer claims, testimonials or diagnostic statistics are invented.
+
+## Model refinement
+
+- Replaced the large CSS perspective models with fixed-view SVG assemblies so edges remain parallel and parts share consistent proportions throughout motion.
+- Use matching metal rims, screen glass, battery geometry and cyan wallpaper on phone and laptop to unify materials.
+- Removed rotating screws and angle swings; only shallow separation, gentle vertical motion and cooling-fan rotation remain.
+- Put component names below the models so labels never cross the device silhouettes.
+- Retain the existing pause control, offscreen animation suspension and system reduced-motion support.
+- Reduced the service-object angle range to a fixed presentation with a small vertical drift.
+- Inspected rasterized SVG output for both large models; full-page browser checks remain necessary after deployment.

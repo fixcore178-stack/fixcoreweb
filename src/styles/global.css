@@ -623,3 +623,14 @@ html.lenis body {
 .depth-surface:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 5px; }
 .motion-offscreen *, [data-motion='paused'] [data-motion-scene] * { animation-play-state: paused !important; }
 @media (prefers-reduced-motion:reduce) { [data-motion-scene] * { animation:none !important; } }
+
+/* Fixed-view device drawings preserve their shape while the repair layers move. */
+[data-motion='paused'] .phone-object,
+[data-motion='paused'] .phone-board,
+[data-motion='paused'] .phone-front,
+[data-motion='paused'] .laptop-object,
+[data-motion='paused'] .keyboard-lift,
+[data-motion='paused'] .cooling-fan { animation-play-state:paused !important; }
+
+/* Keep small service models within their frames rather than stretching across them. */
+.mini-phone { overflow:hidden; }

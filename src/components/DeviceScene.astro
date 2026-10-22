@@ -1,73 +1,68 @@
 <figure class="device-study">
   <div class="study-top"><span>Inside the everyday.</span><span>Phone / exploded view</span></div>
-  <div class="assembly" aria-hidden="true" data-motion-scene>
-    <div class="phone-stack">
-      <div class="chassis layer"><div class="camera"><i></i><i></i></div><span class="port"></span></div>
-      <div class="internals layer">
-        <div class="board"><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="battery"><span>Li-ion</span><b>+</b><span>Rechargeable battery</span></div>
-        <div class="connector"></div>
-      </div>
-      <div class="display layer"><div class="display-art"><span></span><span></span><span></span></div><i class="speaker"></i></div>
-      <i class="screw screw-a"></i><i class="screw screw-b"></i><i class="screw screw-c"></i><i class="screw screw-d"></i>
-    </div>
-    <span class="part-label label-screen">01 / Display</span>
-    <span class="part-label label-battery">02 / Battery</span>
-    <span class="part-label label-port">03 / Charging port</span>
+  <div class="assembly" data-motion-scene>
+    <svg viewBox="0 0 520 500" role="img" aria-label="Three-dimensional phone illustration with aligned display, battery and aluminum housing">
+      <defs>
+        <linearGradient id="phone-metal" x1="0" x2="1" y2="1"><stop stop-color="#d4dee3"/><stop offset=".35" stop-color="#8296a3"/><stop offset=".72" stop-color="#435c6b"/><stop offset="1" stop-color="#a1b3bf"/></linearGradient>
+        <linearGradient id="phone-edge" x2="0" y2="1"><stop stop-color="#8da5b4"/><stop offset="1" stop-color="#263d4b"/></linearGradient>
+        <linearGradient id="phone-screen" x2="1" y2="1"><stop stop-color="#183e50"/><stop offset="1" stop-color="#081b29"/></linearGradient>
+        <linearGradient id="phone-ribbon" x2="1" y2="1"><stop stop-color="#b5eef0"/><stop offset=".5" stop-color="#61c7d5"/><stop offset="1" stop-color="#267990"/></linearGradient>
+        <linearGradient id="phone-cell" x2="1" y2="1"><stop stop-color="#40515d"/><stop offset="1" stop-color="#1d2e3a"/></linearGradient>
+        <clipPath id="phone-display-clip"><rect x="8" y="8" width="164" height="306" rx="23"/></clipPath>
+      </defs>
+      <ellipse cx="265" cy="439" rx="113" ry="17" fill="#000" opacity=".12"/>
+      <g class="phone-object">
+        <g transform="matrix(.94 .20 -.28 .88 238 101)">
+          <rect y="8" width="180" height="322" rx="29" fill="#263e4c" stroke="#8297a5" stroke-width="2"/>
+          <rect width="180" height="322" rx="29" fill="url(#phone-metal)" stroke="#b7c8d2" stroke-width="2"/>
+          <rect x="7" y="7" width="166" height="308" rx="23" fill="#6a818e" stroke="#c1cdd4"/>
+          <rect x="72" y="323" width="36" height="4" rx="2" fill="#142934"/>
+          <g fill="#253e4c">{[0,1,2,3].map(i=><><circle cx={49+i*5} cy="324" r="1"/><circle cx={116+i*5} cy="324" r="1"/></>)}</g>
+        </g>
+        <g class="phone-board">
+          <g transform="matrix(.94 .20 -.28 .88 222 79)">
+            <rect width="180" height="322" rx="26" fill="#284a48" stroke="#a2b8b7" stroke-width="2"/>
+            <path d="M12 85h155M14 273h150" stroke="#637f78"/>
+            <g fill="#152c34" stroke="#8ea9ad"><rect x="17" y="20" width="44" height="47" rx="5"/><rect x="73" y="20" width="45" height="47" rx="3"/><rect x="131" y="22" width="28" height="39" rx="2"/></g>
+            <g fill="#081b29" stroke="#638594" stroke-width="4"><circle cx="30" cy="33" r="10"/><circle cx="47" cy="53" r="10"/></g>
+            <rect x="18" y="96" width="144" height="169" rx="7" fill="url(#phone-cell)" stroke="#788d99"/>
+            <text x="33" y="123" fill="#dae4e9" font-size="13" font-family="sans-serif">Li-ion</text>
+            <path d="M136 112v10m-5-5h10" stroke="#aebfc8" stroke-width="1.5"/>
+            <path d="M31 245h60m-60 6h42" stroke="#718996" stroke-width="2"/>
+            <path d="M80 277v15h21v12" fill="none" stroke="#b1a17c" stroke-width="8"/>
+            <rect x="72" y="298" width="39" height="11" rx="3" fill="#253c46" stroke="#9eb0b4"/>
+            <g fill="#b3c3c7"><circle cx="12" cy="14" r="2"/><circle cx="166" cy="14" r="2"/><circle cx="12" cy="307" r="2"/><circle cx="166" cy="307" r="2"/></g>
+          </g>
+        </g>
+        <g class="phone-front">
+          <g transform="matrix(.94 .20 -.28 .88 204 56)">
+            <rect y="5" width="180" height="322" rx="29" fill="#1d3341" stroke="#7894a6" stroke-width="2"/>
+            <rect width="180" height="322" rx="29" fill="url(#phone-edge)" stroke="#b5c8d4" stroke-width="2"/>
+            <rect x="5" y="5" width="170" height="312" rx="25" fill="#071823"/>
+            <g clip-path="url(#phone-display-clip)">
+              <rect x="8" y="8" width="164" height="306" fill="url(#phone-screen)"/>
+              <path d="M-58 269C76 296 36 82 217 48" fill="none" stroke="url(#phone-ribbon)" stroke-width="64"/>
+              <path d="M-50 319C93 348 103 171 233 204" fill="none" stroke="#286d85" stroke-width="41"/>
+              <path d="M6 9h167v125C113 80 61 53 6 61Z" fill="#d7f6fa" opacity=".06"/>
+            </g>
+            <rect x="64" y="15" width="51" height="10" rx="5" fill="#07131d"/>
+            <circle cx="106" cy="20" r="2.4" fill="#152e42"/>
+            <path d="M66 304h49" stroke="#d0eaf0" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+          </g>
+        </g>
+      </g>
+    </svg>
   </div>
-  <figcaption><span>Different parts. One familiar device.</span><span>Simplified illustration; parts vary by model.</span></figcaption>
+  <div class="parts"><span>Display</span><span>Battery</span><span>Charging port</span></div>
+  <figcaption>Simplified illustration. Components vary by model.</figcaption>
 </figure>
-
 <style>
-.device-study { margin: 0; min-width: 0; border-block: 1px solid var(--color-rule-hi); }
-.study-top, figcaption { display: flex; justify-content: space-between; gap: 1rem; font-size: .75rem; color: var(--color-muted); padding: 1rem 0; }
-.study-top span:first-child { color: var(--color-ink); font-weight: 600; }
-.study-top span:last-child { font-family: var(--font-mono); font-size: .68rem; }
-.assembly { position: relative; height: 480px; perspective: 1100px; overflow: hidden; }
-.phone-stack { position: absolute; width: 180px; height: 326px; left: 50%; top: 47%; transform: translate(-50%, -50%) rotateX(38deg) rotateY(-24deg) rotateZ(24deg); transform-style: preserve-3d; }
-.phone-stack { animation: inspect-phone 14s ease-in-out infinite; }
-.display { animation: lift-display 8s ease-in-out infinite; }
-.internals { animation: lift-board 8s ease-in-out infinite; }
-.battery { transform: translateZ(12px); animation: lift-battery 8s ease-in-out infinite; }
-.internals { transform-style: preserve-3d; }
-.screw { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(45deg,#aab7be,#334751); box-shadow: 1px 3px 0 #293d46; transform: translateZ(90px); animation: loose-screw 8s ease-in-out infinite; }
-.screw::after { content: ''; position: absolute; width: 5px; height: 1px; background: #11202b; left: 1px; top: 3px; }
-.screw-a { left: -28px; top: 0; }.screw-b { right: -28px; top: 0; animation-delay: -.4s; }.screw-c { left: -28px; bottom: 0; animation-delay: -.8s; }.screw-d { right: -28px; bottom: 0; animation-delay: -1.2s; }
-@keyframes inspect-phone { 0%,100% { transform: translate(-50%,-50%) rotateX(38deg) rotateY(-24deg) rotateZ(24deg); } 50% { transform: translate(-50%,-50%) rotateX(26deg) rotateY(16deg) rotateZ(14deg); } }
-@keyframes lift-display { 0%,100% { transform: translateZ(80px); } 50% { transform: translateZ(155px) translateY(-18px); } }
-@keyframes lift-board { 0%,100% { transform: translateZ(25px); } 50% { transform: translateZ(62px); } }
-@keyframes lift-battery { 0%,100% { transform: translateZ(0); } 50% { transform: translateZ(30px); } }
-@keyframes loose-screw { 0%,100% { transform: translateZ(65px) rotate(0deg); } 50% { transform: translateZ(125px) rotate(180deg); } }
-:global([data-motion='paused']) .phone-stack, :global([data-motion='paused']) .layer, :global([data-motion='paused']) .battery, :global([data-motion='paused']) .screw { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) { .phone-stack,.layer,.battery,.screw { animation: none !important; } }
-.layer { position: absolute; inset: 0; border-radius: 27px; }
-.chassis { background: linear-gradient(120deg, #a2b0b6, #33434b 60%, #83949c); border: 3px solid #9caeb5; box-shadow: 6px 9px 0 #36444c, 9px 12px 0 #18252d, 18px 28px 24px #0004; }
-.chassis::before { content: ''; position: absolute; inset: 8px; border: 1px solid #78888d; border-radius: 19px; }
-.camera { position: absolute; top: 16px; left: 15px; display: flex; gap: 6px; }
-.camera i { width: 22px; height: 22px; border: 5px solid #53636c; border-radius: 50%; background: #0d1b22; box-shadow: inset 2px 2px 0 #6b8d9c; }
-.port { position: absolute; width: 32px; height: 5px; background: #0b1419; bottom: -8px; left: 70px; border-radius: 4px; }
-.internals { transform: translateZ(35px); inset: 8px; background: #243d3c; border: 2px solid #7b9996; box-shadow: 3px 5px 0 #172e2c; border-radius: 21px; }
-.board { position: absolute; top: 12px; left: 10px; right: 10px; height: 62px; display: flex; align-items: center; gap: 7px; background: repeating-linear-gradient(90deg, transparent 0 14px, #9caa6e 15px 16px, transparent 17px 23px); }
-.board i { width: 22px; height: 31px; background: #1c252b; border: 2px solid #96a8a8; }
-.board i:nth-child(2) { width: 35px; height: 45px; }
-.battery { position: absolute; top: 90px; left: 12px; right: 12px; bottom: 30px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(110deg, #353e43, #172229); border: 1px solid #83918f; border-radius: 5px; color: #cad3d4; }
-.battery span:first-child { font-size: 20px; font-weight: 600; }
-.battery span:last-child { font-size: 8px; max-width: 70px; line-height: 1.5; }
-.battery b { position: absolute; top: 13px; right: 12px; font-size: 14px; }
-.connector { position: absolute; bottom: 11px; width: 80px; left: 35px; height: 11px; border: 2px solid #bca77b; background: #202d2e; }
-.display { transform: translateZ(103px); background: #13242c; border: 5px solid #52636e; box-shadow: 3px 5px 0 #132129, inset 0 0 0 2px #0a161d; overflow: hidden; }
-.display-art { position: absolute; inset: 4px; border-radius: 18px; overflow: hidden; background: #102c37; }
-.display-art span { position: absolute; width: 250px; height: 220px; border: 28px solid #56c9d4; border-radius: 50%; left: -80px; top: 36px; transform: rotate(-25deg); }
-.display-art span:nth-child(2) { top: 113px; left: 11px; border-color: #277787; }
-.display-art span:nth-child(3) { top: -148px; left: -10px; border-color: #b3e0df; }
-.speaker { position: absolute; top: 7px; left: 64px; width: 43px; height: 9px; background: #0a161d; border-radius: 8px; }
-.part-label { position: absolute; font-size: .7rem; font-family: var(--font-mono); color: var(--color-ink-2); }
-.part-label::before { content: ''; position: absolute; width: 30px; height: 1px; background: var(--color-muted); top: 50%; }
-.label-screen { left: 0; top: 24%; } .label-screen::before { left: calc(100% + 8px); }
-.label-battery { right: 0; top: 57%; } .label-battery::before { right: calc(100% + 8px); }
-.label-port { left: 9%; bottom: 8%; } .label-port::before { left: calc(100% + 8px); }
-figcaption { border-top: 1px solid var(--color-rule); flex-direction: column; gap: .2rem; }
-figcaption span:first-child { color: var(--color-ink); font-size: .85rem; }
-figcaption span:last-child { font-size: .7rem; }
-@media (max-width: 479px) { .assembly { height: 350px; } .phone-stack { width: 150px; height: 280px; } .part-label { font-size: .6rem; } .part-label::before { width: 16px; } }
+.device-study { margin:0; min-width:0; border-block:1px solid var(--color-rule-hi); }
+.study-top { display:flex; justify-content:space-between; gap:1rem; padding:1rem 0; color:var(--color-muted); font-size:.78rem; }.study-top span:first-child { color:var(--color-ink); font-weight:600; }
+.assembly svg { display:block; width:100%; height:auto; overflow:visible; }.assembly { overflow:hidden; }.phone-object { animation:phone-hover 9s ease-in-out infinite; }.phone-board { animation:board-separation 9s ease-in-out infinite; }.phone-front { animation:screen-separation 9s ease-in-out infinite; }
+.parts { display:flex; justify-content:space-between; gap:.75rem; border-top:1px solid var(--color-rule); padding:1rem 0 .5rem; color:var(--color-ink-2); font-size:.83rem; }figcaption { padding:0 0 1rem; color:var(--color-muted); font-size:.78rem; }
+@keyframes phone-hover { 0%,100% { transform:translateY(3px); } 50% { transform:translateY(-3px); } }
+@keyframes board-separation { 0%,100% { transform:translate(0,0); } 50% { transform:translate(-3px,-5px); } }
+@keyframes screen-separation { 0%,100% { transform:translate(0,0); } 50% { transform:translate(-10px,-14px); } }
+@media(prefers-reduced-motion:reduce) { .phone-object,.phone-board,.phone-front { animation:none; } }
 </style>
