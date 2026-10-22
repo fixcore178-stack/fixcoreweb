@@ -1,0 +1,34 @@
+<button class="motion-control" type="button" data-motion-toggle aria-pressed="false" hidden><span class="motion-symbol" aria-hidden="true">Ⅱ</span><span data-motion-label>Pause 3D motion</span></button>
+<style>
+.motion-control { position:fixed; bottom:1.25rem; left:1.25rem; z-index:45; display:flex; align-items:center; gap:.6rem; min-height:44px; padding:.6rem .9rem; background:var(--color-paper-2); color:var(--color-ink); border:1px solid var(--color-rule-hi); border-radius:6px; font:500 .8rem var(--font-body); cursor:pointer; box-shadow:0 4px 16px #0002; }
+.motion-control[hidden] { display:none; }.motion-symbol { color:var(--color-accent); font-size:1.1rem; }.motion-control:hover { border-color:var(--color-accent); }
+@media(max-width:500px) { .motion-control { left:.75rem; bottom:.75rem; font-size:.7rem; padding:.5rem .7rem; } }
+</style>
+<script>
+const motionRoot = document.documentElement;
+const motionButton = document.querySelector<HTMLButtonElement>('[data-motion-toggle]');
+const motionLabel = motionButton?.querySelector('[data-motion-label]');
+const motionSymbol = motionButton?.querySelector('.motion-symbol');
+const media = matchMedia('(prefers-reduced-motion: reduce)');
+let userPaused = false;
+try { userPaused = localStorage.getItem('fixcore-motion') === 'paused'; } catch {}
+function syncMotion() {
+  const paused = userPaused || media.matches;
+  motionRoot.dataset.motion = paused ? 'paused' : 'playing';
+  motionButton?.setAttribute('aria-pressed', String(paused));
+  if (motionLabel) motionLabel.textContent = media.matches ? 'Reduced motion on' : paused ? 'Play 3D motion' : 'Pause 3D motion';
+  if (motionSymbol) motionSymbol.textContent = paused ? '▷' : 'Ⅱ';
+  if (motionButton) { motionButton.hidden = false; motionButton.disabled = media.matches; }
+}
+syncMotion();
+motionButton?.addEventListener('click', () => {
+  userPaused = !userPaused;
+  try { localStorage.setItem('fixcore-motion', userPaused ? 'paused' : 'playing'); } catch {}
+  syncMotion();
+});
+media.addEventListener('change', syncMotion);
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => entry.target.classList.toggle('motion-offscreen', !entry.isIntersecting)), {rootMargin:'120px'});
+  document.querySelectorAll('[data-motion-scene]').forEach(scene => observer.observe(scene));
+}
+</script>
