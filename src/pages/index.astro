@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import DeviceScene from '../components/DeviceScene.astro';
 import LaptopScene from '../components/LaptopScene.astro';
+import DisassemblyScene from '../components/DisassemblyScene.astro';
 import MotionControl from '../components/MotionControl.astro';
 import QuoteWizard from '../components/QuoteWizard.astro';
 import ContactSection from '../components/ContactSection.astro';
@@ -50,6 +51,13 @@ const schema = {'@context':'https://schema.org','@type':'LocalBusiness',name:SIT
           </a>
         ))}
       </div>
+    </div>
+  </section>
+
+  <section class="section disassembly" id="parts">
+    <div class="wrap">
+      <div class="section-head split-head"><h2 data-tag="Under the hood">Every part,<br /><span class="grad">laid out.</span></h2><p class="lead">Pick a device to see it taken apart. Hover a part to see what it does and what can go wrong.</p></div>
+      <DisassemblyScene />
     </div>
   </section>
 
