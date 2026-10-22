@@ -197,7 +197,7 @@ ol {
 	position: relative;
 	background: var(--color-paper-2);
 	border-radius: var(--radius);
-	box-shadow: inset 0 0 0 1px var(--color-rule);
+	box-shadow: inset 0 0 0 1px var(--color-rule), 0 6px 0 -3px var(--color-paper-3);
 }
 
 .glass::before {
@@ -320,11 +320,13 @@ h2 + .lead {
 .btn-primary {
 	background: var(--color-accent);
 	color: var(--color-on-accent);
+	box-shadow: 0 5px 0 color-mix(in srgb, var(--color-accent) 55%, var(--color-paper));
 }
 
 .btn-primary:hover {
 	background: var(--color-accent-hover);
 	color: var(--color-on-accent);
+	transform: translateY(-2px);
 }
 
 .btn-glass {
@@ -612,3 +614,12 @@ html.lenis body {
 		display: none;
 	}
 }
+
+/* Motion stays on the physical device illustrations; reading surfaces only react to input. */
+.depth-surface { transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out); }
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .depth-surface:hover { transform: perspective(1000px) rotateY(-3deg) rotateX(2deg) translateY(-6px); }
+}
+.depth-surface:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 5px; }
+.motion-offscreen *, [data-motion='paused'] [data-motion-scene] * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion:reduce) { [data-motion-scene] * { animation:none !important; } }

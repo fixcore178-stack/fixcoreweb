@@ -1,6 +1,6 @@
 <figure class="device-study">
   <div class="study-top"><span>Inside the everyday.</span><span>Phone / exploded view</span></div>
-  <div class="assembly" aria-hidden="true">
+  <div class="assembly" aria-hidden="true" data-motion-scene>
     <div class="phone-stack">
       <div class="chassis layer"><div class="camera"><i></i><i></i></div><span class="port"></span></div>
       <div class="internals layer">
@@ -9,6 +9,7 @@
         <div class="connector"></div>
       </div>
       <div class="display layer"><div class="display-art"><span></span><span></span><span></span></div><i class="speaker"></i></div>
+      <i class="screw screw-a"></i><i class="screw screw-b"></i><i class="screw screw-c"></i><i class="screw screw-d"></i>
     </div>
     <span class="part-label label-screen">01 / Display</span>
     <span class="part-label label-battery">02 / Battery</span>
@@ -22,8 +23,23 @@
 .study-top, figcaption { display: flex; justify-content: space-between; gap: 1rem; font-size: .75rem; color: var(--color-muted); padding: 1rem 0; }
 .study-top span:first-child { color: var(--color-ink); font-weight: 600; }
 .study-top span:last-child { font-family: var(--font-mono); font-size: .68rem; }
-.assembly { position: relative; height: 420px; perspective: 1100px; overflow: hidden; }
+.assembly { position: relative; height: 480px; perspective: 1100px; overflow: hidden; }
 .phone-stack { position: absolute; width: 180px; height: 326px; left: 50%; top: 47%; transform: translate(-50%, -50%) rotateX(38deg) rotateY(-24deg) rotateZ(24deg); transform-style: preserve-3d; }
+.phone-stack { animation: inspect-phone 14s ease-in-out infinite; }
+.display { animation: lift-display 8s ease-in-out infinite; }
+.internals { animation: lift-board 8s ease-in-out infinite; }
+.battery { transform: translateZ(12px); animation: lift-battery 8s ease-in-out infinite; }
+.internals { transform-style: preserve-3d; }
+.screw { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(45deg,#aab7be,#334751); box-shadow: 1px 3px 0 #293d46; transform: translateZ(90px); animation: loose-screw 8s ease-in-out infinite; }
+.screw::after { content: ''; position: absolute; width: 5px; height: 1px; background: #11202b; left: 1px; top: 3px; }
+.screw-a { left: -28px; top: 0; }.screw-b { right: -28px; top: 0; animation-delay: -.4s; }.screw-c { left: -28px; bottom: 0; animation-delay: -.8s; }.screw-d { right: -28px; bottom: 0; animation-delay: -1.2s; }
+@keyframes inspect-phone { 0%,100% { transform: translate(-50%,-50%) rotateX(38deg) rotateY(-24deg) rotateZ(24deg); } 50% { transform: translate(-50%,-50%) rotateX(26deg) rotateY(16deg) rotateZ(14deg); } }
+@keyframes lift-display { 0%,100% { transform: translateZ(80px); } 50% { transform: translateZ(155px) translateY(-18px); } }
+@keyframes lift-board { 0%,100% { transform: translateZ(25px); } 50% { transform: translateZ(62px); } }
+@keyframes lift-battery { 0%,100% { transform: translateZ(0); } 50% { transform: translateZ(30px); } }
+@keyframes loose-screw { 0%,100% { transform: translateZ(65px) rotate(0deg); } 50% { transform: translateZ(125px) rotate(180deg); } }
+:global([data-motion='paused']) .phone-stack, :global([data-motion='paused']) .layer, :global([data-motion='paused']) .battery, :global([data-motion='paused']) .screw { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .phone-stack,.layer,.battery,.screw { animation: none !important; } }
 .layer { position: absolute; inset: 0; border-radius: 27px; }
 .chassis { background: linear-gradient(120deg, #a2b0b6, #33434b 60%, #83949c); border: 3px solid #9caeb5; box-shadow: 6px 9px 0 #36444c, 9px 12px 0 #18252d, 18px 28px 24px #0004; }
 .chassis::before { content: ''; position: absolute; inset: 8px; border: 1px solid #78888d; border-radius: 19px; }
