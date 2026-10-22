@@ -1,6 +1,6 @@
 <figure class="laptop-study">
   <div class="rig" data-motion-scene>
-    <svg viewBox="0 0 560 480" role="img" aria-label="Three-dimensional laptop cutaway with aligned keyboard, cooling fans, motherboard and battery">
+    <svg viewBox="0 0 560 540" role="img" aria-label="Three-dimensional laptop cutaway with aligned keyboard, cooling fans, motherboard and battery">
       <defs>
         <linearGradient id="laptop-metal" x2=".8" y2="1"><stop stop-color="#dce4e8"/><stop offset=".48" stop-color="#9dAFba"/><stop offset="1" stop-color="#677f8f"/></linearGradient>
         <linearGradient id="laptop-rim" x2="0" y2="1"><stop stop-color="#8fa5b3"/><stop offset="1" stop-color="#304b5e"/></linearGradient>
@@ -8,7 +8,7 @@
         <linearGradient id="laptop-wave" x2="1" y2="1"><stop stop-color="#c4eff0"/><stop offset=".5" stop-color="#57bccb"/><stop offset="1" stop-color="#26738d"/></linearGradient>
         <clipPath id="laptop-screen-clip"><rect x="9" y="10" width="282" height="180" rx="5"/></clipPath>
       </defs>
-      <ellipse cx="295" cy="416" rx="172" ry="20" fill="#000" opacity=".12"/>
+      <ellipse cx="295" cy="482" rx="172" ry="20" fill="#000" opacity=".12"/>
       <g class="laptop-object">
         <g transform="matrix(.94 .13 -.05 .85 100 37)">
           <rect x="-3" y="-3" width="306" height="211" rx="10" fill="#263e4e" stroke="#9db3bf" stroke-width="2"/>
@@ -23,7 +23,7 @@
           <circle cx="150" cy="5" r="1.8" fill="#091825"/>
           <path d="M128 201h44" stroke="#627b8b" stroke-width="1.5"/>
         </g>
-        <g transform="matrix(.94 .13 .64 .74 90 230)">
+        <g transform="translate(0 66)"><g transform="matrix(.94 .13 .64 .74 90 230)">
           <rect y="10" width="300" height="166" rx="10" fill="#304b5c" stroke="#718b9c" stroke-width="2"/>
           <rect width="300" height="166" rx="10" fill="url(#laptop-metal)" stroke="#ccdae2" stroke-width="2"/>
           <rect x="8" y="8" width="284" height="149" rx="5" fill="#294d4b" stroke="#7e9895"/>
@@ -36,7 +36,7 @@
           <rect x="100" y="89" width="104" height="9" rx="1" fill="#8caa98"/>
           <path d="M114 91v5m13-5v5m13-5v5m13-5v5m13-5v5m13-5v5" stroke="#1f373f" stroke-width="6"/>
           <path d="M124 173h52" stroke="#1a303e" stroke-width="3" stroke-linecap="round"/>
-        </g>
+        </g></g>
         <g class="keyboard-lift">
           <g transform="matrix(.94 .13 .64 .74 90 187)">
             <rect y="5" width="300" height="166" rx="9" fill="#415e70" stroke="#7d96a6"/>
@@ -57,7 +57,7 @@
 .laptop-study { margin:0; min-width:0; }.rig { overflow:hidden; }.rig svg { display:block; width:100%; height:auto; }.laptop-object { animation:laptop-hover 10s ease-in-out infinite; }.keyboard-lift { animation:keyboard-separation 10s ease-in-out infinite; }.cooling-fan { animation:fan-spin 5s linear infinite; }
 .parts { display:flex; justify-content:space-between; gap:.75rem; padding:1rem 0 .5rem; border-top:1px solid var(--color-rule); color:var(--color-ink-2); font-size:.83rem; }figcaption { color:var(--color-muted); font-size:.78rem; }
 @keyframes laptop-hover { 0%,100% { transform:translateY(3px); } 50% { transform:translateY(-3px); } }
-@keyframes keyboard-separation { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-13px); } }
+@keyframes keyboard-separation { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-22px); } }
 @keyframes fan-spin { to { transform:rotate(360deg); } }
 @media(prefers-reduced-motion:reduce) { .laptop-object,.keyboard-lift,.cooling-fan { animation:none; } }
 </style>
