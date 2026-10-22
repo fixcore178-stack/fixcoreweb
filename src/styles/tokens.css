@@ -74,6 +74,5 @@
 	--radius: 6px;
 	--radius-sm: 3px;
 	--rule: 1px solid var(--color-rule);
-	--glow: 0 28px 60px -32px color-mix(in oklch, var(--color-accent) 45%, transparent),
-		0 0 44px -20px color-mix(in oklch, var(--color-accent) 35%, transparent);
+	--glow: 0 0 0 0 transparent;
 }
