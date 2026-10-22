@@ -7,6 +7,7 @@ import Testimonials from '../components/Testimonials.astro';
 import ContactSection from '../components/ContactSection.astro';
 import CtaBand from '../components/CtaBand.astro';
 import PartsDiagram from '../components/PartsDiagram.astro';
+import DeviceScene from '../components/DeviceScene.astro';
 import Icon from '../components/Icon.astro';
 import BrandIcon from '../components/BrandIcon.astro';
 import {
@@ -23,13 +24,6 @@ import {
 } from '../consts';
 import { services, quoteHref } from '../data/services';
 import { business, policies, schedule } from '../data/site';
-
-const trust = [
-	{ icon: 'pin', text: `Local to ${business.serviceArea}` },
-	{ icon: 'chat', text: 'Quotes on WhatsApp' },
-	{ icon: 'quote', text: 'A quote before any work' },
-	{ icon: 'wrench', text: 'Phones and laptops, all brands' },
-] as const;
 
 const steps = [
 	{ icon: 'chat', title: "Tell us what's wrong", text: 'Use the quote form or message us directly. Add the make and model, and a photo if you can.' },
@@ -94,18 +88,18 @@ const schema = {
 				<h1 class="reveal-lines">
 					<span class="line" style="--i:0"><span>Phone buss?</span></span>
 					<span class="line" style="--i:1"><span>Laptop slow?</span></span>
-					<span class="line" style="--i:2"><span class="grad caret">We'll sort it out.</span></span>
+					<span class="line" style="--i:2"><span class="grad">We'll sort it out.</span></span>
 				</h1>
 				<p class="lead reveal" style="--d:3">
 					{SITE_TITLE} repairs phones and laptops, all brands, across Trinidad. Tell us what is wrong
 					and we will send you a quote on WhatsApp.
 				</p>
 				<div class="cta-row reveal" style="--d:4">
-					<a class="btn btn-wa btn-lg" href={WHATSAPP_URL} target="_blank" rel="noopener">
-						<BrandIcon name="whatsapp" size={20} /> Message us on WhatsApp
+					<a class="btn btn-primary btn-lg" href="#quote">
+						Build my repair quote
 					</a>
-					<a class="btn btn-glass btn-lg" href="#quote">
-						Build a repair quote <Icon class="arrow" name="arrow" size={18} stroke={2.2} />
+					<a class="btn btn-glass btn-lg" href={WHATSAPP_URL} target="_blank" rel="noopener">
+						<BrandIcon name="whatsapp" size={20} /> WhatsApp us
 					</a>
 				</div>
 				<div class="follow reveal" style="--d:5">
@@ -124,24 +118,15 @@ const schema = {
 				</div>
 			</div>
 
-			<aside class="ticket brackets reveal" style="--d:2" aria-label="Shop details">
+			<DeviceScene />
+		</div>
+		<div class="wrap shop-strip">
+			<aside class="ticket" aria-label="Shop details">
 				<div class="ticket-head">
 					<span class="mono">Shop details</span>
 					<span class="status" data-status aria-live="polite" hidden></span>
 				</div>
 				<dl>
-					<div>
-						<dt>Quote</dt>
-						<dd>Before any work starts</dd>
-					</div>
-					<div>
-						<dt>Devices</dt>
-						<dd>Phones and laptops, all brands</dd>
-					</div>
-					<div>
-						<dt>Area</dt>
-						<dd>{business.serviceArea}</dd>
-					</div>
 					{
 						business.address && (
 							<div>
@@ -158,30 +143,10 @@ const schema = {
 							</div>
 						))
 					}
-					{
-						business.warranty && (
-							<div>
-								<dt>Warranty</dt>
-								<dd>{business.warranty}</dd>
-							</div>
-						)
-					}
 				</dl>
 			</aside>
 		</div>
 
-		<div class="wrap">
-			<ul class="trust reveal" style="--d:6">
-				{
-					trust.map((t) => (
-						<li>
-							<Icon name={t.icon} size={20} />
-							<span>{t.text}</span>
-						</li>
-					))
-				}
-			</ul>
-		</div>
 	</section>
 
 	<!-- ============ Services ============ -->
@@ -189,7 +154,7 @@ const schema = {
 		<div class="wrap">
 			<div class="section-head head-split">
 				<div class="reveal">
-					<h2 data-tag="/services">Whatever is broken, <span class="grad">start here</span>.</h2>
+					<h2 data-tag="Repair services">Whatever is broken, <span class="grad">start here</span>.</h2>
 				</div>
 				<p class="lead reveal" style="--d:1">
 					Pick the device to see what we fix. Not on the list? Message us and ask. We will tell you if we can help.
@@ -212,7 +177,7 @@ const schema = {
 									))}
 								</span>
 								<span class="more">
-									Explore <Icon class="arrow" name="arrow" size={16} stroke={2.2} />
+									Repair details <Icon class="arrow" name="arrow" size={16} stroke={2.2} />
 								</span>
 							</a>
 						</li>
@@ -240,7 +205,7 @@ const schema = {
 		<div class="wrap">
 			<div class="section-head head-split">
 				<div class="reveal">
-					<h2 data-tag="/inside">What we <span class="grad">open up</span>.</h2>
+					<h2 data-tag="Inside your device">What we <span class="grad">open up</span>.</h2>
 				</div>
 				<p class="lead reveal" style="--d:1">
 					These are the parts we replace most often. Tell us which one is playing up and we will quote it.
@@ -257,7 +222,7 @@ const schema = {
 		<div class="wrap quote-grid">
 			<div class="quote-intro">
 				<div class="reveal">
-					<h2 data-tag="/quote">Your message, <span class="grad">written for you</span>.</h2>
+					<h2 data-tag="Request a repair">Your message, <span class="grad">written for you</span>.</h2>
 					<p class="lead">Pick the device, tell us the problem, review it and send it on WhatsApp. No account needed.</p>
 				</div>
 				<ol class="how-mini reveal" style="--d:1">
@@ -280,7 +245,7 @@ const schema = {
 	<section class="section" id="process">
 		<div class="wrap">
 			<div class="section-head reveal">
-				<h2 data-tag="/process">Three steps, <span class="grad">no guesswork</span>.</h2>
+				<h2 data-tag="The repair process">You approve the quote.<br /><span class="grad">Then we get to work.</span></h2>
 			</div>
 			<ol class="steps">
 				{
@@ -300,7 +265,7 @@ const schema = {
 	<section class="section" id="why">
 		<div class="wrap why-grid">
 			<div class="why-copy reveal">
-				<h2 data-tag="/why">Repairs that feel <span class="grad">straightforward</span>.</h2>
+				<h2 data-tag="Why FixCore">Repairs that feel <span class="grad">straightforward</span>.</h2>
 				<p class="lead">No jargon and no runaround. Just a local team that tells you what is going on.</p>
 			</div>
 			<ul class="why-list">
@@ -328,7 +293,7 @@ const schema = {
 	<section class="section" id="faq">
 		<div class="wrap faq-grid">
 			<div class="faq-copy reveal">
-				<h2 data-tag="/faq">Good <span class="grad">questions</span>.</h2>
+					<h2 data-tag="Before you book">Good <span class="grad">questions</span>.</h2>
 				<p class="lead">Cannot find your answer? Message us and we will get back to you.</p>
 				<a class="btn btn-glass" href={WHATSAPP_URL} target="_blank" rel="noopener">
 					<BrandIcon name="whatsapp" size={18} /> Ask on WhatsApp
@@ -366,7 +331,7 @@ const schema = {
 	/* ---------- Hero ---------- */
 	.hero {
 		position: relative;
-		padding: clamp(7.5rem, 14vw, 10rem) 0 clamp(2rem, 5vw, 3.5rem);
+		padding: clamp(7.5rem, 12vw, 10rem) 0 0;
 	}
 	.hero-grid {
 		display: grid;
@@ -442,18 +407,18 @@ const schema = {
 
 	/* The shop-details ticket: real facts from site data, set like a spec sheet */
 	.ticket {
-		padding: 0.5rem 1.5rem;
-		border-top: 2px solid var(--color-accent);
-		background: var(--color-paper-2);
-		border-radius: 0 0 var(--radius) var(--radius);
+		display: grid;
+		gap: 1rem 2.5rem;
+		padding: 1.5rem 0;
+		border-block: 1px solid var(--color-rule-hi);
 	}
+	.shop-strip { margin-top: 3.5rem; }
 	.ticket-head {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 1rem;
-		padding: 0.9rem 0;
-		border-bottom: 1px solid var(--color-rule-hi);
+		padding: 0;
 		font-size: 0.74rem;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
@@ -461,13 +426,17 @@ const schema = {
 	}
 	.ticket dl {
 		margin: 0;
+		display: grid;
+		gap: 1rem 2rem;
 	}
 	.ticket dl > div {
-		display: grid;
-		grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr);
-		gap: 1rem;
-		padding: 1rem 0;
-		border-bottom: 1px solid var(--color-rule);
+		display: block;
+		padding: 0;
+	}
+	@media (min-width: 760px) {
+		.ticket { grid-template-columns: 160px 1fr; align-items: center; }
+		.ticket dl { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+		.ticket-head { align-items: start; flex-direction: column; gap: .45rem; }
 	}
 	.ticket dl > div:last-child {
 		border-bottom: 0;
