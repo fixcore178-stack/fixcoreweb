@@ -65,3 +65,10 @@ export const schedule: { days: number[]; from: number; to: number }[] = [
 	{ days: [1, 2, 3, 4, 5], from: 17, to: 22 },
 	{ days: [0, 6], from: 9, to: 22 },
 ];
+
+// Splits a price line such as "Screen (common Android models)" into the part name and the
+// models it applies to, so tables can set the part in mono and the scope beside it.
+export function splitItem(item: string): { part: string; scope: string } {
+	const m = item.match(/^(.*?)\s*\((.*)\)\s*$/);
+	return m ? { part: m[1], scope: m[2] } : { part: item, scope: '' };
+}

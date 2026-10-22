@@ -1,0 +1,169 @@
+---
+// Hand-built teardown illustrations of a phone and a laptop with numbered parts.
+// These are simplified drawings, not photos of a specific model: the legend says so.
+// Colours and fonts come from the site tokens; the part names match the repairs in site.ts prices.
+const phoneParts = ['Display', 'Camera', 'Logic board', 'Battery', 'Charging port'];
+const laptopParts = ['Screen', 'Keyboard', 'Motherboard', 'Cooling fan', 'Battery', 'Charging port'];
+---
+
+<div class="diagrams">
+	<figure class="fig brackets">
+		<svg viewBox="0 0 240 420" role="img" aria-label="Teardown drawing of a phone with five numbered parts">
+			<rect class="body" x="30" y="10" width="180" height="400" rx="30" />
+			<rect class="dash" x="40" y="22" width="160" height="376" rx="22" />
+			<circle class="part" cx="72" cy="56" r="14" />
+			<circle class="part" cx="72" cy="56" r="5" />
+			<rect class="part" x="52" y="92" width="136" height="104" rx="6" />
+			<rect class="chip" x="64" y="104" width="30" height="30" />
+			<rect class="chip" x="104" y="104" width="22" height="22" />
+			<rect class="chip" x="136" y="104" width="38" height="14" />
+			<path class="trace" d="M64 156h110M64 172h70M150 140v32h24" />
+			<rect class="part" x="52" y="214" width="136" height="124" rx="6" />
+			<path class="trace" d="M88 276h64M120 244v64" />
+			<rect class="part" x="104" y="368" width="32" height="12" rx="6" />
+			<g class="marks">
+				<g transform="translate(206 38)"><rect width="18" height="18" /><text x="9" y="13">1</text></g>
+				<g transform="translate(94 47)"><rect width="18" height="18" /><text x="9" y="13">2</text></g>
+				<g transform="translate(171 80)"><rect width="18" height="18" /><text x="9" y="13">3</text></g>
+				<g transform="translate(171 265)"><rect width="18" height="18" /><text x="9" y="13">4</text></g>
+				<g transform="translate(144 359)"><rect width="18" height="18" /><text x="9" y="13">5</text></g>
+			</g>
+		</svg>
+		<figcaption>
+			<p class="cap-title mono">Phone</p>
+			<ol>
+				{phoneParts.map((p, i) => <li><span class="mono n">{String(i + 1).padStart(2, '0')}</span><span class="mono">{p}</span></li>)}
+			</ol>
+		</figcaption>
+	</figure>
+
+	<figure class="fig brackets">
+		<svg viewBox="0 0 400 300" role="img" aria-label="Teardown drawing of a laptop base with six numbered parts">
+			<rect class="body" x="20" y="14" width="360" height="272" rx="12" />
+			<rect class="part" x="38" y="30" width="324" height="52" rx="4" />
+			<path class="trace" d="M54 44h36M54 56h28M54 68h32" />
+			<g class="keys">
+				<path class="trace" d="M120 44h222M120 56h222M120 68h222" />
+			</g>
+			<rect class="part" x="38" y="100" width="190" height="104" rx="6" />
+			<rect class="chip" x="52" y="114" width="40" height="40" />
+			<rect class="chip" x="104" y="114" width="26" height="26" />
+			<rect class="chip" x="142" y="114" width="70" height="14" />
+			<path class="trace" d="M52 172h160M52 186h100" />
+			<circle class="part" cx="300" cy="150" r="42" />
+			<circle class="part" cx="300" cy="150" r="10" />
+			<path class="trace" d="M300 108v84M258 150h84M270 120l60 60M330 120l-60 60" />
+			<rect class="part" x="38" y="222" width="236" height="48" rx="6" />
+			<path class="trace" d="M80 246h152" />
+			<rect class="part" x="342" y="232" width="24" height="26" rx="3" />
+			<g class="marks">
+				<g transform="translate(344 8)"><rect width="18" height="18" /><text x="9" y="13">1</text></g>
+				<g transform="translate(60 50)"><rect width="18" height="18" /><text x="9" y="13">2</text></g>
+				<g transform="translate(194 118)"><rect width="18" height="18" /><text x="9" y="13">3</text></g>
+				<g transform="translate(291 141)"><rect width="18" height="18" /><text x="9" y="13">4</text></g>
+				<g transform="translate(246 232)"><rect width="18" height="18" /><text x="9" y="13">5</text></g>
+				<g transform="translate(320 236)"><rect width="18" height="18" /><text x="9" y="13">6</text></g>
+			</g>
+		</svg>
+		<figcaption>
+			<p class="cap-title mono">Laptop</p>
+			<ol>
+				{laptopParts.map((p, i) => <li><span class="mono n">{String(i + 1).padStart(2, '0')}</span><span class="mono">{p}</span></li>)}
+			</ol>
+		</figcaption>
+	</figure>
+</div>
+<p class="note mono">Simplified drawings. Layout varies by model.</p>
+
+<style>
+	.diagrams {
+		display: grid;
+		gap: 1.5rem;
+	}
+	@media (min-width: 820px) {
+		.diagrams {
+			grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+			gap: 2rem;
+		}
+	}
+	.fig {
+		margin: 0;
+		padding: 1.5rem;
+		background: var(--color-paper-2);
+		border-radius: var(--radius);
+		display: grid;
+		gap: 1.25rem;
+		align-content: start;
+	}
+	svg {
+		display: block;
+		width: 100%;
+		max-height: 24rem;
+		margin-inline: auto;
+		fill: none;
+		stroke: var(--color-ink-2);
+		stroke-width: 1.25;
+	}
+	.fig:first-child svg {
+		max-width: 15rem;
+	}
+	.body {
+		fill: var(--color-paper);
+		stroke: var(--color-rule-hi);
+		stroke-width: 1.5;
+	}
+	.dash {
+		stroke: var(--color-rule-hi);
+		stroke-dasharray: 4 4;
+	}
+	.part {
+		stroke: var(--color-ink-2);
+	}
+	.chip {
+		fill: var(--color-paper-3);
+		stroke: var(--color-faint);
+	}
+	.trace {
+		stroke: var(--color-accent);
+		stroke-width: 1;
+		opacity: 0.8;
+	}
+	.marks rect {
+		fill: var(--color-accent);
+		stroke: none;
+	}
+	.marks text {
+		fill: var(--color-on-accent);
+		stroke: none;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 600;
+		text-anchor: middle;
+	}
+	.cap-title {
+		margin: 0 0 0.75rem;
+		font-size: 0.74rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-faint);
+	}
+	ol {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+		gap: 0.5rem 1.5rem;
+	}
+	li {
+		display: flex;
+		gap: 0.75rem;
+		font-size: 0.9rem;
+		color: var(--color-ink);
+	}
+	.n {
+		color: var(--color-accent);
+	}
+	.note {
+		margin: 1rem 0 0;
+		font-size: 0.78rem;
+		color: var(--color-faint);
+	}
+</style>

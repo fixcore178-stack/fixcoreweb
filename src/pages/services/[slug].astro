@@ -6,7 +6,7 @@ import Icon from '../../components/Icon.astro';
 import BrandIcon from '../../components/BrandIcon.astro';
 import { services, quoteHref, type Service } from '../../data/services';
 import { SITE_TITLE, SITE_URL, WHATSAPP_URL, whatsappUrl } from '../../consts';
-import { business, prices, policies } from '../../data/site';
+import { business, prices, splitItem, policies } from '../../data/site';
 
 export function getStaticPaths() {
 	return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
@@ -79,14 +79,25 @@ const schema = {
 					<h2>Starting prices.</h2>
 					<p class="lead">{policies.dropOff} {policies.deposit} Final price depends on the model and fault. We confirm on WhatsApp before any work starts.</p>
 				</div>
-				<table class="price-table glass reveal">
+				<table class="price-table reveal">
+					<thead>
+						<tr>
+							<th scope="col">Part</th>
+							<th scope="col" class="scope-col">Applies to</th>
+							<th scope="col">From</th>
+						</tr>
+					</thead>
 					<tbody>
-						{prices[service.device].map((row) => (
-							<tr>
-								<th scope="row">{row.item}</th>
-								<td>from {row.from}</td>
-							</tr>
-						))}
+						{prices[service.device].map((row) => {
+							const x = splitItem(row.item);
+							return (
+								<tr>
+									<th scope="row">{x.part}</th>
+									<td class="scope-col">{x.scope || 'All models'}</td>
+									<td class="price">{row.from}</td>
+								</tr>
+							);
+						})}
 					</tbody>
 				</table>
 				<p class="note reveal">{policies.storage} {policies.dataRecovery} {policies.payment} {policies.coverage}</p>
@@ -397,7 +408,5 @@ const schema = {
 		transform: translateX(4px);
 		color: var(--cyan);
 	}
-.price-table { width: 100%; border-collapse: collapse; padding: 0.5rem 1rem; }
-	.price-table th, .price-table td { padding: 0.9rem 0.5rem; text-align: left; border-bottom: 1px solid var(--color-rule); }
-	.price-table td { text-align: right; font-weight: 600; }
+
 	</style>

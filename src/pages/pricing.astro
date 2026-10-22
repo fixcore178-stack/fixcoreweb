@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { SITE_TITLE, WHATSAPP_URL } from '../consts';
-import { prices, policies } from '../data/site';
+import { prices, policies, splitItem } from '../data/site';
 ---
 <Base title={`Repair Prices in Trinidad | ${SITE_TITLE}`} description="Starting prices for phone, laptop and computer repairs from FixCore Tech in Trinidad and Tobago. Get a confirmed quote before work begins.">
 	<section class="top"><div class="wrap">
@@ -13,14 +13,14 @@ import { prices, policies } from '../data/site';
 	<section class="section"><div class="wrap page-copy">
 		<div class="price-note glass"><strong>How our pricing works</strong><p>Prices marked “from” are estimates, not guaranteed prices for every device. Parts availability and quality affect the final cost. We confirm the price and get your approval before starting repairs.</p></div>
 		<div class="price-section"><div class="section-heading"><h2>Phone repairs</h2><p>Screen, battery and charging repairs for supported iPhone and Android models.</p></div>
-			<table class="price-table glass"><thead><tr><th scope="col">Repair</th><th scope="col">Starting price</th></tr></thead><tbody>{prices.phone.map((r) => (<tr><th scope="row">{r.item}</th><td>{r.from}</td></tr>))}</tbody></table>
+			<table class="price-table"><thead><tr><th scope="col">Part</th><th scope="col" class="scope-col">Applies to</th><th scope="col">From</th></tr></thead><tbody>{prices.phone.map((r) => { const x = splitItem(r.item); return (<tr><th scope="row">{x.part}</th><td class="scope-col">{x.scope || "All models"}</td><td class="price">{r.from}</td></tr>); })}</tbody></table>
 		</div>
 		<div class="price-section"><div class="section-heading"><h2>Laptop repairs</h2><p>Hardware repairs and maintenance for supported laptop brands.</p></div>
-			<table class="price-table glass"><thead><tr><th scope="col">Repair</th><th scope="col">Starting price</th></tr></thead><tbody>{prices.laptop.map((r) => (<tr><th scope="row">{r.item}</th><td>{r.from}</td></tr>))}</tbody></table>
+			<table class="price-table"><thead><tr><th scope="col">Part</th><th scope="col" class="scope-col">Applies to</th><th scope="col">From</th></tr></thead><tbody>{prices.laptop.map((r) => { const x = splitItem(r.item); return (<tr><th scope="row">{x.part}</th><td class="scope-col">{x.scope || "All models"}</td><td class="price">{r.from}</td></tr>); })}</tbody></table>
 		</div>
 		<div class="price-section"><div class="section-heading"><h2>PC and software services</h2><p>Starting labour prices for common computer jobs. Replacement parts are quoted separately where applicable.</p></div>
-			<table class="price-table glass"><thead><tr><th scope="col">Service</th><th scope="col">Starting price</th></tr></thead><tbody>
-				<tr><th scope="row">Computer diagnostics</th><td>TT$75</td></tr><tr><th scope="row">Desktop or PC troubleshooting</th><td>TT$150</td></tr><tr><th scope="row">Windows installation and drivers</th><td>TT$200</td></tr><tr><th scope="row">Virus and malware troubleshooting</th><td>TT$150</td></tr><tr><th scope="row">Desktop internal cleaning</th><td>TT$150</td></tr><tr><th scope="row">RAM or storage installation (labour)</th><td>TT$100</td></tr><tr><th scope="row">Data transfer or backup</th><td>TT$150</td></tr>
+			<table class="price-table"><thead><tr><th scope="col">Service</th><th scope="col">From</th></tr></thead><tbody>
+				<tr><th scope="row">Computer diagnostics</th><td class="price">TT$75</td></tr><tr><th scope="row">Desktop or PC troubleshooting</th><td class="price">TT$150</td></tr><tr><th scope="row">Windows installation and drivers</th><td class="price">TT$200</td></tr><tr><th scope="row">Virus and malware troubleshooting</th><td class="price">TT$150</td></tr><tr><th scope="row">Desktop internal cleaning</th><td class="price">TT$150</td></tr><tr><th scope="row">RAM or storage installation (labour)</th><td class="price">TT$100</td></tr><tr><th scope="row">Data transfer or backup</th><td class="price">TT$150</td></tr>
 			</tbody></table>
 		</div>
 		<div class="details-grid">
@@ -38,7 +38,7 @@ import { prices, policies } from '../data/site';
 	.top .intro{max-width:650px;margin:1rem 0 1.5rem;color:var(--ink-2);font-size:clamp(1rem,2vw,1.15rem);line-height:1.7}
 	.page-copy{max-width:900px}.price-note{padding:1.25rem 1.4rem;border-radius:1.2rem;margin-bottom:3rem}.price-note strong{font-family:var(--display);font-size:1.1rem}.price-note p{margin:.5rem 0 0;color:var(--ink-2);line-height:1.7}
 	.price-section{margin:3rem 0}.section-heading{margin-bottom:1.1rem}.section-heading h2{margin:.45rem 0}.section-heading p{color:var(--ink-2);margin:0;line-height:1.65}
-	.price-table{width:100%;border-collapse:collapse;border-radius:1rem;overflow:hidden}.price-table th,.price-table td{padding:.95rem 1rem;text-align:left;border-bottom:1px solid var(--stroke)}.price-table thead th{color:var(--ink-2);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}.price-table tbody th{font-weight:500}.price-table td{text-align:right;white-space:nowrap;font-weight:700;color:var(--ink)}.price-table tr:last-child th,.price-table tr:last-child td{border-bottom:0}
+	
 	.details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:3.5rem 0 2rem}.detail-card{padding:1.2rem;border-radius:1rem}.detail-card h3{margin:0 0 .5rem;font-family:var(--display)}.detail-card p{margin:0;color:var(--ink-2);line-height:1.65}
 	.fine-print{color:var(--muted);font-size:.9rem;line-height:1.7}.price-cta{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;margin-top:3rem;padding:clamp(1.25rem,4vw,2rem);border-radius:1.25rem;background:var(--glass);border:1px solid var(--stroke)}.price-cta h2{margin:.5rem 0}.price-cta p{margin:0;color:var(--ink-2)}
 	@media(max-width:600px){.price-table th,.price-table td{padding:.8rem .65rem;font-size:.92rem}.details-grid{grid-template-columns:1fr}.price-cta{align-items:flex-start;flex-direction:column}}

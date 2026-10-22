@@ -540,3 +540,75 @@ html.lenis body {
 	font-size: 0.82rem;
 	letter-spacing: 0.02em;
 }
+
+/* Depth: key panels get a faint accent glow under a hairline edge */
+.brackets {
+	box-shadow:
+		inset 0 0 0 1px var(--color-rule),
+		var(--glow);
+}
+
+/* Spec-sheet tables */
+.price-table {
+	width: 100%;
+	border-collapse: collapse;
+	background: var(--color-paper-2);
+	border-radius: var(--radius);
+	box-shadow: inset 0 0 0 1px var(--color-rule);
+	overflow: hidden;
+}
+.price-table thead th {
+	padding: 0.85rem 1rem;
+	text-align: left;
+	font-family: var(--font-mono);
+	font-size: 0.72rem;
+	font-weight: 500;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--color-faint);
+	border-bottom: 1px solid var(--color-rule-hi);
+}
+.price-table thead th:last-child {
+	text-align: right;
+}
+.price-table tbody th,
+.price-table tbody td {
+	padding: 0.95rem 1rem;
+	text-align: left;
+	border-bottom: 1px solid var(--color-rule);
+	vertical-align: baseline;
+}
+.price-table tbody tr:last-child th,
+.price-table tbody tr:last-child td {
+	border-bottom: 0;
+}
+.price-table tbody th {
+	font-family: var(--font-mono);
+	font-size: 0.92rem;
+	font-weight: 500;
+	color: var(--color-ink);
+}
+.price-table tbody td {
+	color: var(--color-muted);
+	font-size: 0.95rem;
+}
+.price-table tbody td.price {
+	text-align: right;
+	white-space: nowrap;
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+	font-weight: 500;
+	color: var(--color-accent);
+}
+.price-table tbody tr {
+	transition: background-color var(--dur-fast);
+}
+.price-table tbody tr:hover {
+	background: var(--color-paper-3);
+	box-shadow: inset 2px 0 0 var(--color-accent);
+}
+@media (max-width: 600px) {
+	.price-table .scope-col {
+		display: none;
+	}
+}
