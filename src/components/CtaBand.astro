@@ -44,14 +44,13 @@ const {
 		align-items: center;
 		padding: clamp(1.75rem, 5vw, 3.5rem);
 		overflow: hidden;
-		background:
-			radial-gradient(60% 120% at 100% 0%, color-mix(in srgb, var(--blue-strong) 30%, transparent), transparent 70%),
-			radial-gradient(50% 100% at 0% 100%, color-mix(in srgb, var(--violet) 20%, transparent), transparent 70%),
-			var(--glass);
+		background: var(--color-paper-2);
+		border-top: 2px solid var(--color-accent);
+		border-radius: 0 0 var(--radius) var(--radius);
 	}
 	@media (min-width: 900px) {
 		.band {
-			grid-template-columns: 1.3fr auto;
+			grid-template-columns: minmax(0, 1.3fr) auto;
 			gap: 3rem;
 		}
 	}

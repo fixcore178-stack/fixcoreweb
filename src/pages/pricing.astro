@@ -6,20 +6,19 @@ import { prices, policies } from '../data/site';
 ---
 <Base title={`Repair Prices in Trinidad | ${SITE_TITLE}`} description="Starting prices for phone, laptop and computer repairs from FixCore Tech in Trinidad and Tobago. Get a confirmed quote before work begins.">
 	<section class="top"><div class="wrap">
-		<span class="eyebrow reveal">Clear pricing. No surprises.</span>
 		<h1 class="reveal">Repair prices</h1>
 		<p class="intro reveal">Starting prices for common repairs. Your exact price depends on the device, model, fault and parts required. We confirm your quote before starting work.</p>
 		<a class="btn btn-primary reveal" href="/#quote">Get a repair quote</a>
 	</div></section>
 	<section class="section"><div class="wrap page-copy">
 		<div class="price-note glass"><strong>How our pricing works</strong><p>Prices marked “from” are estimates, not guaranteed prices for every device. Parts availability and quality affect the final cost. We confirm the price and get your approval before starting repairs.</p></div>
-		<div class="price-section"><div class="section-heading"><span class="eyebrow">01 / Mobile devices</span><h2>Phone repairs</h2><p>Screen, battery and charging repairs for supported iPhone and Android models.</p></div>
+		<div class="price-section"><div class="section-heading"><h2>Phone repairs</h2><p>Screen, battery and charging repairs for supported iPhone and Android models.</p></div>
 			<table class="price-table glass"><thead><tr><th scope="col">Repair</th><th scope="col">Starting price</th></tr></thead><tbody>{prices.phone.map((r) => (<tr><th scope="row">{r.item}</th><td>{r.from}</td></tr>))}</tbody></table>
 		</div>
-		<div class="price-section"><div class="section-heading"><span class="eyebrow">02 / Portable computers</span><h2>Laptop repairs</h2><p>Hardware repairs and maintenance for supported laptop brands.</p></div>
+		<div class="price-section"><div class="section-heading"><h2>Laptop repairs</h2><p>Hardware repairs and maintenance for supported laptop brands.</p></div>
 			<table class="price-table glass"><thead><tr><th scope="col">Repair</th><th scope="col">Starting price</th></tr></thead><tbody>{prices.laptop.map((r) => (<tr><th scope="row">{r.item}</th><td>{r.from}</td></tr>))}</tbody></table>
 		</div>
-		<div class="price-section"><div class="section-heading"><span class="eyebrow">03 / Desktop computers</span><h2>PC and software services</h2><p>Starting labour prices for common computer jobs. Replacement parts are quoted separately where applicable.</p></div>
+		<div class="price-section"><div class="section-heading"><h2>PC and software services</h2><p>Starting labour prices for common computer jobs. Replacement parts are quoted separately where applicable.</p></div>
 			<table class="price-table glass"><thead><tr><th scope="col">Service</th><th scope="col">Starting price</th></tr></thead><tbody>
 				<tr><th scope="row">Computer diagnostics</th><td>TT$75</td></tr><tr><th scope="row">Desktop or PC troubleshooting</th><td>TT$150</td></tr><tr><th scope="row">Windows installation and drivers</th><td>TT$200</td></tr><tr><th scope="row">Virus and malware troubleshooting</th><td>TT$150</td></tr><tr><th scope="row">Desktop internal cleaning</th><td>TT$150</td></tr><tr><th scope="row">RAM or storage installation (labour)</th><td>TT$100</td></tr><tr><th scope="row">Data transfer or backup</th><td>TT$150</td></tr>
 			</tbody></table>
@@ -31,7 +30,7 @@ import { prices, policies } from '../data/site';
 			<article class="detail-card glass"><h3>Drop-off and collection</h3><p>Drop off or collect your device at 3 Alice Street, Curepe. Contact us first to arrange your visit.</p></article>
 		</div>
 		<p class="fine-print">These are indicative starting prices and may change. The final quote is confirmed after we know the exact device model and fault. Data recovery is not guaranteed. Back up your data where possible before service.</p>
-		<div class="price-cta"><div><span class="eyebrow">Need a model-specific price?</span><h2>Tell us what needs fixing.</h2><p>Send your device model and a short description of the problem.</p></div><a class="btn btn-primary" href={WHATSAPP_URL} target="_blank" rel="noopener">Ask on WhatsApp</a></div>
+		<div class="price-cta"><div><h2>Tell us what needs fixing.</h2><p>Send your device model and a short description of the problem.</p></div><a class="btn btn-primary" href={WHATSAPP_URL} target="_blank" rel="noopener">Ask on WhatsApp</a></div>
 	</div></section>
 	<CtaBand />
 </Base>

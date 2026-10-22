@@ -55,7 +55,7 @@ const schema = {
 				</div>
 			</div>
 
-			<aside class="send glass glow reveal" style="--d:2" data-tilt="3" aria-labelledby="send-title">
+			<aside class="send glass glow reveal" style="--d:2" aria-labelledby="send-title">
 				<h2 id="send-title">What to send us</h2>
 				<p>The more we know, the faster we can quote.</p>
 				<ul>
@@ -76,7 +76,6 @@ const schema = {
 		<section class="section prices">
 			<div class="wrap">
 				<div class="section-head reveal">
-					<span class="eyebrow">Prices</span>
 					<h2>Starting prices.</h2>
 					<p class="lead">{policies.dropOff} {policies.deposit} Final price depends on the model and fault. We confirm on WhatsApp before any work starts.</p>
 				</div>
@@ -98,7 +97,6 @@ const schema = {
 	<section class="section problems">
 		<div class="wrap">
 			<div class="section-head reveal">
-				<span class="eyebrow">What we fix</span>
 				<h2>Common {service.slug === 'diagnostics' ? 'situations' : 'problems'}.</h2>
 				<p class="lead">Not on the list? Message us anyway. We will tell you if we can help.</p>
 			</div>
@@ -106,7 +104,7 @@ const schema = {
 				{
 					service.problems.map((p, i) => (
 						<li class="reveal" style={`--d:${i % 3}`}>
-							<article class="glass glow" data-tilt="3">
+							<article class="glass glow">
 								<span class="ico"><Icon name={p.icon} size={24} /></span>
 								<h3>{p.title}</h3>
 								<p>{p.text}</p>
@@ -121,7 +119,6 @@ const schema = {
 	<section class="section">
 		<div class="wrap steps-grid">
 			<div class="reveal">
-				<span class="eyebrow">How it works</span>
 				<h2>Message, quote, <span class="grad">fixed</span>.</h2>
 				<a class="btn btn-glass" href="/#process">See the full process</a>
 			</div>
@@ -136,7 +133,6 @@ const schema = {
 	<section class="section">
 		<div class="wrap faq-grid">
 			<div class="reveal">
-				<span class="eyebrow">Questions</span>
 				<h2>Good <span class="grad">questions</span>.</h2>
 				<p class="lead">Based in {business.serviceArea}. Message us for anything else.</p>
 			</div>
@@ -147,7 +143,6 @@ const schema = {
 	<section class="section others">
 		<div class="wrap">
 			<div class="section-head reveal">
-				<span class="eyebrow">More services</span>
 				<h2>Other things we <span class="grad">repair</span>.</h2>
 			</div>
 			<ul class="chips">
@@ -211,12 +206,9 @@ const schema = {
 		width: 4.4rem;
 		height: 4.4rem;
 		margin-bottom: 1.4rem;
-		border-radius: 20px;
-		background: var(--accent-grad);
-		color: var(--on-accent);
-		box-shadow:
-			0 16px 40px color-mix(in srgb, var(--blue-strong) 45%, transparent),
-			inset 0 1px 0 rgb(255 255 255 / 0.4);
+		border-radius: var(--radius);
+		background: var(--color-accent);
+		color: var(--color-on-accent);
 	}
 	h1 {
 		margin-bottom: 1.2rem;
@@ -233,7 +225,7 @@ const schema = {
 	}
 	.send {
 		padding: clamp(1.5rem, 3vw, 2.1rem);
-		transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+		transform: none;
 		transition: transform 0.6s var(--ease);
 	}
 	.send:global(.tilting) {
@@ -280,7 +272,7 @@ const schema = {
 	.grid article {
 		width: 100%;
 		padding: 1.6rem;
-		transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+		transform: none;
 		transition: transform 0.6s var(--ease);
 	}
 	.grid article:global(.tilting) {
@@ -292,7 +284,7 @@ const schema = {
 		width: 3.2rem;
 		height: 3.2rem;
 		margin-bottom: 1rem;
-		border-radius: 14px;
+		border-radius: var(--radius);
 		background: color-mix(in srgb, var(--blue-strong) 16%, transparent);
 		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--blue) 30%, transparent);
 		color: var(--blue);
@@ -304,13 +296,13 @@ const schema = {
 	article:hover .ico {
 		background: var(--accent-grad);
 		color: var(--on-accent);
-		transform: translateY(-3px) rotate(-5deg);
+		transform: none;
 	}
 	.ico.sm {
 		width: 2.4rem;
 		height: 2.4rem;
 		margin: 0;
-		border-radius: 12px;
+		border-radius: var(--radius);
 	}
 	.grid h3 {
 		margin-bottom: 0.45rem;
@@ -406,6 +398,6 @@ const schema = {
 		color: var(--cyan);
 	}
 .price-table { width: 100%; border-collapse: collapse; padding: 0.5rem 1rem; }
-	.price-table th, .price-table td { padding: 0.9rem 0.5rem; text-align: left; border-bottom: 1px solid rgb(255 255 255 / 0.08); }
+	.price-table th, .price-table td { padding: 0.9rem 0.5rem; text-align: left; border-bottom: 1px solid var(--color-rule); }
 	.price-table td { text-align: right; font-weight: 600; }
 	</style>

@@ -10,7 +10,6 @@ const hasHours = business.hours.length > 0;
 <section class="section contact" id="contact" data-hide-fab>
 	<div class="wrap">
 		<div class="section-head reveal">
-			<span class="eyebrow">Find us</span>
 			<h2>Local, and easy to <span class="grad">reach</span>.</h2>
 			<p class="lead">Message us on whichever app you already use. We will take it from there.</p>
 		</div>
@@ -67,7 +66,7 @@ const hasHours = business.hours.length > 0;
 				{
 					socials.map((s, i) => (
 						<li class="reveal" style={`--d:${i}`}>
-							<a class="channel glass glow" data-tilt="3" href={s.href} target="_blank" rel="noopener">
+							<a class="channel glass glow" href={s.href} target="_blank" rel="noopener">
 								<span class={`brand b-${s.name}`}><BrandIcon name={s.name} size={24} /></span>
 								<span class="ch-text">
 									<b>{s.label}</b>
@@ -110,7 +109,7 @@ const hasHours = business.hours.length > 0;
 		flex: none;
 		width: 3rem;
 		height: 3rem;
-		border-radius: 14px;
+		border-radius: var(--radius);
 		background: color-mix(in srgb, var(--blue-strong) 16%, transparent);
 		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--blue) 28%, transparent);
 		color: var(--blue);
@@ -149,7 +148,7 @@ const hasHours = business.hours.length > 0;
 		padding: 1.1rem 1.25rem;
 		color: var(--ink);
 		text-decoration: none;
-		transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+		transform: none;
 		transition:
 			transform 0.5s var(--ease),
 			background-color 0.3s;
@@ -175,19 +174,19 @@ const hasHours = business.hours.length > 0;
 		transition: transform 0.4s var(--ease);
 	}
 	.channel:hover .brand {
-		transform: scale(1.1) rotate(-6deg);
+		transform: none;
 	}
 	.b-whatsapp {
 		color: var(--wa);
 	}
 	.b-instagram {
-		color: #ff7aa8;
+		color: var(--color-accent-hover);
 	}
 	.b-tiktok {
 		color: var(--cyan);
 	}
 	.b-facebook {
-		color: #6aa7ff;
+		color: var(--color-accent-hover);
 	}
 	.ch-text {
 		display: grid;
