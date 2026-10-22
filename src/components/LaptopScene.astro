@@ -1,0 +1,44 @@
+<figure class="laptop-study">
+  <div class="rig" aria-hidden="true" data-motion-scene>
+    <div class="machine">
+      <div class="lid"><div class="wallpaper"><i></i><i></i><i></i></div><span class="webcam"></span></div>
+      <div class="deck"><div class="keys">{Array.from({length:50},()=> <i></i>)}</div><div class="trackpad"></div></div>
+      <div class="logic"><div class="processor"><span>CPU</span></div><div class="ram"><i></i><i></i><i></i><i></i></div><div class="fan"><div class="blades">{Array.from({length:8},(_,i)=> <i style={`--blade:${i}`}></i>)}</div></div><div class="heatpipe"></div><div class="cells"><i></i><i></i><i></i></div></div>
+      <div class="tray"><i></i><i></i><i></i></div>
+      <div class="ssd"><span>SSD</span><i></i><i></i></div>
+    </div>
+    <span class="annotation one">Cooling system</span><span class="annotation two">Memory & storage</span>
+  </div>
+  <figcaption>Simplified laptop cutaway. Components vary by model.</figcaption>
+</figure>
+<style>
+.laptop-study { margin:0; min-width:0; }
+.rig { height:480px; position:relative; perspective:1100px; overflow:hidden; }
+.machine { position:absolute; left:50%; top:52%; width:310px; height:210px; transform:translate(-50%,-50%) rotateX(49deg) rotateZ(-24deg); transform-style:preserve-3d; animation:turn 16s ease-in-out infinite; }
+.lid { position:absolute; width:310px; height:204px; left:0; bottom:100%; border:9px solid #536875; border-bottom-width:16px; border-radius:12px 12px 0 0; background:#0e202b; transform-origin:bottom; transform:rotateX(-72deg); box-shadow:0 -4px 0 #9badb4; overflow:hidden; }
+.wallpaper { position:absolute; inset:0; overflow:hidden; background:#123a49; }
+.wallpaper i { position:absolute; width:230px; height:230px; border:30px solid #4ebfce; border-radius:50%; top:12px; left:-40px; }
+.wallpaper i:nth-child(2) { left:110px; top:-120px; border-color:#addbdc; }.wallpaper i:nth-child(3) { left:130px; top:45px; border-color:#267182; }
+.webcam { position:absolute; width:4px; height:4px; border-radius:50%; background:#050b10; top:-6px; left:50%; }
+.deck,.logic,.tray { position:absolute; inset:0; border-radius:8px; transform-style:preserve-3d; }
+.deck { background:linear-gradient(130deg,#b6c4ca,#5f7481); border:2px solid #b8c7cd; transform:translateZ(62px); animation:deck-lift 10s ease-in-out infinite; box-shadow:0 5px 0 #334a58; }
+.keys { margin:12px; display:grid; grid-template-columns:repeat(10,1fr); gap:4px; }.keys i { height:14px; border-radius:2px; background:#203440; box-shadow:0 2px 0 #0e202b; }
+.trackpad { position:absolute; width:90px; height:43px; bottom:12px; left:107px; border:1px solid #425966; border-radius:5px; }
+.logic { transform:translateZ(18px); background:#244a43; border:3px solid #688d7d; box-shadow:0 5px 0 #132c2b; }
+.processor { position:absolute; left:28px; top:22px; width:62px; height:60px; border:6px solid #9eaeb2; background:#324955; display:grid; place-items:center; color:#e5edef; font:10px var(--font-mono); }
+.ram { position:absolute; left:112px; top:24px; width:68px; display:flex; gap:5px; border-block:3px solid #b9b789; padding:5px; }.ram i { width:10px; height:30px; background:#182d35; }
+.fan { position:absolute; right:22px; top:18px; width:83px; height:83px; border:6px solid #658087; border-radius:50%; background:#172e37; }.blades { position:absolute; inset:0; animation:fan-spin 3s linear infinite; }.blades i { position:absolute; left:30px; top:8px; width:12px; height:28px; background:#7898a2; border-radius:80% 20% 20% 20%; transform-origin:6px 28px; transform:rotate(calc(var(--blade)*45deg)); }.fan::after { content:''; position:absolute; inset:28px; border-radius:50%; background:#b5c7cd; }
+.heatpipe { position:absolute; left:53px; top:71px; width:183px; height:23px; border:7px solid #ac9775; border-top:0; border-radius:0 0 10px 10px; }
+.cells { position:absolute; inset:119px 20px 13px; display:flex; gap:7px; }.cells i { flex:1; background:linear-gradient(110deg,#3b4c55,#1b2c35); border:1px solid #85999b; border-radius:4px; }
+.tray { background:linear-gradient(130deg,#677f8c,#263e4c); border:2px solid #9baeb7; transform:translateZ(-18px); box-shadow:5px 9px 0 #152a35,15px 35px 32px #0004; }.tray i { position:absolute; right:-3px; top:30px; width:4px; height:20px; background:#091a22; }.tray i:nth-child(2) { top:60px; }.tray i:nth-child(3) { top:95px; height:38px; }
+.ssd { position:absolute; right:-28px; bottom:30px; width:95px; height:32px; background:#345d51; border:2px solid #8da78e; display:flex; align-items:center; justify-content:space-around; color:#d4e1dc; font:9px var(--font-mono); transform:translateZ(92px) rotate(-10deg); animation:ssd-lift 10s ease-in-out infinite; }.ssd i { width:18px; height:22px; background:#192c34; border:1px solid #80989b; }
+.annotation { position:absolute; font-size:.75rem; color:var(--color-muted); }.one { left:0; top:24%; }.two { right:0; bottom:12%; }
+figcaption { color:var(--color-muted); font-size:.75rem; padding-top:1rem; border-top:1px solid var(--color-rule); }
+@keyframes turn { 0%,100% { transform:translate(-50%,-50%) rotateX(49deg) rotateZ(-24deg); } 50% { transform:translate(-50%,-50%) rotateX(38deg) rotateZ(-14deg); } }
+@keyframes deck-lift { 0%,100% { transform:translateZ(47px); } 50% { transform:translateZ(105px) translateY(-8px); } }
+@keyframes ssd-lift { 0%,100% { transform:translateZ(78px) rotate(-10deg); } 50% { transform:translateZ(124px) rotate(4deg); } }
+@keyframes fan-spin { to { transform:rotate(360deg); } }
+:global([data-motion='paused']) .machine,:global([data-motion='paused']) .deck,:global([data-motion='paused']) .ssd,:global([data-motion='paused']) .blades { animation-play-state:paused; }
+@media(max-width:500px) { .rig { height:360px; }.machine { width:310px; scale:.78; transform-origin:0 0; }.annotation { font-size:.65rem; } }
+@media(prefers-reduced-motion:reduce) { .machine,.deck,.ssd,.blades { animation:none !important; } }
+</style>
