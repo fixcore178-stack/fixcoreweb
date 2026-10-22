@@ -2,7 +2,7 @@
 
 /*
   FixCore Tech base styles. Luxury-technical: flat warm surfaces, hairline rules,
-  a brass accent and a mono face for specs. All values come from tokens.css.
+  a cyan accent and a mono face for specs. All values come from tokens.css.
   The legacy names below (--bg, --ink, --blue ...) are aliases so the existing
   component styles keep working; new code should use the --color-* tokens.
 */
@@ -222,7 +222,7 @@ ol {
 	color: var(--color-accent);
 }
 
-/* Emphasis is carried by the brass accent colour, never by gradient or italic. */
+/* Emphasis is carried by the cyan accent colour, never by gradient or italic. */
 .grad {
 	color: var(--color-accent);
 	font-style: normal;

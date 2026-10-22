@@ -1,7 +1,7 @@
 /*
-  FixCore Tech tokens. Luxury-technical: warm near-black paper, brass accent,
+  FixCore Tech tokens. Luxury-technical: cool graphite paper, ice-cyan accent,
   hairline rules, one mono face for specs and prices.
-  Hallmark theme axes: paper-band dark / display-style geometric-sans / accent-hue warm (brass).
+  Hallmark theme axes: paper-band dark / display-style geometric-sans / accent-hue cool (cyan).
   Every colour and font used by the site is a named token below.
 */
 
@@ -9,22 +9,22 @@
 :root[data-theme='dark'] {
 	color-scheme: dark;
 
-	--color-paper: oklch(15% 0.008 70);
-	--color-paper-2: oklch(19% 0.01 70);
-	--color-paper-3: oklch(24% 0.012 70);
-	--color-ink: oklch(95% 0.01 85);
-	--color-ink-2: oklch(82% 0.012 85);
-	--color-muted: oklch(72% 0.014 80);
-	--color-faint: oklch(62% 0.014 80);
+	--color-paper: oklch(15% 0.014 250);
+	--color-paper-2: oklch(19% 0.016 250);
+	--color-paper-3: oklch(24% 0.018 250);
+	--color-ink: oklch(95% 0.008 240);
+	--color-ink-2: oklch(82% 0.012 240);
+	--color-muted: oklch(72% 0.015 245);
+	--color-faint: oklch(62% 0.015 245);
 
-	--color-accent: oklch(79% 0.115 82);
-	--color-accent-hover: oklch(86% 0.12 85);
-	--color-on-accent: oklch(18% 0.02 70);
+	--color-accent: oklch(82% 0.12 205);
+	--color-accent-hover: oklch(89% 0.11 205);
+	--color-on-accent: oklch(18% 0.03 230);
 
 	--color-rule: oklch(100% 0 0 / 0.1);
 	--color-rule-hi: oklch(100% 0 0 / 0.22);
 	--color-danger: oklch(76% 0.14 25);
-	--color-tile: oklch(96% 0.008 85);
+	--color-tile: oklch(97% 0.006 240);
 
 	/* WhatsApp green is reserved for WhatsApp actions so it always reads as "message us" */
 	--color-wa: oklch(76% 0.2 150);
@@ -35,20 +35,20 @@
 :root[data-theme='light'] {
 	color-scheme: light;
 
-	--color-paper: oklch(96.5% 0.008 85);
-	--color-paper-2: oklch(93% 0.01 85);
-	--color-paper-3: oklch(89% 0.012 85);
-	--color-ink: oklch(20% 0.015 70);
-	--color-ink-2: oklch(32% 0.015 70);
-	--color-muted: oklch(43% 0.015 70);
-	--color-faint: oklch(50% 0.015 70);
+	--color-paper: oklch(97% 0.006 240);
+	--color-paper-2: oklch(94% 0.008 240);
+	--color-paper-3: oklch(90% 0.01 240);
+	--color-ink: oklch(20% 0.02 250);
+	--color-ink-2: oklch(32% 0.02 250);
+	--color-muted: oklch(43% 0.02 250);
+	--color-faint: oklch(50% 0.02 250);
 
-	--color-accent: oklch(48% 0.1 70);
-	--color-accent-hover: oklch(40% 0.1 68);
-	--color-on-accent: oklch(98% 0.01 85);
+	--color-accent: oklch(48% 0.11 220);
+	--color-accent-hover: oklch(40% 0.11 225);
+	--color-on-accent: oklch(98% 0.005 240);
 
-	--color-rule: oklch(20% 0.015 70 / 0.14);
-	--color-rule-hi: oklch(20% 0.015 70 / 0.3);
+	--color-rule: oklch(20% 0.02 250 / 0.14);
+	--color-rule-hi: oklch(20% 0.02 250 / 0.3);
 	--color-danger: oklch(45% 0.17 28);
 }
 
