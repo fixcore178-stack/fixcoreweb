@@ -458,3 +458,85 @@ html.lenis body {
 	font-variant-numeric: tabular-nums;
 	letter-spacing: 0.02em;
 }
+
+
+/* ---------- Technical details ---------- */
+
+/* Corner brackets, like crop marks on a spec sheet. Add .brackets to a positioned box. */
+.brackets {
+	position: relative;
+}
+.brackets::after {
+	content: '';
+	position: absolute;
+	inset: -1px;
+	pointer-events: none;
+	--b: linear-gradient(var(--color-accent), var(--color-accent));
+	background:
+		var(--b) top left / 16px 1px no-repeat,
+		var(--b) top left / 1px 16px no-repeat,
+		var(--b) top right / 16px 1px no-repeat,
+		var(--b) top right / 1px 16px no-repeat,
+		var(--b) bottom left / 16px 1px no-repeat,
+		var(--b) bottom left / 1px 16px no-repeat,
+		var(--b) bottom right / 16px 1px no-repeat,
+		var(--b) bottom right / 1px 16px no-repeat;
+}
+
+/* Path-style label stacked above a heading: "/services". Vertical stack, never beside the heading. */
+[data-tag]::before {
+	content: attr(data-tag);
+	display: block;
+	margin-bottom: 0.85rem;
+	font-family: var(--font-mono);
+	font-size: 0.8rem;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	text-transform: none;
+	color: var(--color-accent);
+}
+
+/* Blinking caret after the hero accent line */
+.caret::after {
+	content: '_';
+	margin-left: 0.08em;
+	color: var(--color-accent);
+	animation: caret-blink 1.1s steps(1) infinite;
+}
+@keyframes caret-blink {
+	50% {
+		opacity: 0;
+	}
+}
+
+/* Open / closed label */
+.status {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55rem;
+	font-family: var(--font-mono);
+	font-size: 0.78rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--color-ink-2);
+}
+.status::before {
+	content: '';
+	width: 0.5rem;
+	height: 0.5rem;
+	background: var(--color-faint);
+}
+.status[data-open='true']::before {
+	background: var(--color-wa);
+}
+.status[data-open='false']::before {
+	background: var(--color-danger);
+}
+
+/* Navigation set in mono for a technical voice */
+.nav-wrap .links a,
+.sheet-in a:not(.btn) {
+	font-family: var(--font-mono);
+	font-size: 0.82rem;
+	letter-spacing: 0.02em;
+}

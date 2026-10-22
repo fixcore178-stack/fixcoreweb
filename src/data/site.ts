@@ -58,3 +58,10 @@ export const policies = {
 	quoteTime: 'You can get a quote within 30 minutes.',
 	dropOff: 'Simple repairs are often done while you wait. Jobs that take longer, or need parts, are drop-off.',
 };
+
+// Machine-readable copy of the opening hours above (0 = Sunday), used for the live open/closed label.
+// Keep it in step with business.hours. Times are Trinidad local time (America/Port_of_Spain).
+export const schedule: { days: number[]; from: number; to: number }[] = [
+	{ days: [1, 2, 3, 4, 5], from: 17, to: 22 },
+	{ days: [0, 6], from: 9, to: 22 },
+];

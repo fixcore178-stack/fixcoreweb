@@ -7,7 +7,7 @@ import BrandIcon from './BrandIcon.astro';
 const stepNames = ['Device', 'Problem', 'Details', 'Review'];
 ---
 
-<form class="wizard glass" id="wizard" novalidate autocomplete="off" data-number={WHATSAPP_NUMBER} data-brand={SITE_TITLE}>
+<form class="wizard brackets glass" id="wizard" novalidate autocomplete="off" data-number={WHATSAPP_NUMBER} data-brand={SITE_TITLE}>
 	<ol class="progress" aria-label="Quote steps" style="--wp:0">
 		{
 			stepNames.map((n, i) => (
