@@ -28,3 +28,11 @@ Dials: ENERGY 3 / RHYTHM 3 / MOTION 3. Session direction: the owner explicitly r
 - Retain the existing pause control, offscreen animation suspension and system reduced-motion support.
 - Reduced the service-object angle range to a fixed presentation with a small vertical drift.
 - Inspected rasterized SVG output for both large models; full-page browser checks remain necessary after deployment.
+
+## Real 3D PC model
+
+- All PC-related visuals use one real glTF model: "Custom Gaming PC" by Yolala1232 (https://sketchfab.com/3d-models/custom-gaming-pc-1a24273417534f69afa0f7c62b643ffc), CC BY 4.0. The credit must stay visible: it is in the footer and under every viewer (PcModel.astro).
+- Source was 74 MB / 1.0M triangles. The web copy is `public/models/gaming-pc-v1.glb` (2.9 MB): floor plate removed, each part simplified to about 20% of its triangles, textures resized to 1024 px WebP, meshopt compression, centred and scaled to 2 units tall. Rename the file (v2) if it is ever re-exported, because `public/_headers` caches /models/* for a year.
+- `PcModel.astro` lazy-loads `@google/model-viewer` (about 950 kB, 265 kB gzipped) and the model only when the element nears the viewport, so no other page pays for it. A pre-rendered poster (`gaming-pc-poster-v1.webp`) shows first and stays as the fallback if WebGL fails; with Save-Data on, visitors tap to load.
+- Auto-rotate follows the existing Pause 3D motion control and reduced-motion. Zoom and pan are off and touch-action is pan-y so the viewer never traps page scrolling.
+- Used on: the Computer & PC repairs card (poster only), the Desktop PC tab of the parts section (live model with the exploded diagram as a second view) and /services/desktop-repair.

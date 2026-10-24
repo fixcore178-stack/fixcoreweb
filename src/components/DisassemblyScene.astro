@@ -1,5 +1,7 @@
 ---
 // Exploded, isometric device models built from real 3D boxes projected to SVG.
+// The Desktop PC tab also offers the real 3D gaming PC model (see PcModel.astro).
+import PcModel from './PcModel.astro';
 const C = 0.866, S = 0.5;
 const f = (n: number) => n.toFixed(1);
 const P = (x: number, y: number, z: number): [number, number] => [(x - y) * C, (x + y) * S - z];
@@ -122,22 +124,35 @@ const devices = [
     {devices.map((d, i) => (<button class="dis-tab" role="tab" type="button" data-dis-tab={d.id} aria-selected={i === 0 ? 'true' : 'false'}>{d.label}</button>))}
   </div>
   {devices.map((d, di) => (
-    <div class="dis-panel" data-dis-panel={d.id} hidden={di !== 0}>
-      <div class="dis-stage" data-motion-scene>
-        <svg viewBox={d.vb} role="img" aria-label={`Exploded view of a ${d.label.toLowerCase()} with ${d.parts.length} numbered parts`}>
-          <ellipse cx={d.cx} cy={d.cy} rx="95" ry="11" fill="#000" opacity=".18" />
-          {d.parts.map((p, i) => (
-            <g class="dis-part" data-part={`${d.id}-${i}`} style={`--i:${i}`}><g set:html={p.g} /></g>
-          ))}
-          {d.parts.map((p, i) => {
-            const [bx, by] = P(p.b[0], p.b[1], p.b[2]);
-            return (
-              <g class="dis-pin" data-part={`${d.id}-${i}`} style={`--i:${i}`}>
-                <g class="dis-badge" transform={`translate(${f(bx)} ${f(by - 12)})`}><line y1="2" y2="12" /><circle r="8.5" /><text y="3.4" text-anchor="middle">{i + 1}</text></g>
-              </g>
-            );
-          })}
-        </svg>
+    <div class="dis-panel" data-dis-panel={d.id} data-view={d.id === 'desktop' ? 'model' : undefined} hidden={di !== 0}>
+      <div class="dis-main">
+        {d.id === 'desktop' && (
+          <div class="dis-views" role="group" aria-label="Choose how to view the desktop PC">
+            <button type="button" data-dis-view="model" aria-pressed="true">3D model</button>
+            <button type="button" data-dis-view="diagram" aria-pressed="false">Exploded diagram</button>
+          </div>
+        )}
+        {d.id === 'desktop' && (
+          <div class="dis-stage dis-stage-model" data-view-pane="model">
+            <PcModel orbit="-38deg 74deg auto" label="Interactive 3D model of a gaming PC with a glass side panel showing the graphics card, cooler, memory and power supply. Drag to rotate." />
+          </div>
+        )}
+        <div class="dis-stage" data-motion-scene data-view-pane={d.id === 'desktop' ? 'diagram' : undefined} hidden={d.id === 'desktop'}>
+          <svg viewBox={d.vb} role="img" aria-label={`Exploded view of a ${d.label.toLowerCase()} with ${d.parts.length} numbered parts`}>
+            <ellipse cx={d.cx} cy={d.cy} rx="95" ry="11" fill="#000" opacity=".18" />
+            {d.parts.map((p, i) => (
+              <g class="dis-part" data-part={`${d.id}-${i}`} style={`--i:${i}`}><g set:html={p.g} /></g>
+            ))}
+            {d.parts.map((p, i) => {
+              const [bx, by] = P(p.b[0], p.b[1], p.b[2]);
+              return (
+                <g class="dis-pin" data-part={`${d.id}-${i}`} style={`--i:${i}`}>
+                  <g class="dis-badge" transform={`translate(${f(bx)} ${f(by - 12)})`}><line y1="2" y2="12" /><circle r="8.5" /><text y="3.4" text-anchor="middle">{i + 1}</text></g>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
       </div>
       <ol class="dis-legend">
         {d.parts.map((p, i) => (
@@ -155,6 +170,13 @@ const devices = [
 .dis-tab[aria-selected='true'] { background:var(--color-accent); color:#04141b; border-color:var(--color-accent); }
 .dis-panel { display:grid; gap:1.5rem; align-items:center; }
 .dis-panel[hidden] { display:none; }
+.dis-main { min-width:0; }
+.dis-stage[hidden] { display:none; }
+.dis-views { display:inline-flex; gap:2px; padding:3px; margin-bottom:.9rem; border:1px solid var(--color-rule-hi); border-radius:8px; background:var(--color-paper-2); }
+.dis-views button { min-height:40px; padding:.45rem .95rem; border:0; border-radius:6px; background:transparent; color:var(--color-ink-2); font:600 .82rem var(--font-body); cursor:pointer; }
+.dis-views button[aria-pressed='true'] { background:var(--color-accent); color:#04141b; }
+.dis-stage .pc-model { padding:1rem 1rem .9rem; }
+.dis-panel[data-view='model'] .dis-num { font-size:0; flex:0 0 .6rem; width:.6rem; height:.6rem; margin-top:.4rem; }
 .dis-stage { min-width:0; border:1px solid var(--color-rule-hi); border-radius:12px; background:var(--color-paper-2); overflow:hidden; }
 .dis-stage svg { display:block; width:100%; height:clamp(460px,78vh,820px); }
 .dis-part, .dis-pin { animation:dis-float 7s ease-in-out infinite; animation-delay:calc(var(--i) * -.9s); cursor:pointer; transition:filter .2s; }
@@ -184,6 +206,14 @@ document.querySelectorAll<HTMLElement>('[data-dis]').forEach((root) => {
     tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
     panels.forEach((p) => { p.hidden = p.dataset.disPanel !== tab.dataset.disTab; });
   }));
+  root.querySelectorAll<HTMLElement>('[data-dis-panel]').forEach((panel) => {
+    panel.querySelectorAll<HTMLButtonElement>('[data-dis-view]').forEach((btn) => btn.addEventListener('click', () => {
+      const view = btn.dataset.disView!;
+      panel.dataset.view = view;
+      panel.querySelectorAll<HTMLButtonElement>('[data-dis-view]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      panel.querySelectorAll<HTMLElement>('[data-view-pane]').forEach((pane) => { pane.hidden = pane.dataset.viewPane !== view; });
+    }));
+  });
   const set = (key: string | undefined, on: boolean) => root.querySelectorAll(`[data-part="${key}"]`).forEach((el) => el.classList.toggle('is-on', on));
   root.querySelectorAll<HTMLElement>('[data-part]').forEach((el) => {
     el.addEventListener('pointerenter', () => set(el.dataset.part, true));

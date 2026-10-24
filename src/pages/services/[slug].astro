@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Faq from '../../components/Faq.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Icon from '../../components/Icon.astro';
+import PcModel from '../../components/PcModel.astro';
 import BrandIcon from '../../components/BrandIcon.astro';
 import { services, quoteHref, type Service } from '../../data/services';
 import { SITE_TITLE, SITE_URL, WHATSAPP_URL, whatsappUrl } from '../../consts';
@@ -71,6 +72,26 @@ const schema = {
 			</aside>
 		</div>
 	</section>
+
+	{service.slug === 'desktop-repair' && (
+		<section class="section inside">
+			<div class="wrap inside-grid">
+				<div class="reveal">
+					<PcModel orbit="-38deg 74deg auto" label="Interactive 3D model of a desktop gaming PC with a glass side panel. Drag to rotate." />
+				</div>
+				<div class="reveal" style="--d:1">
+					<h2>Take a look <span class="grad">inside</span>.</h2>
+					<p class="lead">A desktop is a handful of parts working together. When it misbehaves, the cause is usually one of these.</p>
+					<ul class="inside-list">
+						<li><b>Cooling and fans</b><span>Loud fans, heat and random shutdowns often come down to dust or tired cooling.</span></li>
+						<li><b>Power supply</b><span>Dead, intermittent or no power at all.</span></li>
+						<li><b>Memory and storage</b><span>Slow starts, freezing and crashes when you are working.</span></li>
+						<li><b>Graphics card</b><span>No picture, glitches on screen or crashes during demanding use.</span></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	)}
 
 	{service.device && prices[service.device] && (
 		<section class="section prices">
@@ -176,6 +197,12 @@ const schema = {
 </Base>
 
 <style>
+	.inside-grid { display: grid; gap: 2.5rem; align-items: center; }
+	@media (min-width: 900px) { .inside-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 4rem; } }
+	.inside-list { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; gap: 0; }
+	.inside-list li { display: grid; gap: 0.2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--color-rule); }
+	.inside-list b { color: var(--color-ink); }
+	.inside-list span { color: var(--color-muted); font-size: 0.92rem; }
 	.top {
 		padding: clamp(7.5rem, 13vw, 9.5rem) 0 clamp(2rem, 5vw, 3.5rem);
 	}
