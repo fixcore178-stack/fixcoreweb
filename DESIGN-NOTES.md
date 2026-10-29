@@ -29,10 +29,12 @@ Dials: ENERGY 3 / RHYTHM 3 / MOTION 3. Session direction: the owner explicitly r
 - Reduced the service-object angle range to a fixed presentation with a small vertical drift.
 - Inspected rasterized SVG output for both large models; full-page browser checks remain necessary after deployment.
 
-## Real 3D PC model
+## Real 3D models
 
-- All PC-related visuals use one real glTF model: "Custom Gaming PC" by Yolala1232 (https://sketchfab.com/3d-models/custom-gaming-pc-1a24273417534f69afa0f7c62b643ffc), CC BY 4.0. The credit must stay visible: it is in the footer and under every viewer (PcModel.astro).
-- Source was 74 MB / 1.0M triangles. The web copy is `public/models/gaming-pc-v1.glb` (2.9 MB): floor plate removed, each part simplified to about 20% of its triangles, textures resized to 1024 px WebP, meshopt compression, centred and scaled to 2 units tall. Rename the file (v2) if it is ever re-exported, because `public/_headers` caches /models/* for a year.
-- `PcModel.astro` lazy-loads `@google/model-viewer` (about 950 kB, 265 kB gzipped) and the model only when the element nears the viewport, so no other page pays for it. A pre-rendered poster (`gaming-pc-poster-v1.webp`) shows first and stays as the fallback if WebGL fails; with Save-Data on, visitors tap to load.
-- Auto-rotate follows the existing Pause 3D motion control and reduced-motion. Zoom and pan are off and touch-action is pan-y so the viewer never traps page scrolling.
-- Used on: the Computer & PC repairs card (poster only), the Desktop PC tab of the parts section (live model with the exploded diagram as a second view) and /services/desktop-repair.
+- Four real glTF models replace the hand-drawn devices. All are CC BY 4.0 from Sketchfab, so the credit must stay visible (footer plus under every viewer): "Custom Gaming PC" by Yolala1232 (PC), "Samsung Galaxy S26 Black [ LOW-POLY ]" by darky.vip21 (phone), "lenovo" by elyas_baloch (laptop) and "Adjustable Spanner/Wrench" by CGWorker (diagnostics). Everything about them (files, posters, camera angles, credit text, what we changed) lives in `src/data/models3d.ts`.
+- Web copies are in `public/models/` and are versioned (-v1) because `public/_headers` caches /models/* for a year. Rename to -v2 if a model is ever re-exported.
+  - PC: 74 MB / 1.0M triangles down to 2.9 MB. Floor plate removed, each part simplified to about 20% of its triangles, 1024 px WebP textures, meshopt, centred and scaled to 2 units.
+  - Phone 30 KB, laptop 0.8 MB, wrench 0.2 MB, same pipeline. Laptop: body lifted from pure black to charcoal and a FixCore wallpaper added to the screen (it had no UVs, so they were generated). Wrench: no material in the source, so a steel finish was added and it is turned to face the camera on a diagonal.
+- `Model3D.astro` lazy-loads `@google/model-viewer` (about 950 kB, 265 kB gzipped) and the model only when the element nears the viewport; the hero (`priority`) waits for the page load event instead. A pre-rendered poster shows first and stays as the fallback if WebGL fails; with Save-Data on, visitors tap to load.
+- Auto-rotate follows the Pause 3D motion control and reduced-motion. Zoom and pan are off and touch-action is pan-y so the viewer never traps page scrolling.
+- Where they appear: hero phone (live), the four service cards (poster images), the laptop section (live), the parts section (every tab shows the live model, with the old exploded diagram as a second view) and a "Take a look inside" section on each of the four service pages.

@@ -1,7 +1,7 @@
 ---
 // Exploded, isometric device models built from real 3D boxes projected to SVG.
-// The Desktop PC tab also offers the real 3D gaming PC model (see PcModel.astro).
-import PcModel from './PcModel.astro';
+// Every tab shows the real 3D model first (see Model3D.astro); the exploded diagram is the second view.
+import Model3D from './Model3D.astro';
 const C = 0.866, S = 0.5;
 const f = (n: number) => n.toFixed(1);
 const P = (x: number, y: number, z: number): [number, number] => [(x - y) * C, (x + y) * S - z];
@@ -114,9 +114,9 @@ const desktop: Part[] = [
 ];
 
 const devices = [
-  { id: 'phone', label: 'Phone', vb: '-135 -285 210 405', cx: -30, cy: 112, parts: phone },
-  { id: 'laptop', label: 'Laptop', vb: '-115 -320 270 470', cx: 20, cy: 132, parts: laptop },
-  { id: 'desktop', label: 'Desktop PC', vb: '-125 -180 270 410', cx: 5, cy: 200, parts: desktop },
+  { id: 'phone', model: 'phone', label: 'Phone', vb: '-135 -285 210 405', cx: -30, cy: 112, parts: phone },
+  { id: 'laptop', model: 'laptop', label: 'Laptop', vb: '-115 -320 270 470', cx: 20, cy: 132, parts: laptop },
+  { id: 'desktop', model: 'pc', label: 'Desktop PC', vb: '-125 -180 270 410', cx: 5, cy: 200, parts: desktop },
 ];
 ---
 <div class="dis" data-dis>
@@ -124,20 +124,16 @@ const devices = [
     {devices.map((d, i) => (<button class="dis-tab" role="tab" type="button" data-dis-tab={d.id} aria-selected={i === 0 ? 'true' : 'false'}>{d.label}</button>))}
   </div>
   {devices.map((d, di) => (
-    <div class="dis-panel" data-dis-panel={d.id} data-view={d.id === 'desktop' ? 'model' : undefined} hidden={di !== 0}>
+    <div class="dis-panel" data-dis-panel={d.id} data-view="model" hidden={di !== 0}>
       <div class="dis-main">
-        {d.id === 'desktop' && (
-          <div class="dis-views" role="group" aria-label="Choose how to view the desktop PC">
-            <button type="button" data-dis-view="model" aria-pressed="true">3D model</button>
-            <button type="button" data-dis-view="diagram" aria-pressed="false">Exploded diagram</button>
-          </div>
-        )}
-        {d.id === 'desktop' && (
-          <div class="dis-stage dis-stage-model" data-view-pane="model">
-            <PcModel orbit="-38deg 74deg auto" label="Interactive 3D model of a gaming PC with a glass side panel showing the graphics card, cooler, memory and power supply. Drag to rotate." />
-          </div>
-        )}
-        <div class="dis-stage" data-motion-scene data-view-pane={d.id === 'desktop' ? 'diagram' : undefined} hidden={d.id === 'desktop'}>
+        <div class="dis-views" role="group" aria-label={`Choose how to view the ${d.label.toLowerCase()}`}>
+          <button type="button" data-dis-view="model" aria-pressed="true">3D model</button>
+          <button type="button" data-dis-view="diagram" aria-pressed="false">Exploded diagram</button>
+        </div>
+        <div class="dis-stage dis-stage-model" data-view-pane="model">
+          <Model3D model={d.model} />
+        </div>
+        <div class="dis-stage" data-motion-scene data-view-pane="diagram" hidden>
           <svg viewBox={d.vb} role="img" aria-label={`Exploded view of a ${d.label.toLowerCase()} with ${d.parts.length} numbered parts`}>
             <ellipse cx={d.cx} cy={d.cy} rx="95" ry="11" fill="#000" opacity=".18" />
             {d.parts.map((p, i) => (
@@ -175,7 +171,7 @@ const devices = [
 .dis-views { display:inline-flex; gap:2px; padding:3px; margin-bottom:.9rem; border:1px solid var(--color-rule-hi); border-radius:8px; background:var(--color-paper-2); }
 .dis-views button { min-height:40px; padding:.45rem .95rem; border:0; border-radius:6px; background:transparent; color:var(--color-ink-2); font:600 .82rem var(--font-body); cursor:pointer; }
 .dis-views button[aria-pressed='true'] { background:var(--color-accent); color:#04141b; }
-.dis-stage .pc-model { padding:1rem 1rem .9rem; }
+.dis-stage .m3d { padding:1rem 1rem .9rem; }
 .dis-panel[data-view='model'] .dis-num { font-size:0; flex:0 0 .6rem; width:.6rem; height:.6rem; margin-top:.4rem; }
 .dis-stage { min-width:0; border:1px solid var(--color-rule-hi); border-radius:12px; background:var(--color-paper-2); overflow:hidden; }
 .dis-stage svg { display:block; width:100%; height:clamp(460px,78vh,820px); }

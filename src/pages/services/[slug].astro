@@ -3,7 +3,8 @@ import Base from '../../layouts/Base.astro';
 import Faq from '../../components/Faq.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Icon from '../../components/Icon.astro';
-import PcModel from '../../components/PcModel.astro';
+import Model3D from '../../components/Model3D.astro';
+import type { ModelKey } from '../../data/models3d';
 import BrandIcon from '../../components/BrandIcon.astro';
 import { services, quoteHref, type Service } from '../../data/services';
 import { SITE_TITLE, SITE_URL, WHATSAPP_URL, whatsappUrl } from '../../consts';
@@ -20,6 +21,27 @@ const { service } = Astro.props;
 const others = services.filter((s) => s.slug !== service.slug);
 const quote = quoteHref(service);
 const ask = whatsappUrl(`Hi ${SITE_TITLE}, I have a question about ${service.name.toLowerCase()}.`);
+
+// Each service page shows its real 3D model with what usually goes wrong, reusing the page's own problem list.
+const showcases: Record<string, { model: ModelKey; title: string; accent: string; lead: string; items?: { title: string; text: string }[] }> = {
+	'phone-repair': { model: 'phone', title: 'Take a look', accent: 'inside', lead: 'A phone packs a lot into a thin shell. When it plays up, it usually comes down to one of these.' },
+	'laptop-repair': { model: 'laptop', title: 'Take a look', accent: 'inside', lead: 'Screen, keyboard, battery and cooling all share one slim case. When it plays up, it usually comes down to one of these.' },
+	'desktop-repair': {
+		model: 'pc',
+		title: 'Take a look',
+		accent: 'inside',
+		lead: 'A desktop is a handful of parts working together. When it misbehaves, the cause is usually one of these.',
+		items: [
+			{ title: 'Cooling and fans', text: 'Loud fans, heat and random shutdowns often come down to dust or tired cooling.' },
+			{ title: 'Power supply', text: 'Dead, intermittent or no power at all.' },
+			{ title: 'Memory and storage', text: 'Slow starts, freezing and crashes when you are working.' },
+			{ title: 'Graphics card', text: 'No picture, glitches on screen or crashes during demanding use.' },
+		],
+	},
+	diagnostics: { model: 'wrench', title: 'We find the', accent: 'fault', lead: 'Not sure which part is at fault? Describe the symptoms and we will help work out what it needs.' },
+};
+const sc = showcases[service.slug];
+const showcase = sc ? { ...sc, items: sc.items ?? service.problems.slice(0, 4).map((p) => ({ title: p.title, text: p.text })) } : null;
 
 const schema = {
 	'@context': 'https://schema.org',
@@ -73,20 +95,19 @@ const schema = {
 		</div>
 	</section>
 
-	{service.slug === 'desktop-repair' && (
+	{showcase && (
 		<section class="section inside">
 			<div class="wrap inside-grid">
 				<div class="reveal">
-					<PcModel orbit="-38deg 74deg auto" label="Interactive 3D model of a desktop gaming PC with a glass side panel. Drag to rotate." />
+					<Model3D model={showcase.model} />
 				</div>
 				<div class="reveal" style="--d:1">
-					<h2>Take a look <span class="grad">inside</span>.</h2>
-					<p class="lead">A desktop is a handful of parts working together. When it misbehaves, the cause is usually one of these.</p>
+					<h2>{showcase.title} <span class="grad">{showcase.accent}</span>.</h2>
+					<p class="lead">{showcase.lead}</p>
 					<ul class="inside-list">
-						<li><b>Cooling and fans</b><span>Loud fans, heat and random shutdowns often come down to dust or tired cooling.</span></li>
-						<li><b>Power supply</b><span>Dead, intermittent or no power at all.</span></li>
-						<li><b>Memory and storage</b><span>Slow starts, freezing and crashes when you are working.</span></li>
-						<li><b>Graphics card</b><span>No picture, glitches on screen or crashes during demanding use.</span></li>
+						{showcase.items.map((it) => (
+							<li><b>{it.title}</b><span>{it.text}</span></li>
+						))}
 					</ul>
 				</div>
 			</div>

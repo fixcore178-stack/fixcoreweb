@@ -4,6 +4,7 @@ import { services } from '../data/services';
 import { business } from '../data/site';
 import BrandIcon from './BrandIcon.astro';
 import Icon from './Icon.astro';
+import { models, LICENSE_URL } from '../data/models3d';
 
 const year = new Date().getFullYear();
 ---
@@ -62,9 +63,14 @@ const year = new Date().getFullYear();
 
 		<p class="legal">&copy; {year} {SITE_TITLE}. Proudly local to {business.serviceArea}.</p>
 		<p class="legal credit">
-			3D PC model &ldquo;<a href="https://sketchfab.com/3d-models/custom-gaming-pc-1a24273417534f69afa0f7c62b643ffc" target="_blank" rel="noopener">Custom Gaming PC</a>&rdquo; by
-			<a href="https://sketchfab.com/Yolala1232" target="_blank" rel="noopener">Yolala1232</a>, licensed
-			<a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Compressed for web.
+			3D models:
+			{
+				Object.values(models).map((m, i) => (
+					<>
+						{i > 0 && ' · '}&ldquo;<a href={m.url} target="_blank" rel="noopener">{m.title}</a>&rdquo; by <a href={m.authorUrl} target="_blank" rel="noopener">{m.author}</a>
+					</>
+				))
+			}{', all '}<a href={LICENSE_URL} target="_blank" rel="noopener">CC BY 4.0</a>. Compressed and adjusted for web.
 		</p>
 	</div>
 </footer>
