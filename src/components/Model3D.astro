@@ -1,9 +1,9 @@
 ---
 // Interactive 3D viewer for the real models listed in src/data/models3d.ts.
 // The viewer library (about 950 kB) and the model are only fetched once the element is near the screen;
-// until then, and if anything fails, the pre-rendered poster image is shown. Every model is CC BY 4.0,
-// so the credit paragraph under the viewer must stay.
-import { models, LICENSE_URL, type ModelKey } from '../data/models3d';
+// until then, and if anything fails, the pre-rendered poster image is shown. The author details for these
+// CC BY 4.0 models stay in models3d.ts but are not shown on the site (the owner's decision).
+import { models, type ModelKey } from '../data/models3d';
 interface Props {
 	model: ModelKey;
 	class?: string;
@@ -28,16 +28,7 @@ const m = models[model];
 		<button class="m3d-load" type="button" hidden>Load 3D model ({m.size})</button>
 		<span class="m3d-hint" aria-hidden="true">Drag to rotate</span>
 	</div>
-	{
-		credit && (
-			<p class="m3d-credit">
-				3D model &ldquo;<a href={m.url} target="_blank" rel="noopener">{m.title}</a>&rdquo; by{' '}
-				<a href={m.authorUrl} target="_blank" rel="noopener">{m.author}</a>,{' '}
-				<a href={LICENSE_URL} target="_blank" rel="noopener">CC BY 4.0</a>. {m.changes}
-				{m.noun ? ` Illustration only; your ${m.noun} will differ.` : ''}
-			</p>
-		)
-	}
+	{credit && m.noun && <p class="m3d-credit">Illustration only; your {m.noun} will differ.</p>}
 </div>
 
 <style is:global>
