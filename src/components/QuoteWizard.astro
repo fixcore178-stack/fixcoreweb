@@ -52,7 +52,7 @@ const stepNames = ['Device', 'Problem', 'Details', 'Review'];
 			<div class="opts">
 				{
 					problems.map((p) => (
-						<label class="opt">
+						<label class="opt" data-devices={p.devices?.join(" ")}>
 							<input type="radio" name="problem" value={p.value} />
 							<span class="card">
 								<span class="ico"><Icon name={p.icon} size={24} /></span>
@@ -609,6 +609,9 @@ const stepNames = ['Device', 'Problem', 'Details', 'Review'];
 			flex: 1;
 		}
 	}
+	.opt[hidden] {
+		display: none;
+	}
 	.noscript {
 		margin-top: 1rem;
 		font-size: 0.9rem;
@@ -778,19 +781,40 @@ const stepNames = ['Device', 'Problem', 'Details', 'Review'];
 			sendBtn.href = waHref(msg);
 		};
 
+		// Only offer the problems that make sense for the chosen device (a PC has no battery, a phone has no fans)
+		const problemOpts = Array.from(form.querySelectorAll<HTMLLabelElement>('.step[data-step="2"] .opt'));
+		const syncProblems = () => {
+			const dev = picked('device');
+			problemOpts.forEach((o) => {
+				const only = o.dataset.devices;
+				const show = !only || only.split(' ').includes(dev);
+				o.hidden = !show;
+				const input = o.querySelector<HTMLInputElement>('input');
+				if (!show && input?.checked) input.checked = false;
+			});
+		};
+
+		const modelHints: Record<string, [string, string]> = {
+			phone: ['Make and model', 'e.g. iPhone 13, Samsung A54'],
+			laptop: ['Make and model', 'e.g. Dell Inspiron 15, MacBook Air'],
+			computer: ['Make, model or parts', 'e.g. Dell OptiPlex, or a custom PC with an RTX 3060'],
+		};
+
 		const syncStepThree = () => {
 			const v = values();
 			const other = v.device === 'other';
 			const unsure = v.problem === 'unsure';
-			modelLabel.textContent = other ? 'What is the device?' : 'Make and model';
+			const hint = modelHints[v.device] ?? ['Make and model', 'e.g. iPhone 13, Dell Inspiron 15, PS5'];
+			modelLabel.textContent = other ? 'What is the device?' : hint[0];
 			modelOpt.textContent = other ? '(required)' : '(helps us quote faster)';
-			modelInput.placeholder = other ? 'e.g. a phone or laptop we do not list' : 'e.g. iPhone 13, Dell Inspiron 15, PS5';
+			modelInput.placeholder = other ? 'e.g. a tablet, console or something we do not list' : hint[1];
 			detailsLabel.textContent = unsure ? 'What is it doing?' : 'Anything else we should know?';
 			detailsOpt.textContent = unsure ? '(required, a few words is fine)' : '(optional)';
 			countEl.textContent = String(detailsInput.value.length);
 		};
 
 		const render = (dir: 'fwd' | 'back' | 'none') => {
+			syncProblems();
 			steps.forEach((s) => {
 				const active = Number(s.dataset.step) === step;
 				s.hidden = !active;
@@ -938,7 +962,9 @@ const stepNames = ['Device', 'Problem', 'Details', 'Review'];
 			return !!input;
 		};
 		const hasDevice = pick('device', pd);
-		const hasProblem = pick('problem', pp);
+		pick('problem', pp);
+		syncProblems();
+		const hasProblem = !!picked('problem');
 		if (hasDevice && hasProblem) {
 			reached = step = 3;
 		} else if (hasDevice) {

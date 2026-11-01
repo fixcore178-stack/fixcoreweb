@@ -73,7 +73,7 @@ export const services: Service[] = [
 	{
 		slug: 'desktop-repair',
 		name: 'Computer & PC repairs',
-		icon: 'laptop',
+		icon: 'desktop',
 		device: 'computer',
 		cardTitle: 'Computer & PC repairs',
 		cardText: 'Desktops and PCs that will not start, run slowly, overheat or have faulty power.',
@@ -82,8 +82,8 @@ export const services: Service[] = [
 		problems: [
 			{ icon: 'power', title: "Won't turn on", text: 'No power, no display, or it starts and shuts straight down.' },
 			{ icon: 'slow', title: 'Slow or freezing', text: 'Takes forever to start, freezes or crashes when you are working.' },
-			{ icon: 'help', title: 'Overheating', text: 'Loud fans, random shutdowns or a machine that gets too hot.' },
-			{ icon: 'battery', title: 'Power faults', text: 'Power supply problems, dead or intermittent power.' },
+			{ icon: 'heat', title: 'Overheating', text: 'Loud fans, random shutdowns or a machine that gets too hot.' },
+			{ icon: 'power', title: 'Power faults', text: 'Power supply problems, dead or intermittent power.' },
 			{ icon: 'help', title: 'Not sure what is wrong', text: 'Odd noises, random restarts or strange behaviour. Describe it and we will help narrow it down.' },
 		],
 		send: ['The make and model, or the parts you know about', 'What it does or does not do', 'Any error message on screen', 'Whether it has had a spill, a drop or a power surge'],
