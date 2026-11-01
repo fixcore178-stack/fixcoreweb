@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { SITE_TITLE, WHATSAPP_URL } from '../consts';
+import { SITE_TITLE } from '../consts';
 import { prices, policies, splitItem } from '../data/site';
 ---
 <Base title={`Repair Prices in Trinidad | ${SITE_TITLE}`} description="Starting prices for phone, laptop and computer repairs from FixCore Tech in Trinidad and Tobago. Get a confirmed quote before work begins.">
@@ -30,7 +30,6 @@ import { prices, policies, splitItem } from '../data/site';
 			<article class="detail-card glass"><h3>Drop-off and collection</h3><p>Drop off or collect your device at 3 Alice Street, Curepe. Contact us first to arrange your visit.</p></article>
 		</div>
 		<p class="fine-print">These are indicative starting prices and may change. The final quote is confirmed after we know the exact device model and fault. Data recovery is not guaranteed. Back up your data where possible before service.</p>
-		<div class="price-cta"><div><h2>Tell us what needs fixing.</h2><p>Send your device model and a short description of the problem.</p></div><a class="btn btn-primary" href={WHATSAPP_URL} target="_blank" rel="noopener">Ask on WhatsApp</a></div>
 	</div></section>
 	<CtaBand />
 </Base>
@@ -40,6 +39,6 @@ import { prices, policies, splitItem } from '../data/site';
 	.price-section{margin:3rem 0}.section-heading{margin-bottom:1.1rem}.section-heading h2{margin:.45rem 0}.section-heading p{color:var(--ink-2);margin:0;line-height:1.65}
 	
 	.details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:3.5rem 0 2rem}.detail-card{padding:1.2rem;border-radius:1rem}.detail-card h3{margin:0 0 .5rem;font-family:var(--display)}.detail-card p{margin:0;color:var(--ink-2);line-height:1.65}
-	.fine-print{color:var(--muted);font-size:.9rem;line-height:1.7}.price-cta{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;margin-top:3rem;padding:clamp(1.25rem,4vw,2rem);border-radius:1.25rem;background:var(--glass);border:1px solid var(--stroke)}.price-cta h2{margin:.5rem 0}.price-cta p{margin:0;color:var(--ink-2)}
-	@media(max-width:600px){.price-table th,.price-table td{padding:.8rem .65rem;font-size:.92rem}.details-grid{grid-template-columns:1fr}.price-cta{align-items:flex-start;flex-direction:column}}
+	.fine-print{color:var(--muted);font-size:.9rem;line-height:1.7}
+	@media(max-width:600px){.price-table th,.price-table td{padding:.8rem .65rem;font-size:.92rem}.details-grid{grid-template-columns:1fr}}
 </style>

@@ -1,8 +1,10 @@
 <button class="motion-control" type="button" data-motion-toggle aria-pressed="false" hidden><span class="motion-symbol" aria-hidden="true">Ⅱ</span><span data-motion-label>Pause 3D motion</span></button>
 <style>
-.motion-control { position:fixed; bottom:1.25rem; left:1.25rem; z-index:45; display:flex; align-items:center; gap:.6rem; min-height:44px; padding:.6rem .9rem; background:var(--color-paper-2); color:var(--color-ink); border:1px solid var(--color-rule-hi); border-radius:6px; font:500 .8rem var(--font-body); cursor:pointer; box-shadow:0 4px 16px #0002; }
-.motion-control[hidden] { display:none; }.motion-symbol { color:var(--color-accent); font-size:1.1rem; }.motion-control:hover { border-color:var(--color-accent); }
-@media(max-width:500px) { .motion-control { left:.75rem; bottom:.75rem; font-size:.7rem; padding:.5rem .7rem; } }
+.motion-control { display:inline-flex; align-items:center; gap:.6rem; min-height:44px; padding:.4rem .95rem; background:transparent; color:var(--color-ink-2); border:1px solid var(--color-rule-hi); border-radius:999px; font:500 .85rem var(--font-body); cursor:pointer; }
+.motion-control[hidden] { display:none; }
+.motion-symbol { color:var(--color-accent); font-size:1rem; }
+.motion-control:hover { border-color:var(--color-accent); color:var(--color-ink); }
+.motion-control:disabled { opacity:.6; cursor:default; border-color:var(--color-rule-hi); color:var(--color-ink-2); }
 </style>
 <script>
 const motionRoot = document.documentElement;

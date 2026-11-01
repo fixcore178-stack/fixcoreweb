@@ -1,0 +1,86 @@
+---
+import Icon from './Icon.astro';
+---
+
+<button class="theme" type="button" role="switch" aria-checked="false" data-theme-toggle>
+	<span class="theme-track">
+		<Icon class="t-sun" name="sun" size={14} stroke={2} />
+		<Icon class="t-moon" name="moon" size={14} stroke={2} />
+		<span class="theme-thumb"></span>
+	</span>
+	<span class="theme-label">Dark mode</span>
+</button>
+
+<style>
+	.theme {
+		flex: none;
+		padding: 0.3rem 0;
+		border: 0;
+		background: none;
+		color: var(--ink);
+		cursor: pointer;
+	}
+	.theme-track {
+		position: relative;
+		display: block;
+		width: 3.3rem;
+		height: 1.9rem;
+		border-radius: 999px;
+		background: var(--glass);
+		box-shadow: inset 0 0 0 1px var(--stroke);
+		transition: box-shadow 0.2s;
+	}
+	.theme:hover .theme-track {
+		box-shadow: inset 0 0 0 1px var(--stroke-hi);
+	}
+	.theme:focus-visible {
+		border-radius: 999px;
+	}
+	.theme :global(.t-sun),
+	.theme :global(.t-moon) {
+		position: absolute;
+		top: 50%;
+		translate: 0 -50%;
+		color: var(--muted);
+	}
+	.theme :global(.t-sun) {
+		left: 0.55rem;
+	}
+	.theme :global(.t-moon) {
+		right: 0.55rem;
+	}
+	.theme-thumb {
+		position: absolute;
+		top: 50%;
+		left: 0.22rem;
+		width: 1.45rem;
+		height: 1.45rem;
+		border-radius: 50%;
+		background: var(--accent-grad);
+		box-shadow: 0 2px 8px rgb(0 0 0 / 0.35);
+		transform: translate3d(0, -50%, 0);
+		transition: transform 0.45s var(--ease);
+	}
+	.theme[aria-checked='true'] .theme-thumb {
+		transform: translate3d(1.4rem, -50%, 0);
+	}
+	.theme[aria-checked='true'] :global(.t-moon),
+	.theme[aria-checked='false'] :global(.t-sun) {
+		opacity: 0;
+	}
+	.theme {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.7rem;
+		font: 500 0.85rem var(--font-body);
+		color: var(--color-ink-2);
+	}
+	@media (max-width: 420px) {
+		.theme-track {
+			width: 3rem;
+		}
+		.theme[aria-checked='true'] .theme-thumb {
+			transform: translate3d(1.15rem, -50%, 0);
+		}
+	}
+</style>

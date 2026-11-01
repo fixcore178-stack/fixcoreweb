@@ -351,6 +351,22 @@ h2 + .lead {
 	background: var(--color-wa-hover);
 }
 
+/* Quiet secondary action: use instead of a second button */
+.text-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-weight: 600;
+	font-size: 0.95rem;
+	text-decoration: underline;
+	text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+	text-underline-offset: 0.3em;
+}
+
+.text-link:hover {
+	text-decoration-color: currentColor;
+}
+
 .btn-sm {
 	min-height: 2.6rem;
 	padding: 0 1.1rem;

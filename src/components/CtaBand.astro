@@ -1,7 +1,5 @@
 ---
-import { WHATSAPP_URL } from '../consts';
 import Icon from './Icon.astro';
-import BrandIcon from './BrandIcon.astro';
 
 interface Props {
 	title?: string;
@@ -25,9 +23,6 @@ const {
 			<div class="btns">
 				<a class="btn btn-primary btn-lg" href={quoteHref}>
 					Get a repair quote <Icon class="arrow" name="arrow" size={18} stroke={2.2} />
-				</a>
-				<a class="btn btn-glass btn-lg" href={WHATSAPP_URL} target="_blank" rel="noopener">
-					<BrandIcon name="whatsapp" size={19} /> WhatsApp us
 				</a>
 			</div>
 		</div>
