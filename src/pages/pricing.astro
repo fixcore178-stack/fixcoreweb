@@ -15,7 +15,7 @@ import { prices, policies, splitItem } from '../data/site';
 		<div class="price-section"><div class="section-heading"><h2>Phone repairs</h2><p>Screen, battery and charging repairs for supported iPhone and Android models.</p></div>
 			<table class="price-table"><thead><tr><th scope="col">Part</th><th scope="col" class="scope-col">Applies to</th><th scope="col">From</th></tr></thead><tbody>{prices.phone.map((r) => { const x = splitItem(r.item); return (<tr><th scope="row">{x.part}</th><td class="scope-col">{x.scope || "All models"}</td><td class="price">{r.from}</td></tr>); })}</tbody></table>
 		</div>
-		<div class="price-section"><div class="section-heading"><h2>Laptop repairs</h2><p>Hardware repairs and maintenance for supported laptop brands.</p></div>
+		<div class="price-section"><div class="section-heading"><h2>Laptop repairs</h2><p>Hardware repairs and maintenance for supported laptop brands. PC labour prices are below.</p></div>
 			<table class="price-table"><thead><tr><th scope="col">Part</th><th scope="col" class="scope-col">Applies to</th><th scope="col">From</th></tr></thead><tbody>{prices.laptop.map((r) => { const x = splitItem(r.item); return (<tr><th scope="row">{x.part}</th><td class="scope-col">{x.scope || "All models"}</td><td class="price">{r.from}</td></tr>); })}</tbody></table>
 		</div>
 		<div class="price-section"><div class="section-heading"><h2>PC and software services</h2><p>Starting labour prices for common computer jobs. Replacement parts are quoted separately where applicable.</p></div>

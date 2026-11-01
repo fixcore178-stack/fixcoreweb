@@ -8,6 +8,7 @@ export type Service = {
 	name: string; // short name for nav, footer and cards
 	icon: IconName;
 	device: string | null; // pre-selects the quote wizard
+	priceKeys: string[]; // which price lists in site.ts this page shows
 	problem?: string; // optional pre-selected problem
 	cardTitle: string;
 	cardText: string;
@@ -25,6 +26,7 @@ export const services: Service[] = [
 		name: 'Phone repairs',
 		icon: 'phone',
 		device: 'phone',
+		priceKeys: ['phone'],
 		cardTitle: 'Phone repairs',
 		cardText: 'Cracked screens, tired batteries, charging trouble and water damage on the phone you use every day.',
 		title: 'Phone repairs in Trinidad & Tobago',
@@ -47,57 +49,37 @@ export const services: Service[] = [
 	},
 	{
 		slug: 'laptop-repair',
-		name: 'Laptop repairs',
+		name: 'Laptop & PC repairs',
 		icon: 'laptop',
 		device: 'laptop',
-		cardTitle: 'Laptop repairs',
-		cardText: 'Slow, stuck or broken laptops, from cracked screens to machines that will not start.',
-		title: 'Laptop repairs in Trinidad & Tobago',
+		priceKeys: ['laptop', 'computer'],
+		cardTitle: 'Laptop & PC repairs',
+		cardText: 'Slow, stuck or broken laptops and desktop PCs, from cracked screens to machines that will not start.',
+		title: 'Laptop and PC repairs in Trinidad & Tobago',
 		intro:
-			'Work, school and everything in between runs on your laptop. Tell us what it is doing and we will tell you what it needs and what it costs.',
+			'Work, school and everything in between runs on your laptop or PC. Tell us what it is doing and we will tell you what it needs and what it costs.',
 		problems: [
 			{ icon: 'screen', title: 'Cracked or damaged screen', text: 'Cracks, lines, flickering or a display that stays black.' },
 			{ icon: 'battery', title: 'Battery and charging', text: 'Does not hold a charge, only works plugged in or will not charge at all.' },
-			{ icon: 'power', title: "Won't turn on", text: 'No power, no lights, or it starts and then shuts straight down.' },
+			{ icon: 'power', title: "Won't turn on", text: 'No power, no lights, or it starts and then shuts straight down. On a PC this is often the power supply.' },
 			{ icon: 'slow', title: 'Slow or freezing', text: 'Takes forever to start, freezes or crashes when you are working.' },
+			{ icon: 'help', title: 'Overheating and noise', text: 'Loud fans, random shutdowns or a machine that gets too hot.' },
 			{ icon: 'water', title: 'Spills and water damage', text: 'Coffee, water or anything else on the keyboard. Switch it off and message us.' },
-			{ icon: 'help', title: 'Not sure what is wrong', text: 'Strange noises, random restarts or odd behaviour. Describe it and we will help narrow it down.' },
 		],
-		send: ['The brand and model, for example Dell Inspiron 15 or MacBook Air', 'What it does or does not do', 'A photo of any damage or error message', 'Whether it has had a spill or a drop'],
+		send: ['The brand and model, for example Dell Inspiron 15, MacBook Air or the parts of your PC', 'What it does or does not do', 'A photo of any damage or error message', 'Whether it has had a spill, a drop or a power surge'],
 		faq: [
-			{ q: 'Is it worth repairing my laptop?', a: 'Tell us the model and the problem and we will give you a straight answer, including if repairing is not the best option.' },
+			{ q: 'Is it worth repairing my laptop or PC?', a: 'Tell us the model and the problem and we will give you a straight answer, including if repairing is not the best option.' },
+			{ q: 'Do you repair Windows problems?', a: 'Message us with what is happening and we will confirm what we can help with.' },
 			{ q: 'Do I need to bring the charger?', a: 'Mention it when you message us and we will confirm what to bring.' },
 		],
-		seoDescription: 'Laptop repairs in Trinidad & Tobago: screens, batteries, power faults, slow performance and spills. Get a quote from FixCore Tech on WhatsApp.',
-	},
-	{
-		slug: 'desktop-repair',
-		name: 'Computer & PC repairs',
-		icon: 'laptop',
-		device: 'computer',
-		cardTitle: 'Computer & PC repairs',
-		cardText: 'Desktops and PCs that will not start, run slowly, overheat or have faulty power.',
-		title: 'Computer and PC repairs in Trinidad & Tobago',
-		intro: 'Desktops and PCs that stop working or misbehave. Describe what it is doing and we will tell you what we can do.',
-		problems: [
-			{ icon: 'power', title: "Won't turn on", text: 'No power, no display, or it starts and shuts straight down.' },
-			{ icon: 'slow', title: 'Slow or freezing', text: 'Takes forever to start, freezes or crashes when you are working.' },
-			{ icon: 'help', title: 'Overheating', text: 'Loud fans, random shutdowns or a machine that gets too hot.' },
-			{ icon: 'battery', title: 'Power faults', text: 'Power supply problems, dead or intermittent power.' },
-			{ icon: 'help', title: 'Not sure what is wrong', text: 'Odd noises, random restarts or strange behaviour. Describe it and we will help narrow it down.' },
-		],
-		send: ['The make and model, or the parts you know about', 'What it does or does not do', 'Any error message on screen', 'Whether it has had a spill, a drop or a power surge'],
-		faq: [
-			{ q: 'Is it worth repairing my PC?', a: 'Tell us the model and the problem and we will give you a straight answer, including if repairing is not the best option.' },
-			{ q: 'Do you repair Windows problems?', a: 'Message us with what is happening and we will confirm what we can help with.' },
-		],
-		seoDescription: 'Computer and PC repairs in Trinidad & Tobago: power faults, overheating, slow performance and more. Get a quote from FixCore Tech on WhatsApp.',
+		seoDescription: 'Laptop and PC repairs in Trinidad & Tobago: screens, batteries, power faults, overheating, slow performance and spills. Get a quote from FixCore Tech on WhatsApp.',
 	},
 	{
 		slug: 'diagnostics',
 		name: 'Diagnostics',
 		icon: 'diagnostics',
 		device: null,
+		priceKeys: [],
 		problem: 'unsure',
 		cardTitle: 'Diagnostics',
 		cardText: 'Not sure what is wrong? Describe the symptoms and we will help work out what it needs.',
