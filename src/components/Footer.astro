@@ -6,7 +6,6 @@ import BrandIcon from './BrandIcon.astro';
 import Icon from './Icon.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import MotionControl from './MotionControl.astro';
-import { models, LICENSE_URL } from '../data/models3d';
 
 const year = new Date().getFullYear();
 ---
@@ -69,16 +68,6 @@ const year = new Date().getFullYear();
 		</div>
 
 		<p class="legal">&copy; {year} {SITE_TITLE}. Proudly local to {business.serviceArea}.</p>
-		<p class="legal credit">
-			3D models:
-			{
-				Object.values(models).map((m, i) => (
-					<>
-						{i > 0 && ' · '}&ldquo;<a href={m.url} target="_blank" rel="noopener">{m.title}</a>&rdquo; by <a href={m.authorUrl} target="_blank" rel="noopener">{m.author}</a>
-					</>
-				))
-			}{', all '}<a href={LICENSE_URL} target="_blank" rel="noopener">CC BY 4.0</a>. Compressed and adjusted for web.
-		</p>
 	</div>
 </footer>
 
@@ -179,13 +168,5 @@ const year = new Date().getFullYear();
 		text-align: center;
 		font-size: 0.88rem;
 		color: var(--faint);
-	}
-	.credit {
-		margin-top: 0.4rem;
-	}
-	.credit a {
-		color: inherit;
-		text-decoration: underline;
-		text-underline-offset: 2px;
 	}
 </style>

@@ -31,7 +31,7 @@ Dials: ENERGY 3 / RHYTHM 3 / MOTION 3. Session direction: the owner explicitly r
 
 ## Real 3D models
 
-- Four real glTF models replace the hand-drawn devices. All are CC BY 4.0 from Sketchfab, so the credit must stay visible (footer plus under every viewer): "Custom Gaming PC" by Yolala1232 (PC), "Samsung Galaxy S26 Black [ LOW-POLY ]" by darky.vip21 (phone), "lenovo" by elyas_baloch (laptop) and "Adjustable Spanner/Wrench" by CGWorker (diagnostics). Everything about them (files, posters, camera angles, credit text, what we changed) lives in `src/data/models3d.ts`.
+- Four real glTF models replace the hand-drawn devices. All are CC BY 4.0 from Sketchfab, so the credit must stay visible (under every viewer): "Custom Gaming PC" by Yolala1232 (PC), "Samsung Galaxy S26 Black [ LOW-POLY ]" by darky.vip21 (phone), "lenovo" by elyas_baloch (laptop) and "Adjustable Spanner/Wrench" by CGWorker (diagnostics). Everything about them (files, posters, camera angles, credit text, what we changed) lives in `src/data/models3d.ts`.
 - Web copies are in `public/models/` and are versioned (-v1) because `public/_headers` caches /models/* for a year. Rename to -v2 if a model is ever re-exported.
   - PC: 74 MB / 1.0M triangles down to 2.9 MB. Floor plate removed, each part simplified to about 20% of its triangles, 1024 px WebP textures, meshopt, centred and scaled to 2 units.
   - Phone 30 KB, laptop 0.8 MB, wrench 0.2 MB, same pipeline. Laptop: body lifted from pure black to charcoal and a FixCore wallpaper added to the screen (it had no UVs, so they were generated). Wrench: no material in the source, so a steel finish was added and it is turned to face the camera on a diagonal.

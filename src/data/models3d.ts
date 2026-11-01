@@ -1,5 +1,5 @@
 // The real 3D models used across the site. All four are CC BY 4.0 from Sketchfab, so the credit text
-// below is shown under every viewer and in the footer. Files are versioned (-v1) because
+// below is shown under every viewer. Files are versioned (-v1) because
 // public/_headers caches /models/* for a year; rename to -v2 if a model is ever re-exported.
 export type ModelKey = 'pc' | 'phone' | 'laptop' | 'wrench';
 
