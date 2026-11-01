@@ -43,6 +43,16 @@ export const prices: Record<string, { item: string; from: string }[]> = {
 		{ item: 'Keyboard', from: 'TT$400' },
 		{ item: 'Cleaning or thermal paste', from: 'TT$150' },
 	],
+	// Labour prices for desktops and PCs. Replacement parts are quoted separately.
+	computer: [
+		{ item: 'Computer diagnostics', from: 'TT$75' },
+		{ item: 'Desktop or PC troubleshooting', from: 'TT$150' },
+		{ item: 'Windows installation and drivers', from: 'TT$200' },
+		{ item: 'Virus and malware troubleshooting', from: 'TT$150' },
+		{ item: 'Desktop internal cleaning', from: 'TT$150' },
+		{ item: 'RAM or storage installation, labour', from: 'TT$100' },
+		{ item: 'Data transfer or backup', from: 'TT$150' },
+	],
 };
 
 export const policies = {
@@ -50,16 +60,16 @@ export const policies = {
 	storage: 'Repaired and unclaimed devices are kept in storage for 1 year.',
 	dataRecovery: 'Data recovery is offered where possible.',
 	
-	coverage: 'We serve customers throughout Trinidad. Drop-off and pickup can be arranged; message us first to confirm your area, meeting point and any applicable fee. Our Curepe address is available for arranged drop-off and collection.',
+	coverage: 'We serve customers throughout Trinidad. Message us first to confirm your repair and arrange a time to drop off or collect your device at our Curepe address.',
 	address: '3 Alice Street, Curepe',
 	owner: 'Christopher Brathwaite',
 	repairTime: 'Repair time depends on the problem and what needs fixing. Most jobs take a few hours.',
-	payment: 'Cash on collection.',
+	payment: 'We accept credit and debit cards, bank transfer, or cash on collection.',
 	quoteTime: 'You can get a quote within 30 minutes.',
 	dropOff: 'Simple repairs are often done while you wait. Jobs that take longer, or need parts, are drop-off.',
 };
 
-// Machine-readable copy of the opening hours above (0 = Sunday), used for the live open/closed label.
+// Machine-readable copy of the opening hours above (0 = Sunday), used for the structured data in index.astro.
 // Keep it in step with business.hours. Times are Trinidad local time (America/Port_of_Spain).
 export const schedule: { days: number[]; from: number; to: number }[] = [
 	{ days: [1, 2, 3, 4, 5], from: 17, to: 22 },

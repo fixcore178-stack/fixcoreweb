@@ -20,6 +20,9 @@ interface Props {
 const { service } = Astro.props;
 const others = services.filter((s) => s.slug !== service.slug);
 const quote = quoteHref(service);
+const priceRows = service.device ? prices[service.device] : undefined;
+// The "Applies to" column suits parts (phone, laptop); PC labour rows are not model-specific, so it is dropped for them.
+const showScope = service.device !== 'computer';
 const ask = whatsappUrl(`Hi ${SITE_TITLE}, I have a question about ${service.name.toLowerCase()}.`);
 
 // Each service page shows its real 3D model with what usually goes wrong, reusing the page's own problem list.
@@ -114,7 +117,7 @@ const schema = {
 		</section>
 	)}
 
-	{service.device && prices[service.device] && (
+	{priceRows && (
 		<section class="section prices">
 			<div class="wrap">
 				<div class="section-head reveal">
@@ -124,18 +127,18 @@ const schema = {
 				<table class="price-table reveal">
 					<thead>
 						<tr>
-							<th scope="col">Part</th>
-							<th scope="col" class="scope-col">Applies to</th>
+							<th scope="col">{showScope ? 'Part' : 'Service'}</th>
+							{showScope && <th scope="col" class="scope-col">Applies to</th>}
 							<th scope="col">From</th>
 						</tr>
 					</thead>
 					<tbody>
-						{prices[service.device].map((row) => {
+						{priceRows.map((row) => {
 							const x = splitItem(row.item);
 							return (
 								<tr>
 									<th scope="row">{x.part}</th>
-									<td class="scope-col">{x.scope || 'All models'}</td>
+									{showScope && <td class="scope-col">{x.scope || 'All models'}</td>}
 									<td class="price">{row.from}</td>
 								</tr>
 							);

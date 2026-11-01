@@ -8,11 +8,11 @@ import ContactSection from '../components/ContactSection.astro';
 import Faq from '../components/Faq.astro';
 import BrandIcon from '../components/BrandIcon.astro';
 import Icon from '../components/Icon.astro';
-import { SITE_TITLE, SITE_TAGLINE, SITE_DESCRIPTION, SITE_URL, WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL, TIKTOK_URL } from '../consts';
+import { SITE_TITLE, SITE_TAGLINE, SITE_DESCRIPTION, SITE_URL, WHATSAPP_NUMBER, WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL, TIKTOK_URL } from '../consts';
 import { services } from '../data/services';
 import { models } from '../data/models3d';
 const tilePoster = { 'phone-repair': models.phone.poster, 'laptop-repair': models.laptop.poster, 'desktop-repair': models.pc.poster, diagnostics: models.wrench.poster } as Record<string,string>;
-import { business, policies } from '../data/site';
+import { business, policies, schedule } from '../data/site';
 const faqs = [
   {q:'How do I get a quote?',a:'Pick your device and problem in the quote builder, add the model and send the prepared message on WhatsApp. We will reply with what it needs and what it costs.'},
   {q:'Do I need to message before bringing a device?',a:'Yes. Message us first so we can confirm the repair and arrange drop-off at 3 Alice Street, Curepe.'},
@@ -21,7 +21,23 @@ const faqs = [
   {q:'Do you offer a warranty?',a:business.warranty || 'Message us to confirm the terms for your repair.'},
   {q:'How do I pay?',a:policies.payment},
 ];
-const schema = {'@context':'https://schema.org','@type':'LocalBusiness',name:SITE_TITLE,description:SITE_DESCRIPTION,url:SITE_URL,telephone:'+18687200146',areaServed:{'@type':'AdministrativeArea',name:business.serviceArea},sameAs:[INSTAGRAM_URL,FACEBOOK_URL,TIKTOK_URL]};
+const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const hhmm = (h: number) => `${String(h).padStart(2, '0')}:00`;
+const [street, town] = business.address.split(',').map((p) => p.trim());
+const schema = {
+  '@context':'https://schema.org',
+  '@type':'LocalBusiness',
+  name:SITE_TITLE,
+  description:SITE_DESCRIPTION,
+  url:SITE_URL,
+  image:`${SITE_URL}/og.png`,
+  logo:`${SITE_URL}/logo-mark.png`,
+  telephone:`+${WHATSAPP_NUMBER}`,
+  address:{'@type':'PostalAddress',streetAddress:street,addressLocality:town,addressCountry:'TT'},
+  openingHoursSpecification:schedule.map((s)=>({'@type':'OpeningHoursSpecification',dayOfWeek:s.days.map((d)=>dayNames[d]),opens:hhmm(s.from),closes:hhmm(s.to)})),
+  areaServed:{'@type':'AdministrativeArea',name:business.serviceArea},
+  sameAs:[INSTAGRAM_URL,FACEBOOK_URL,TIKTOK_URL],
+};
 ---
 <Base title={`${SITE_TITLE} | ${SITE_TAGLINE}`} description={SITE_DESCRIPTION} schema={schema}>
   <MotionControl />

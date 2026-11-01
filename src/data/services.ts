@@ -1,6 +1,6 @@
 // Service pages. Copy sticks to what FixCore Tech actually says it does: repair common
-// problems on everyday devices and give a quote before any work starts. No prices,
-// turnaround times or guarantees are stated because none have been provided.
+// problems on everyday devices and give a quote before any work starts. "From" prices,
+// the warranty and the repair policies live in site.ts, not here.
 import type { IconName } from './icons';
 
 export type Service = {
@@ -74,7 +74,7 @@ export const services: Service[] = [
 		slug: 'desktop-repair',
 		name: 'Computer & PC repairs',
 		icon: 'laptop',
-		device: 'laptop',
+		device: 'computer',
 		cardTitle: 'Computer & PC repairs',
 		cardText: 'Desktops and PCs that will not start, run slowly, overheat or have faulty power.',
 		title: 'Computer and PC repairs in Trinidad & Tobago',

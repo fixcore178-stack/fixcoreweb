@@ -60,15 +60,20 @@ const props = Astro.props;
 		opacity: 0;
 		transform: translateY(16px) scale(0.85);
 		pointer-events: none;
+		/* Hidden from keyboard and screen readers too until it is shown; visibility flips after the fade-out */
+		visibility: hidden;
 		transition:
 			opacity 0.4s var(--ease),
 			transform 0.5s var(--ease),
-			background-color 0.2s;
+			background-color 0.2s,
+			visibility 0s linear 0.5s;
 	}
 	.fab:global(.show) {
 		opacity: 1;
 		transform: none;
 		pointer-events: auto;
+		visibility: visible;
+		transition-delay: 0s, 0s, 0s, 0s;
 	}
 	.fab:hover {
 		color: var(--on-wa);
@@ -80,6 +85,7 @@ const props = Astro.props;
 			opacity: 1;
 			transform: none;
 			pointer-events: auto;
+			visibility: visible;
 		}
 	}
 </style>
