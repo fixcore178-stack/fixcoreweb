@@ -37,6 +37,8 @@ export const icons = {
 	zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>',
 	edit: '<path d="M12 20h9"/><path d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-3.36.97.97-3.36a2 2 0 0 1 .5-.86z"/>',
 	sparkle: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>',
+	lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+	unlock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>',
 } as const;
 
 export type IconName = keyof typeof icons;

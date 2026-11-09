@@ -1,0 +1,701 @@
+---
+// Booking form for Phone Software & Unlocking Services.
+// There is no server behind it: the details are checked in the browser, then turned into a
+// WhatsApp message the customer sends themselves (same approach as the repair quote builder).
+// Nothing is stored, logged or put in the page address. The IMEI is only asked for where a
+// service needs it, is checked for typos, and can be left out and shared privately in the chat.
+import { resolved, manufacturers } from '../data/phone-software';
+import { WHATSAPP_NUMBER, SITE_TITLE, WHATSAPP_URL } from '../consts';
+import { business } from '../data/site';
+import Icon from './Icon.astro';
+import BrandIcon from './BrandIcon.astro';
+
+const hours = business.hours.map((h) => `${h.days} ${h.time}`).join(' · ');
+---
+
+<form class="booking brackets glass" id="software-booking" novalidate autocomplete="off" data-number={WHATSAPP_NUMBER} data-brand={SITE_TITLE}>
+	<h3 class="form-title">Book a software service</h3>
+	<p class="form-sub">Fill this in and we will prepare your WhatsApp message. Nothing is sent until you tap send in WhatsApp.</p>
+
+	<div class="fields">
+		<div class="field">
+			<label for="b-service">Service</label>
+			<div class="select">
+				<select id="b-service" name="service" required aria-describedby="e-service sel-info">
+					<option value="">Choose a service</option>
+					{
+						resolved.map((s) => (
+							<option
+								value={s.id}
+								data-name={s.name}
+								data-price={s.priceLabel}
+								data-time={s.timeLabel}
+								data-imei={s.needsImei ? '1' : undefined}
+								data-owner={s.needsOwnership ? '1' : undefined}
+							>
+								{s.name}
+							</option>
+						))
+					}
+				</select>
+			</div>
+			<p class="field-error" id="e-service" role="alert"></p>
+			<dl class="sel-info" id="sel-info" hidden>
+				<div><dt>Starting price</dt><dd data-sel-price></dd></div>
+				<div><dt>Estimated time</dt><dd data-sel-time></dd></div>
+			</dl>
+		</div>
+
+		<div class="row2">
+			<div class="field">
+				<label for="b-brand">Device manufacturer</label>
+				<div class="select">
+					<select id="b-brand" name="brand" required aria-describedby="e-brand">
+						<option value="">Choose a brand</option>
+						{manufacturers.map((m) => <option value={m.value}>{m.label}</option>)}
+					</select>
+				</div>
+				<p class="field-error" id="e-brand" role="alert"></p>
+			</div>
+			<div class="field" id="brand-other-wrap" hidden>
+				<label for="b-brand-other">Which brand?</label>
+				<input id="b-brand-other" name="brandOther" type="text" maxlength="40" placeholder="e.g. Oppo, Tecno, Huawei" aria-describedby="e-brand-other" />
+				<p class="field-error" id="e-brand-other" role="alert"></p>
+			</div>
+		</div>
+
+		<div class="row2">
+			<div class="field">
+				<label for="b-model">Exact device model</label>
+				<input id="b-model" name="model" type="text" maxlength="60" placeholder="e.g. Galaxy A54 (SM-A546E)" aria-describedby="e-model model-help" required />
+				<p class="help" id="model-help">Settings → About phone shows the full model name and number.</p>
+				<p class="field-error" id="e-model" role="alert"></p>
+			</div>
+			<div class="field">
+				<label for="b-android">Current Android version <em>(if known)</em></label>
+				<input id="b-android" name="android" type="text" maxlength="30" placeholder="e.g. Android 13, or not sure" />
+			</div>
+		</div>
+
+		<div class="field">
+			<label for="b-problem">Describe the problem</label>
+			<textarea id="b-problem" name="problem" rows="4" maxlength="500" placeholder="What is it doing, when did it start, and what happened just before? Mention any reset, update or failed install." aria-describedby="e-problem" required></textarea>
+			<div class="meta">
+				<p class="field-error" id="e-problem" role="alert"></p>
+				<span class="count" aria-hidden="true"><span id="b-count">0</span>/500</span>
+			</div>
+		</div>
+
+		<div class="field imei" id="imei-wrap" hidden>
+			<label for="b-imei">IMEI <em>(needed for network unlocking)</em></label>
+			<input id="b-imei" name="imei" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" maxlength="23" placeholder="15 digits. Dial *#06# to see it" aria-describedby="e-imei imei-help" />
+			<p class="help" id="imei-help">
+				<Icon name="lock" size={14} /> We do not store your IMEI on this website. It only goes into the WhatsApp message you send us. Prefer not to put it in a message link? Tick the box below and share it privately once we reply.
+			</p>
+			<label class="check small">
+				<input type="checkbox" id="b-imei-later" />
+				<span class="box"><Icon name="check" size={13} stroke={3} /></span>
+				<span>I will send my IMEI privately in the chat</span>
+			</label>
+			<p class="field-error" id="e-imei" role="alert"></p>
+		</div>
+
+		<div class="row2">
+			<div class="field">
+				<label for="b-contact">Contact number</label>
+				<input id="b-contact" name="contact" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="e.g. 868 123 4567" aria-describedby="e-contact" required />
+				<p class="field-error" id="e-contact" role="alert"></p>
+			</div>
+			<div class="field">
+				<label for="b-date">Preferred drop-off date</label>
+				<input id="b-date" name="date" type="date" aria-describedby="date-help" />
+				<p class="help" id="date-help">Drop-off at {business.address}. {hours}.</p>
+			</div>
+		</div>
+
+		<div class="field">
+			<label class="check">
+				<input type="checkbox" id="b-owner" name="owner" required aria-describedby="e-owner" />
+				<span class="box"><Icon name="check" size={14} stroke={3} /></span>
+				<span>I own this device, or I have the owner’s authorisation to have it serviced, and I can show proof.</span>
+			</label>
+			<p class="field-error" id="e-owner" role="alert"></p>
+		</div>
+	</div>
+
+	<div class="actions">
+		<button type="submit" class="btn btn-wa btn-lg" data-send>
+			<BrandIcon name="whatsapp" size={20} /> <span data-send-label>Book on WhatsApp</span>
+		</button>
+		<button type="button" class="btn btn-glass" data-copy>
+			<Icon name="copy" size={16} stroke={2} /> <span data-copy-label>Copy details</span>
+		</button>
+	</div>
+	<p class="opened" data-opened hidden>
+		WhatsApp did not open? <a data-fallback href={WHATSAPP_URL} target="_blank" rel="noopener">Open it here</a>, or use Copy details and paste it into a chat with us.
+	</p>
+	<p class="sr-only" role="status" aria-live="polite" data-status></p>
+
+	<noscript>
+		<p class="noscript">This form needs JavaScript. You can still <a href={WHATSAPP_URL}>message us on WhatsApp</a> with your phone model and the problem.</p>
+	</noscript>
+</form>
+
+<style>
+	.booking {
+		padding: clamp(1.25rem, 3.5vw, 2.25rem);
+		background: color-mix(in srgb, var(--glass-solid) 55%, transparent);
+	}
+	.form-title {
+		font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+	}
+	.form-sub {
+		margin: 0.5rem 0 1.5rem;
+		color: var(--muted);
+		font-size: 0.95rem;
+	}
+	.fields {
+		display: grid;
+		gap: 1.15rem;
+	}
+	.row2 {
+		display: grid;
+		gap: 1.15rem;
+	}
+	.row2 [hidden] {
+		display: none;
+	}
+	@media (min-width: 640px) {
+		.row2 {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+	.field {
+		min-width: 0;
+	}
+	.field[hidden] {
+		display: none;
+	}
+	.field > label:not(.check) {
+		display: block;
+		margin-bottom: 0.45rem;
+		font-size: 0.92rem;
+		font-weight: 600;
+		color: var(--ink-2);
+	}
+	.field > label em {
+		font-style: normal;
+		font-weight: 400;
+		color: var(--muted);
+	}
+	.field input[type='text'],
+	.field input[type='tel'],
+	.field input[type='date'],
+	.field textarea,
+	.field select {
+		display: block;
+		width: 100%;
+		padding: 0.85rem 1rem;
+		border: 0;
+		border-radius: var(--radius);
+		background: var(--field);
+		box-shadow: inset 0 0 0 1px var(--stroke);
+		color: var(--ink);
+		font: inherit;
+		font-size: 1rem;
+		transition:
+			box-shadow 0.2s,
+			background-color 0.2s;
+	}
+	.field textarea {
+		min-height: 6.5rem;
+		max-height: 16rem;
+		resize: vertical;
+	}
+	.field input::placeholder,
+	.field textarea::placeholder {
+		color: var(--faint);
+	}
+	.field input:hover,
+	.field textarea:hover,
+	.field select:hover {
+		box-shadow: inset 0 0 0 1px var(--stroke-hi);
+	}
+	.field input:focus,
+	.field textarea:focus,
+	.field select:focus {
+		outline: none;
+		background: var(--glass-hi);
+		box-shadow:
+			inset 0 0 0 1.5px var(--blue),
+			0 0 0 4px color-mix(in srgb, var(--blue-strong) 22%, transparent);
+	}
+	.field [aria-invalid='true'] {
+		box-shadow: inset 0 0 0 1.5px var(--danger);
+	}
+
+	/* Selects: native control, custom chevron that follows the theme colour */
+	.select {
+		position: relative;
+	}
+	.select select {
+		appearance: none;
+		padding-right: 2.6rem;
+		cursor: pointer;
+	}
+	.select::after {
+		content: '';
+		position: absolute;
+		right: 1.1rem;
+		top: 50%;
+		width: 0.55rem;
+		height: 0.55rem;
+		margin-top: -0.4rem;
+		border-right: 2px solid var(--muted);
+		border-bottom: 2px solid var(--muted);
+		rotate: 45deg;
+		pointer-events: none;
+	}
+
+	.help {
+		display: flex;
+		gap: 0.45rem;
+		align-items: flex-start;
+		margin: 0.45rem 0 0;
+		max-width: none;
+		font-size: 0.82rem;
+		line-height: 1.5;
+		color: var(--muted);
+	}
+	.help :global(svg) {
+		flex: none;
+		margin-top: 0.18em;
+		color: var(--blue);
+	}
+
+	.sel-info {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 2rem;
+		margin: 0.8rem 0 0;
+		padding: 0.8rem 1rem;
+		border-radius: var(--radius);
+		background: var(--glass);
+		box-shadow: inset 0 0 0 1px var(--stroke);
+	}
+	.sel-info[hidden] {
+		display: none;
+	}
+	.sel-info dt {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--faint);
+	}
+	.sel-info dd {
+		margin: 0.1rem 0 0;
+		font-weight: 600;
+	}
+	.sel-info dd[data-set='true'] {
+		font-family: var(--mono);
+		color: var(--blue);
+	}
+
+	/* Checkboxes */
+	.check {
+		position: relative;
+		display: flex;
+		gap: 0.8rem;
+		align-items: flex-start;
+		cursor: pointer;
+		color: var(--ink-2);
+		font-size: 0.95rem;
+		line-height: 1.5;
+	}
+	.check.small {
+		margin-top: 0.7rem;
+		font-size: 0.88rem;
+	}
+	.check input {
+		position: absolute;
+		opacity: 0;
+		width: 1.5rem;
+		height: 1.5rem;
+		margin: 0;
+		cursor: pointer;
+	}
+	.box {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 1.5rem;
+		height: 1.5rem;
+		margin-top: 0.05rem;
+		border-radius: var(--radius-sm);
+		box-shadow: inset 0 0 0 1.5px var(--stroke-hi);
+		background: var(--field);
+		color: transparent;
+		transition:
+			background 0.2s,
+			color 0.2s,
+			box-shadow 0.2s;
+	}
+	.check.small .box {
+		width: 1.3rem;
+		height: 1.3rem;
+	}
+	.check input:checked + .box {
+		background: var(--accent-grad);
+		color: var(--on-accent);
+		box-shadow: none;
+	}
+	.check input:focus-visible + .box {
+		outline: 2px solid var(--cyan);
+		outline-offset: 3px;
+	}
+	.check input[aria-invalid='true'] + .box {
+		box-shadow: inset 0 0 0 1.5px var(--danger);
+	}
+
+	.meta {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+	.count {
+		margin-left: auto;
+		padding-top: 0.35rem;
+		font-size: 0.78rem;
+		color: var(--muted);
+		font-variant-numeric: tabular-nums;
+	}
+	.field-error {
+		margin: 0.4rem 0 0;
+		max-width: none;
+		font-size: 0.88rem;
+		font-weight: 500;
+		color: var(--danger);
+	}
+	.field-error:empty {
+		display: none;
+	}
+	.field-error:not(:empty) {
+		animation: shake 0.45s var(--ease);
+	}
+	@keyframes shake {
+		20%,
+		60% {
+			transform: translateX(-4px);
+		}
+		40%,
+		80% {
+			transform: translateX(4px);
+		}
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem;
+		margin-top: 1.6rem;
+	}
+	.actions [data-send] {
+		margin-right: auto;
+	}
+	@media (max-width: 560px) {
+		.actions [data-send] {
+			width: 100%;
+			margin-right: 0;
+		}
+		.actions [data-copy] {
+			flex: 1;
+		}
+	}
+	.opened {
+		margin: 1rem 0 0;
+		max-width: none;
+		font-size: 0.9rem;
+		color: var(--muted);
+	}
+	.opened[hidden] {
+		display: none;
+	}
+	.noscript {
+		margin-top: 1rem;
+		font-size: 0.9rem;
+	}
+</style>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>('#software-booking');
+	if (form) init(form);
+
+	function init(form: HTMLFormElement) {
+		const number = form.dataset.number ?? '';
+		const brand = form.dataset.brand ?? 'FixCore Tech';
+		const q = <T extends HTMLElement>(sel: string) => form.querySelector<T>(sel)!;
+
+		const service = q<HTMLSelectElement>('#b-service');
+		const brandSel = q<HTMLSelectElement>('#b-brand');
+		const brandOther = q<HTMLInputElement>('#b-brand-other');
+		const brandOtherWrap = q<HTMLElement>('#brand-other-wrap');
+		const model = q<HTMLInputElement>('#b-model');
+		const android = q<HTMLInputElement>('#b-android');
+		const problem = q<HTMLTextAreaElement>('#b-problem');
+		const imeiWrap = q<HTMLElement>('#imei-wrap');
+		const imei = q<HTMLInputElement>('#b-imei');
+		const imeiLater = q<HTMLInputElement>('#b-imei-later');
+		const contact = q<HTMLInputElement>('#b-contact');
+		const date = q<HTMLInputElement>('#b-date');
+		const owner = q<HTMLInputElement>('#b-owner');
+		const count = q<HTMLElement>('#b-count');
+		const selInfo = q<HTMLElement>('#sel-info');
+		const selPrice = q<HTMLElement>('[data-sel-price]');
+		const selTime = q<HTMLElement>('[data-sel-time]');
+		const copyBtn = q<HTMLButtonElement>('[data-copy]');
+		const copyLabel = q<HTMLElement>('[data-copy-label]');
+		const sendLabel = q<HTMLElement>('[data-send-label]');
+		const opened = q<HTMLElement>('[data-opened]');
+		const fallback = q<HTMLAnchorElement>('[data-fallback]');
+		const statusEl = q<HTMLElement>('[data-status]');
+
+		/* ----- Helpers ----- */
+		// Strip control characters, collapse whitespace and cap the length
+		const clean = (v: string, max: number) =>
+			v
+				.replace(/[\u0000-\u001F\u007F]+/g, ' ')
+				.replace(/\s+/g, ' ')
+				.trim()
+				.slice(0, max);
+
+		const selected = () => service.selectedOptions[0];
+		const needsImei = () => selected()?.dataset.imei === '1';
+		const imeiDigits = () => imei.value.replace(/[\s-]/g, '');
+
+		// Luhn check: catches typos in a 15-digit IMEI
+		const luhn = (digits: string) => {
+			let sum = 0;
+			for (let i = 0; i < digits.length; i++) {
+				let d = Number(digits[digits.length - 1 - i]);
+				if (i % 2 === 1) {
+					d *= 2;
+					if (d > 9) d -= 9;
+				}
+				sum += d;
+			}
+			return sum % 10 === 0;
+		};
+
+		const err = (id: string) => form.querySelector<HTMLElement>(`#${id}`)!;
+		const clearErrors = () => {
+			form.querySelectorAll<HTMLElement>('.field-error').forEach((e) => (e.textContent = ''));
+			form.querySelectorAll('[aria-invalid]').forEach((e) => e.removeAttribute('aria-invalid'));
+		};
+
+		/* ----- Dynamic parts of the form ----- */
+		const syncService = () => {
+			const opt = selected();
+			const has = !!service.value;
+			selInfo.hidden = !has;
+			if (has && opt) {
+				const price = opt.dataset.price ?? '';
+				const time = opt.dataset.time ?? '';
+				selPrice.textContent = price;
+				selTime.textContent = time;
+				selPrice.dataset.set = String(price.startsWith('From'));
+				selTime.dataset.set = 'false';
+			}
+			const show = needsImei();
+			imeiWrap.hidden = !show;
+			if (!show) {
+				imei.value = '';
+				imeiLater.checked = false;
+				imei.disabled = false;
+			}
+		};
+
+		const syncBrand = () => {
+			const other = brandSel.value === 'other';
+			brandOtherWrap.hidden = !other;
+			if (!other) brandOther.value = '';
+		};
+
+		imeiLater.addEventListener('change', () => {
+			imei.disabled = imeiLater.checked;
+			if (imeiLater.checked) {
+				imei.value = '';
+				imei.removeAttribute('aria-invalid');
+				err('e-imei').textContent = '';
+			}
+		});
+
+		problem.addEventListener('input', () => {
+			count.textContent = String(problem.value.length);
+		});
+
+		// Today in the visitor's own time zone, so past dates cannot be picked
+		const pad = (n: number) => String(n).padStart(2, '0');
+		const now = new Date();
+		date.min = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+
+		// Clear a field's error as soon as the visitor edits it
+		const fieldErrors: [HTMLElement, string][] = [
+			[service, 'e-service'],
+			[brandSel, 'e-brand'],
+			[brandOther, 'e-brand-other'],
+			[model, 'e-model'],
+			[problem, 'e-problem'],
+			[imei, 'e-imei'],
+			[contact, 'e-contact'],
+			[owner, 'e-owner'],
+		];
+		fieldErrors.forEach(([el, id]) => {
+			const handler = () => {
+				el.removeAttribute('aria-invalid');
+				err(id).textContent = '';
+			};
+			el.addEventListener('input', handler);
+			el.addEventListener('change', handler);
+		});
+		service.addEventListener('change', syncService);
+		brandSel.addEventListener('change', syncBrand);
+
+		/* ----- Validation ----- */
+		type Issue = { field: HTMLElement; error: HTMLElement; msg: string };
+		const validate = (): Issue[] => {
+			const issues: Issue[] = [];
+			const add = (field: HTMLElement, id: string, msg: string) => issues.push({ field, error: err(id), msg });
+
+			if (!service.value) add(service, 'e-service', 'Choose the service you need.');
+			if (!brandSel.value) add(brandSel, 'e-brand', 'Choose the phone manufacturer.');
+			if (brandSel.value === 'other' && clean(brandOther.value, 40).length < 2) add(brandOther, 'e-brand-other', 'Tell us the brand.');
+			if (clean(model.value, 60).length < 2) add(model, 'e-model', 'Enter the exact model, for example Galaxy A54.');
+			if (clean(problem.value, 500).length < 10) add(problem, 'e-problem', 'Describe the problem in a few words so we can assess it.');
+			if (needsImei() && !imeiLater.checked && imei.value.trim()) {
+				const d = imeiDigits();
+				if (!/^\d{15}$/.test(d) || !luhn(d)) add(imei, 'e-imei', 'That IMEI does not look right. It is 15 digits. Dial *#06# to check, or tick the box to send it in the chat.');
+			}
+			const digits = contact.value.replace(/\D/g, '');
+			if (digits.length < 7 || digits.length > 15) add(contact, 'e-contact', 'Enter a number we can reach you on.');
+			if (!owner.checked) add(owner, 'e-owner', 'Please confirm ownership or authorisation to continue.');
+			return issues;
+		};
+
+		const showIssues = (issues: Issue[]) => {
+			clearErrors();
+			issues.forEach((i) => {
+				i.error.textContent = i.msg;
+				i.field.setAttribute('aria-invalid', 'true');
+			});
+			issues[0]?.field.focus();
+			statusEl.textContent = issues[0]?.msg ?? '';
+		};
+
+		/* ----- Message ----- */
+		const prettyDate = (v: string) => {
+			if (!v) return '';
+			const d = new Date(`${v}T12:00:00`);
+			return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+		};
+
+		const buildMessage = () => {
+			const opt = selected();
+			const brandName = brandSel.value === 'other' ? clean(brandOther.value, 40) : brandSel.selectedOptions[0]?.value ?? '';
+			const lines = [`Hi ${brand}! I'd like to book a phone software service.`, ''];
+			lines.push(`*Service:* ${opt?.dataset.name ?? ''}`);
+			lines.push(`*Manufacturer:* ${brandName}`);
+			lines.push(`*Model:* ${clean(model.value, 60)}`);
+			const av = clean(android.value, 30);
+			if (av) lines.push(`*Android version:* ${av}`);
+			lines.push(`*Problem:* ${clean(problem.value, 500)}`);
+			if (needsImei()) {
+				if (imeiLater.checked) lines.push('*IMEI:* I will send it privately in this chat');
+				else if (imei.value.trim()) lines.push(`*IMEI:* ${imeiDigits()}`);
+			}
+			lines.push(`*Contact number:* ${clean(contact.value, 24)}`);
+			const pd = prettyDate(date.value);
+			if (pd) lines.push(`*Preferred drop-off:* ${pd}`);
+			lines.push('*Ownership:* I own this device or have the owner’s authorisation, and can show proof.');
+			lines.push('', 'Thank you!');
+			return lines.join('\n');
+		};
+
+		const waHref = (msg: string) => `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+
+		/* ----- Actions ----- */
+		form.addEventListener('submit', (e) => {
+			e.preventDefault();
+			const issues = validate();
+			if (issues.length) return showIssues(issues);
+			clearErrors();
+			const href = waHref(buildMessage());
+			fallback.href = href;
+			// A programmatic click inside the submit handler counts as the visitor's own action,
+			// so browsers open WhatsApp instead of blocking it as a pop-up.
+			const a = document.createElement('a');
+			a.href = href;
+			a.target = '_blank';
+			a.rel = 'noopener';
+			document.body.append(a);
+			a.click();
+			a.remove();
+			opened.hidden = false;
+			sendLabel.textContent = 'Opening WhatsApp...';
+			statusEl.textContent = 'Opening WhatsApp';
+			window.setTimeout(() => (sendLabel.textContent = 'Book on WhatsApp'), 3500);
+		});
+
+		const copyText = async (text: string) => {
+			try {
+				await navigator.clipboard.writeText(text);
+				return true;
+			} catch {
+				const ta = document.createElement('textarea');
+				ta.value = text;
+				ta.setAttribute('readonly', '');
+				ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+				document.body.append(ta);
+				ta.select();
+				let ok = false;
+				try {
+					ok = document.execCommand('copy');
+				} catch {}
+				ta.remove();
+				return ok;
+			}
+		};
+		copyBtn.addEventListener('click', async () => {
+			const issues = validate();
+			if (issues.length) return showIssues(issues);
+			clearErrors();
+			const ok = await copyText(buildMessage());
+			copyLabel.textContent = ok ? 'Copied' : 'Could not copy';
+			statusEl.textContent = ok ? 'Booking details copied' : 'Could not copy the details';
+			window.setTimeout(() => (copyLabel.textContent = 'Copy details'), 2200);
+		});
+
+		/* ----- Pick a service from a card: "Book Now" sets the select, then the page scrolls here ----- */
+		const choose = (id: string | null) => {
+			if (!id) return false;
+			const opt = Array.from(service.options).find((o) => o.value === id);
+			if (!opt) return false;
+			service.value = id;
+			service.removeAttribute('aria-invalid');
+			err('e-service').textContent = '';
+			syncService();
+			return true;
+		};
+
+		document.addEventListener('click', (e) => {
+			const link = (e.target as HTMLElement).closest<HTMLElement>('[data-book]');
+			if (link) choose(link.dataset.book ?? null);
+		});
+
+		// A shared link such as ?service=frp-removal#book arrives with the service already chosen
+		choose(new URLSearchParams(location.search).get('service'));
+		syncService();
+		syncBrand();
+	}
+</script>

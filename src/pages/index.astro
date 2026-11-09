@@ -76,6 +76,11 @@ const schema = {
           </a>
         ))}
       </div>
+      <a class="software-banner" href="/services/phone-software-unlocking">
+        <span class="sb-ico"><Icon name="unlock" size={28} /></span>
+        <span class="sb-copy"><b>Phone Software &amp; Unlocking</b><span>FRP removal, firmware flashing, bootloop repair and network unlocking on supported devices.</span></span>
+        <span class="sb-go">View services <Icon name="arrow" size={16} stroke={2.2} /></span>
+      </a>
     </div>
   </section>
 
@@ -149,6 +154,16 @@ const schema = {
 .service-2 .mini-img { animation-delay:-4s; }
 .service-3 .mini-img { animation-delay:-6s; }
 @keyframes mini-bob { 0%,100% { transform:translate(-50%,-48%); } 50% { transform:translate(-50%,-53%); } }
+
+.software-banner { display:flex; align-items:center; gap:1.2rem; margin-top:1.25rem; padding:1.2rem 1.4rem; text-decoration:none; color:var(--color-ink); border:1px solid var(--color-rule-hi); border-left:3px solid var(--color-accent); border-radius:12px; background:var(--color-paper-2); transition:border-color .2s, transform .3s var(--ease); }
+.software-banner:hover { color:var(--color-ink); border-color:var(--color-accent); transform:translateY(-3px); }
+.sb-ico { display:grid; place-items:center; flex:none; width:3.4rem; height:3.4rem; border-radius:var(--radius); background:color-mix(in srgb, var(--blue-strong) 16%, transparent); box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--blue) 30%, transparent); color:var(--blue); }
+.sb-copy { display:grid; gap:.2rem; min-width:0; }
+.sb-copy b { font-family:var(--display); font-size:1.2rem; letter-spacing:-.02em; }
+.sb-copy span { color:var(--color-muted); font-size:.92rem; }
+.sb-go { display:inline-flex; align-items:center; gap:.5rem; margin-left:auto; flex:none; font-family:var(--display); font-weight:600; font-size:.92rem; color:var(--color-accent); }
+@media(max-width:700px) { .software-banner { flex-wrap:wrap; } .sb-go { margin-left:0; width:100%; } }
+@media(prefers-reduced-motion:reduce) { .software-banner { transition:border-color .2s; } .software-banner:hover { transform:none; } }
 
 .workshop { background:var(--color-paper-2); }
 .workshop-grid { display:grid; gap:2rem; align-items:center; }

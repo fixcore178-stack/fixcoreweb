@@ -8,12 +8,19 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 // `section` links scroll on the landing page; `path` marks the matching page as current.
 const links = [
 	{ href: '/#services', label: 'Services', section: 'services', path: '/services' },
+	{ href: '/services/phone-software-unlocking', label: 'Software & unlocking', path: '/services/phone-software-unlocking' },
 	{ href: '/pricing', label: 'Pricing', path: '/pricing' },
 	{ href: '/about', label: 'About', path: '/about' },
 	{ href: '/#contact', label: 'Contact', section: 'contact' },
 ];
 
-const isCurrent = (p?: string) => !!p && (path === p || path.startsWith(p + '/'));
+// Only the most specific matching link is current, so /services/phone-software-unlocking
+// highlights "Software & unlocking" and not "Services" as well.
+const currentPath = links
+	.map((l) => l.path)
+	.filter((p): p is string => !!p && (path === p || path.startsWith(p + '/')))
+	.sort((a, b) => b.length - a.length)[0];
+const isCurrent = (p?: string) => !!p && p === currentPath;
 ---
 
 <header class="nav-wrap" data-nav>

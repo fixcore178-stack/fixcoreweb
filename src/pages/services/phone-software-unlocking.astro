@@ -1,0 +1,504 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import Model3D from '../../components/Model3D.astro';
+import SoftwareBooking from '../../components/SoftwareBooking.astro';
+import { resolved, softwareFaqs, DISCLAIMER, PAGE_PATH } from '../../data/phone-software';
+import { SITE_TITLE, SITE_URL, WHATSAPP_NUMBER, WHATSAPP_URL, whatsappUrl } from '../../consts';
+import { business, policies } from '../../data/site';
+
+const title = `Phone Unlocking & Software Repair in Trinidad | ${SITE_TITLE}`;
+const description =
+	'Phone unlocking, FRP removal, Samsung software repair, Android firmware flashing and bootloop repair in Trinidad and Tobago. Book with FixCore Tech.';
+const url = `${SITE_URL}${PAGE_PATH}`;
+const hoursLine = business.hours.map((h) => `${h.days} ${h.time}`).join(' · ');
+const ask = whatsappUrl(`Hi ${SITE_TITLE}, I have a question about phone software or unlocking.`);
+
+// Structured data. Prices only appear in it when a price has been set in src/data/phone-software.ts.
+const minPrice = (from: string) => {
+	const n = parseFloat(from.replace(/[^0-9.]/g, ''));
+	return from && Number.isFinite(n) ? n : undefined;
+};
+const schema = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Service',
+		name: 'Phone Software & Unlocking Services',
+		serviceType: 'Phone software repair, firmware flashing and unlocking',
+		description,
+		url,
+		areaServed: { '@type': 'Country', name: 'Trinidad and Tobago' },
+		provider: { '@type': 'LocalBusiness', name: SITE_TITLE, url: SITE_URL, telephone: `+${WHATSAPP_NUMBER}` },
+		hasOfferCatalog: {
+			'@type': 'OfferCatalog',
+			name: 'Phone Software & Unlocking Services',
+			itemListElement: resolved.map((s) => {
+				const n = minPrice(s.from);
+				return {
+					'@type': 'Offer',
+					itemOffered: { '@type': 'Service', name: s.name, description: s.description },
+					priceSpecification: n === undefined ? undefined : { '@type': 'PriceSpecification', priceCurrency: 'TTD', minPrice: n },
+				};
+			}),
+		},
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'FAQPage',
+		mainEntity: softwareFaqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+			{ '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE_URL}/services` },
+			{ '@type': 'ListItem', position: 3, name: 'Phone Software & Unlocking Services', item: url },
+		],
+	},
+];
+---
+
+<Base title={title} description={description} schema={schema}>
+	<section class="top">
+		<div class="wrap top-grid">
+			<div class="copy">
+				<nav class="crumbs reveal" aria-label="Breadcrumb">
+					<a href="/services">Services</a>
+					<Icon name="chevron" size={14} class="sep" />
+					<span aria-current="page">Phone Software &amp; Unlocking</span>
+				</nav>
+				<p class="eyebrow reveal" style="--d:1">Phone Software &amp; Unlocking Services</p>
+				<h1 class="reveal-lines">
+					<span class="line" style="--i:0"><span>Phone software repair</span></span>
+					<span class="line" style="--i:1"><span class="grad">and unlocking in Trinidad &amp; Tobago.</span></span>
+				</h1>
+				<p class="lead reveal" style="--d:2">
+					Professional smartphone software servicing using professional diagnostic and servicing tools. Tell us the exact model and the problem, and we will confirm whether we can service it before any work starts.
+				</p>
+				<div class="cta-row reveal" style="--d:3">
+					<a class="btn btn-primary btn-lg" href="#book">Book a service <Icon class="arrow" name="arrow" size={18} stroke={2.2} /></a>
+					<a class="text-link" href={ask} target="_blank" rel="noopener">or ask a question on WhatsApp</a>
+				</div>
+				<ul class="points reveal" style="--d:4">
+					<li><span class="tick"><Icon name="check" size={13} stroke={3} /></span> Supported devices only, confirmed before we start</li>
+					<li><span class="tick"><Icon name="check" size={13} stroke={3} /></span> Proof of ownership or authorisation required</li>
+					<li><span class="tick"><Icon name="check" size={13} stroke={3} /></span> Drop-off in Curepe, serving all of Trinidad</li>
+				</ul>
+			</div>
+			<div class="visual reveal" style="--d:2">
+				<Model3D model="phone" priority />
+			</div>
+		</div>
+	</section>
+
+	<section class="section" id="services">
+		<div class="wrap">
+			<div class="section-head reveal">
+				<h2 data-tag="What we service">Software repair, FRP removal <span class="grad">and phone unlocking.</span></h2>
+				<p class="lead">
+					From Samsung software repair and Android bootloop repair to Android firmware flashing, FRP removal on supported devices and phone unlocking for eligible networks, this is what we do for customers across Trinidad and Tobago. Every job depends on the device, its software version and the authorisation available.
+				</p>
+			</div>
+			<ul class="grid">
+				{
+					resolved.map((s, i) => (
+						<li class="reveal" style={`--d:${i % 3}`}>
+							<article class="card glass" id={`svc-${s.id}`}>
+								<div class="card-top">
+									<span class="ico"><Icon name={s.icon} size={24} /></span>
+									{s.needsOwnership && <span class="tag">Proof of ownership</span>}
+								</div>
+								<h3>{s.name}</h3>
+								<p class="desc">{s.description}</p>
+								<dl class="facts">
+									<div>
+										<dt>Supported brands</dt>
+										<dd>{s.brands}</dd>
+									</div>
+									<div>
+										<dt>Starting price</dt>
+										<dd class:list={['price', { set: !!s.from }]}>{s.priceLabel}</dd>
+									</div>
+									<div>
+										<dt>Est. completion</dt>
+										<dd>{s.timeLabel}</dd>
+									</div>
+								</dl>
+								<a class="btn btn-primary book" href={`${PAGE_PATH}?service=${s.id}#book`} data-book={s.id} aria-label={`Book now: ${s.name}`}>
+									Book now <Icon class="arrow" name="arrow" size={16} stroke={2.2} />
+								</a>
+							</article>
+						</li>
+					))
+				}
+			</ul>
+			<p class="grid-note reveal">
+				Prices marked “Quote on request” are confirmed after we know the exact model and fault. {policies.payment}
+			</p>
+		</div>
+	</section>
+
+	<section class="section" id="how">
+		<div class="wrap steps-grid">
+			<div class="reveal">
+				<h2 data-tag="How it works">Phone software repair, <span class="grad">step by step.</span></h2>
+				<p class="lead">No guessing and no surprises. You know what we can and cannot do before you hand anything over.</p>
+			</div>
+			<ol class="mini">
+				<li class="reveal glass" style="--d:0"><b>1</b><span><strong>Tell us the model and the problem.</strong> Use the booking form or message us on WhatsApp.</span></li>
+				<li class="reveal glass" style="--d:1"><b>2</b><span><strong>We confirm and quote.</strong> We check compatibility, software version and authorisation, then give you a price.</span></li>
+				<li class="reveal glass" style="--d:2"><b>3</b><span><strong>Drop off and collect.</strong> Bring it to {business.address}. We message you when it is ready.</span></li>
+			</ol>
+		</div>
+	</section>
+
+	<section class="section" id="book" data-hide-fab>
+		<div class="wrap book-grid">
+			<div class="reveal">
+				<h2 data-tag="Book a service">Book your <span class="grad">phone service.</span></h2>
+				<p class="lead">Pick the service, add your phone’s details and review the message. You send it in WhatsApp when you are ready.</p>
+				<dl class="info">
+					<div><dt>Drop-off and collection</dt><dd>{business.address}</dd></div>
+					<div><dt>Hours</dt><dd>{hoursLine}</dd></div>
+					<div><dt>Before you come</dt><dd>Message us first so we can confirm the service and arrange a time.</dd></div>
+				</dl>
+				<aside class="notice glass" aria-labelledby="notice-title">
+					<h3 id="notice-title"><Icon name="shield" size={20} /> Important customer information</h3>
+					<p>{DISCLAIMER}</p>
+				</aside>
+			</div>
+			<div class="reveal" style="--d:1">
+				<SoftwareBooking />
+			</div>
+		</div>
+	</section>
+
+	<section class="section" id="faq">
+		<div class="wrap faq-grid">
+			<div class="reveal">
+				<h2 data-tag="Good to know">Phone software and unlocking <span class="grad">questions.</span></h2>
+				<p class="lead">Based in {business.serviceArea}. Message us on <a href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a> for anything else.</p>
+			</div>
+			<Faq items={softwareFaqs} prefix="faq-software" />
+		</div>
+	</section>
+
+	<CtaBand
+		title="Phone acting up?"
+		text="Choose the service, tell us the model and we will confirm whether we can help."
+		quoteHref="#book"
+	/>
+</Base>
+
+<style>
+	.top {
+		padding: clamp(7.5rem, 13vw, 9.5rem) 0 clamp(2rem, 5vw, 3.5rem);
+	}
+	.top-grid {
+		display: grid;
+		gap: 2.5rem;
+		align-items: center;
+	}
+	@media (min-width: 980px) {
+		.top-grid {
+			grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+			gap: 4rem;
+		}
+	}
+	.crumbs {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		margin-bottom: 1.6rem;
+		font-size: 0.9rem;
+		color: var(--muted);
+	}
+	.crumbs a {
+		color: var(--muted);
+		text-decoration: none;
+	}
+	.crumbs a:hover {
+		color: var(--cyan);
+	}
+	.crumbs :global(.sep) {
+		rotate: -90deg;
+	}
+	.crumbs [aria-current] {
+		color: var(--ink);
+	}
+	h1 {
+		margin-bottom: 1.3rem;
+		font-size: clamp(2.2rem, 5.2vw, 4.1rem);
+	}
+	.top .lead {
+		max-width: 34em;
+		margin-bottom: 1.8rem;
+	}
+	.cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.8rem 1.4rem;
+	}
+	.points {
+		display: grid;
+		gap: 0.6rem;
+		margin-top: 1.8rem;
+	}
+	.points li {
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+		color: var(--ink-2);
+		font-size: 0.95rem;
+	}
+	.tick {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 1.35rem;
+		height: 1.35rem;
+		border-radius: 50%;
+		background: var(--accent-grad);
+		color: var(--on-accent);
+	}
+	.visual {
+		min-width: 0;
+	}
+
+	/* Service cards */
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+		gap: 1.1rem;
+	}
+	.grid li {
+		display: flex;
+	}
+	.card {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		padding: 1.5rem;
+		transition:
+			box-shadow 0.3s,
+			background-color 0.3s,
+			transform 0.4s var(--ease);
+	}
+	.card:hover {
+		background: var(--glass-hi);
+		box-shadow: inset 0 0 0 1px var(--color-accent);
+		transform: translateY(-3px);
+	}
+	.card-top {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 0.75rem;
+		margin-bottom: 1.1rem;
+	}
+	.ico {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 3rem;
+		height: 3rem;
+		border-radius: var(--radius);
+		background: color-mix(in srgb, var(--blue-strong) 16%, transparent);
+		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--blue) 30%, transparent);
+		color: var(--blue);
+		transition:
+			background 0.35s,
+			color 0.35s;
+	}
+	.card:hover .ico {
+		background: var(--accent-grad);
+		color: var(--on-accent);
+	}
+	.tag {
+		padding: 0.25rem 0.6rem;
+		border-radius: var(--radius-sm);
+		box-shadow: inset 0 0 0 1px var(--stroke-hi);
+		font-family: var(--mono);
+		font-size: 0.66rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--muted);
+		white-space: nowrap;
+	}
+	.card h3 {
+		margin-bottom: 0.55rem;
+		font-size: 1.2rem;
+	}
+	.desc {
+		margin: 0 0 1.2rem;
+		color: var(--muted);
+		font-size: 0.95rem;
+	}
+	.facts {
+		display: grid;
+		gap: 0;
+		margin: 0 0 1.4rem;
+		border-top: 1px solid var(--stroke);
+	}
+	.facts > div {
+		display: grid;
+		grid-template-columns: 7.5rem minmax(0, 1fr);
+		gap: 0.75rem;
+		align-items: baseline;
+		padding: 0.65rem 0;
+		border-bottom: 1px solid var(--stroke);
+	}
+	.facts dt {
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.07em;
+		text-transform: uppercase;
+		color: var(--faint);
+	}
+	.facts dd {
+		margin: 0;
+		font-size: 0.92rem;
+		color: var(--ink-2);
+	}
+	.facts dd.price.set {
+		font-family: var(--mono);
+		font-variant-numeric: tabular-nums;
+		font-weight: 500;
+		color: var(--color-accent);
+	}
+	.book {
+		margin-top: auto;
+		width: 100%;
+	}
+	.grid-note {
+		margin-top: 1.4rem;
+		max-width: 52em;
+		color: var(--muted);
+		font-size: 0.9rem;
+	}
+
+	/* Steps */
+	.steps-grid,
+	.faq-grid,
+	.book-grid {
+		display: grid;
+		gap: 2.5rem;
+		align-items: start;
+	}
+	.steps-grid .lead,
+	.faq-grid .lead,
+	.book-grid .lead {
+		margin-top: 1.2rem;
+	}
+	@media (min-width: 980px) {
+		.steps-grid {
+			grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+			gap: 4rem;
+			align-items: center;
+		}
+		.book-grid {
+			grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+			gap: 4rem;
+		}
+		.faq-grid {
+			grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+			gap: 4rem;
+		}
+	}
+	.mini {
+		display: grid;
+		gap: 0.9rem;
+	}
+	.mini li {
+		display: flex;
+		align-items: center;
+		gap: 1.1rem;
+		padding: 1.15rem 1.4rem;
+		--r: 20px;
+		color: var(--muted);
+	}
+	.mini strong {
+		color: var(--ink);
+	}
+	.mini b {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 50%;
+		background: var(--accent-grad);
+		color: var(--on-accent);
+		font-family: var(--display);
+		font-size: 1rem;
+	}
+
+	/* Booking column */
+	.info {
+		display: grid;
+		gap: 1rem;
+		margin: 1.8rem 0;
+	}
+	.info > div {
+		display: grid;
+		gap: 0.25rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid var(--color-rule);
+	}
+	.info dt {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+	.info dd {
+		margin: 0;
+		color: var(--color-ink);
+	}
+	.notice {
+		padding: 1.25rem 1.4rem;
+		border-top: 2px solid var(--color-accent);
+		border-radius: 0 0 var(--radius) var(--radius);
+	}
+	.notice h3 {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin-bottom: 0.7rem;
+		font-size: 1.05rem;
+	}
+	.notice h3 :global(svg) {
+		flex: none;
+		color: var(--color-accent);
+	}
+	.notice p {
+		margin: 0;
+		max-width: none;
+		color: var(--ink-2);
+		font-size: 0.93rem;
+		line-height: 1.65;
+	}
+
+	@media (max-width: 480px) {
+		.facts > div {
+			grid-template-columns: 1fr;
+			gap: 0.15rem;
+		}
+		.cta-row .btn {
+			flex: 1 1 100%;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.card {
+			transition: box-shadow 0.3s, background-color 0.3s;
+		}
+		.card:hover {
+			transform: none;
+		}
+	}
+</style>

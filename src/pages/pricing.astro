@@ -3,6 +3,10 @@ import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { SITE_TITLE } from '../consts';
 import { prices, policies, splitItem } from '../data/site';
+import { resolved, PAGE_PATH } from '../data/phone-software';
+
+// Only software services that have a price set in src/data/phone-software.ts are listed here.
+const softwarePriced = resolved.filter((s) => s.from);
 ---
 <Base title={`Repair Prices in Trinidad | ${SITE_TITLE}`} description="Starting prices for phone, laptop and computer repairs from FixCore Tech in Trinidad and Tobago. Get a confirmed quote before work begins.">
 	<section class="top"><div class="wrap">
@@ -23,6 +27,14 @@ import { prices, policies, splitItem } from '../data/site';
 					{prices.computer.map((r) => (<tr><th scope="row">{r.item}</th><td class="price">{r.from}</td></tr>))}
 			</tbody></table>
 		</div>
+		<div class="price-section"><div class="section-heading"><h2>Phone software and unlocking</h2><p>FRP removal, firmware flashing, bootloop repair and network unlocking depend on the device, its software version and the authorisation available, so each job is quoted after we know the exact model.</p></div>
+			{softwarePriced.length > 0 && (
+				<table class="price-table"><thead><tr><th scope="col">Service</th><th scope="col">From</th></tr></thead><tbody>
+					{softwarePriced.map((s) => (<tr><th scope="row">{s.name}</th><td class="price">{s.from}</td></tr>))}
+				</tbody></table>
+			)}
+			<p class="software-link"><a class="text-link" href={`${PAGE_PATH}#book`}>See services and book</a></p>
+		</div>
 		<div class="details-grid">
 			<article class="detail-card glass"><h3>Before we start</h3><p>We assess the issue, explain the repair and confirm the quote with you. No repair work starts without your approval.</p></article>
 			<article class="detail-card glass"><h3>Parts deposits</h3><p>{policies.deposit}</p></article>
@@ -40,5 +52,6 @@ import { prices, policies, splitItem } from '../data/site';
 	
 	.details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:3.5rem 0 2rem}.detail-card{padding:1.2rem;border-radius:1rem}.detail-card h3{margin:0 0 .5rem;font-family:var(--display)}.detail-card p{margin:0;color:var(--ink-2);line-height:1.65}
 	.fine-print{color:var(--muted);font-size:.9rem;line-height:1.7}
+	.software-link{margin:1.1rem 0 0}
 	@media(max-width:600px){.price-table th,.price-table td{padding:.8rem .65rem;font-size:.92rem}.details-grid{grid-template-columns:1fr}}
 </style>
